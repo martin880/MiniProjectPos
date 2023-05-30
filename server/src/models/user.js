@@ -5,10 +5,10 @@ module.exports = (sequelize, Sequelize) => {
 		role: Sequelize.ENUM("Admin", "Kasir"),
 		email: Sequelize.STRING,
 		avatar: Sequelize.BLOB("long"),
-		phonenumber: Sequelize.STRING,
+		phoneNumber: Sequelize.STRING,
 		sex: Sequelize.STRING,
 		address: Sequelize.STRING,
-		ktp: Sequelize.STRING,
+		KTP: Sequelize.STRING,
 		password: Sequelize.STRING,
 	});
 	return User;
