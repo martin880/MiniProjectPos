@@ -45,9 +45,11 @@
 }
 
 .device {
-  width: 74%;
-  aspect-ratio: 153/100;
-  background-color: #111314;
+
+	width: 70%;
+	aspect-ratio: 153/100;
+	background-color: #111314;
+
 }
 
 
@@ -71,6 +73,12 @@
   height: 100%;
   background-color: rgb(152, 91, 11);
   flex-direction: column;
+}
+.mainbar2 {
+	width: 80%;
+	height: 100%;
+	/* background-color: rgb(152, 91, 11); */
+	flex-direction: column;
 }
 
 .adminCategory {

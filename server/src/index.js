@@ -22,5 +22,5 @@ app.use("/auth", routes.userRoutes);
 
 app.use("/auth", routes.userRoutes);
 app.listen(PORT, () => {
-  console.log(`server is running on PORT ${PORT}`);
+	console.log(`server is running on PORT ${PORT}`);
 });
