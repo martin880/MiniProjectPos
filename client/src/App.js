@@ -1,3 +1,5 @@
+import "./App.css";
+import Cashier from "./pages/Cashier";
 import routes from "./routes/routes";
 import { Routes } from "react-router-dom";
 
