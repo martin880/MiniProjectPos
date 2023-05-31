@@ -13,5 +13,5 @@ const db = require("./models");
 app.get("/", (req, res) => res.send("sequelize"));
 
 app.listen(PORT, () => {
-  console.log(`server is running on PORT ${PORT}`);
+	console.log(`server is running on PORT ${PORT}`);
 });

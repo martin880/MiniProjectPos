@@ -25,7 +25,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import SideBar from "../components/SideBar";
 import TopBar from "../components/TopBar";
 
-export default function AdminPages() {
+export default function ProductPages() {
 	return (
 		<>
 			<Flex className="container">
@@ -78,25 +78,25 @@ export default function AdminPages() {
 										<Thead>
 											<Tr>
 												<Th>No</Th>
-												<Th>Name</Th>
-												<Th>Role</Th>
-												<Th>Email</Th>
-												<Th>Phone</Th>
-												<Th>Last Seen</Th>
+												<Th>Product Name</Th>
+												<Th>Price</Th>
+												<Th>Stok</Th>
 												<Th>Action</Th>
 											</Tr>
 										</Thead>
 										<Tbody>
 											<Tr>
 												<Td>1.</Td>
-												<Td>Abdur</Td>
-												<Td>Admin</Td>
-												<Td>Abdur@example.com</Td>
-												<Td>082308230823</Td>
-												<Td>Wed Apr 5, 12:00 PM</Td>
+												<Td>Coffe</Td>
+												<Td>Rp.15000</Td>
+												<Td>50</Td>
 												<Td>
 													<Stack>
-														<HStack>
+														<HStack
+															display={"flex"}
+															align={"center"}
+															justifyContent={"center"}
+														>
 															<Button colorScheme={"yellow"}>
 																<FiEdit cursor={"pointer"} />
 															</Button>
