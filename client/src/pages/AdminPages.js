@@ -161,7 +161,13 @@ export default function AdminPages() {
 												<Th>Email</Th>
 												<Th>Phone</Th>
 												<Th>Last Seen</Th>
-												<Th>Action</Th>
+												<Th
+													display={"flex"}
+													align="center"
+													justifyContent={"center"}
+												>
+													Action
+												</Th>
 											</Tr>
 										</Thead>
 										<Tbody>

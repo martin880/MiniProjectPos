@@ -64,7 +64,7 @@ export default function ProductPages() {
 										</InputLeftElement>
 										<Input
 											type="text"
-											placeholder="Search Admin"
+											placeholder="Search Product"
 											minW={"30vw"}
 											borderColor={"blackAlpha.300"}
 										/>
@@ -112,6 +112,10 @@ export default function ProductPages() {
 											<Input ref={initialRef} placeholder="Product image" />
 										</FormControl>
 										<FormControl mt={4}>
+											<FormLabel>Category</FormLabel>
+											<Input placeholder="Category" />
+										</FormControl>
+										<FormControl mt={4}>
 											<FormLabel>Price</FormLabel>
 											<Input placeholder="Price" />
 										</FormControl>
@@ -132,19 +136,23 @@ export default function ProductPages() {
 							<Stack>
 								<TableContainer p={4}>
 									<Table variant="simple">
-										<Thead>
+										<Thead bgColor={"whatsapp.400"}>
 											<Tr>
 												<Th>No</Th>
 												<Th>Product Name</Th>
+												<Th>Category</Th>
 												<Th>Price</Th>
 												<Th>Stok</Th>
-												<Th>Action</Th>
+												<Th display={"flex"} justifyContent={"center"}>
+													Action
+												</Th>
 											</Tr>
 										</Thead>
 										<Tbody>
 											<Tr>
 												<Td>1.</Td>
 												<Td>Coffe</Td>
+												<Td>Drinks</Td>
 												<Td>Rp.15000</Td>
 												<Td>50</Td>
 												<Td>
@@ -154,10 +162,10 @@ export default function ProductPages() {
 															align={"center"}
 															justifyContent={"center"}
 														>
-															<Button colorScheme={"yellow"}>
+															<Button colorScheme={"yellow"} w={"50%"}>
 																<FiEdit cursor={"pointer"} />
 															</Button>
-															<Button colorScheme="red">
+															<Button colorScheme="red" w={"50%"}>
 																<RiDeleteBin6Line cursor={"pointer"} />
 															</Button>
 														</HStack>
