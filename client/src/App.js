@@ -1,15 +1,14 @@
 import "./App.css";
 import Cashier from "./pages/Cashier";
-import { Routes, Route } from "react-router-dom";
+import routes from "./routes/routes";
+import { Routes } from "react-router-dom";
 
 function App() {
-	return (
-		<>
-			<Routes>
-				<Route path="/cashier" element={<Cashier />}></Route>
-			</Routes>
-		</>
-	);
+  return (
+    <>
+      <Routes>{routes.map((val) => val)}</Routes>
+    </>
+  );
 }
 
 export default App;
