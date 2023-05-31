@@ -1,5 +1,7 @@
 import {
 	Flex,
+	FormControl,
+	FormLabel,
 	Text,
 	Stack,
 	Input,
@@ -16,7 +18,16 @@ import {
 	Th,
 	Td,
 	TableContainer,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalFooter,
+	ModalBody,
+	ModalCloseButton,
+	useDisclosure,
 } from "@chakra-ui/react";
+import React from "react";
 import { SlMagnifier } from "react-icons/sl";
 import { AiOutlineDownload } from "react-icons/ai";
 import { HiPlus } from "react-icons/hi";
@@ -26,6 +37,10 @@ import SideBar from "../components/SideBar";
 import TopBar from "../components/TopBar";
 
 export default function AdminPages() {
+	const { isOpen, onOpen, onClose } = useDisclosure();
+
+	const initialRef = React.useRef(null);
+	const finalRef = React.useRef(null);
 	return (
 		<>
 			<Flex className="container">
@@ -40,7 +55,7 @@ export default function AdminPages() {
 						<Flex className="adminCategory" w="100%" flexDir={"column"}>
 							<Stack px={"4"}>
 								<Text fontSize={"24px"} fontWeight={"bold"} color={"black"}>
-									Product
+									Cashier
 								</Text>
 								<HStack>
 									<InputGroup>
@@ -65,13 +80,76 @@ export default function AdminPages() {
 										<Button h={"26px"} w={"100px"} border={"1px black solid"}>
 											<AiOutlineDownload /> Download
 										</Button>
-										<Button h={"26px"} w={"80px"} colorScheme={"red"}>
+										<Button
+											onClick={onOpen}
+											h={"26px"}
+											w={"80px"}
+											colorScheme={"facebook"}
+										>
 											<HiPlus />
-											Admin
+											Cashier
 										</Button>
 									</Box>
 								</HStack>
+								<Modal
+									initialFocusRef={initialRef}
+									finalFocusRef={finalRef}
+									isOpen={isOpen}
+									onClose={onClose}
+								>
+									<ModalOverlay />
+									<ModalContent>
+										<ModalHeader>Create cashier account</ModalHeader>
+										<ModalCloseButton />
+										<ModalBody pb={6}>
+											<FormControl>
+												<FormLabel>First name</FormLabel>
+												<Input ref={initialRef} placeholder="First name" />
+											</FormControl>
+											<FormControl mt={4}>
+												<FormLabel>Last name</FormLabel>
+												<Input placeholder="Last name" />
+											</FormControl>
+											<FormControl mt={4}>
+												<FormLabel>Email</FormLabel>
+												<Input placeholder="Email" />
+											</FormControl>
+											<FormControl mt={4}>
+												<FormLabel>Phone Number</FormLabel>
+												<Input placeholder="Phone Number" />
+											</FormControl>
+											<FormControl mt={4}>
+												<FormLabel>Sex</FormLabel>
+												<Input placeholder="Sex" />
+											</FormControl>
+											<FormControl mt={4}>
+												<FormLabel>Address</FormLabel>
+												<Input placeholder="Address" />
+											</FormControl>
+											<FormControl mt={4}>
+												<FormLabel>KTP ID</FormLabel>
+												<Input placeholder="KTP ID" />
+											</FormControl>
+											<FormControl mt={4}>
+												<FormLabel>Password</FormLabel>
+												<Input placeholder="Password" />
+											</FormControl>
+											<FormControl mt={4}>
+												<FormLabel>Ini upload gambar</FormLabel>
+												<Input placeholder="Edit nanti ya bar" />
+											</FormControl>
+										</ModalBody>
+
+										<ModalFooter>
+											<Button colorScheme="blue" mr={3}>
+												Save
+											</Button>
+											<Button onClick={onClose}>Cancel</Button>
+										</ModalFooter>
+									</ModalContent>
+								</Modal>
 							</Stack>
+
 							<Stack>
 								<TableContainer p={4}>
 									<Table variant="simple">

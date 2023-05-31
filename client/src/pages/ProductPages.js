@@ -1,5 +1,7 @@
 import {
 	Flex,
+	FormControl,
+	FormLabel,
 	Text,
 	Stack,
 	Input,
@@ -16,7 +18,16 @@ import {
 	Th,
 	Td,
 	TableContainer,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalFooter,
+	ModalBody,
+	ModalCloseButton,
+	useDisclosure,
 } from "@chakra-ui/react";
+import React from "react";
 import { SlMagnifier } from "react-icons/sl";
 import { AiOutlineDownload } from "react-icons/ai";
 import { HiPlus } from "react-icons/hi";
@@ -26,6 +37,10 @@ import SideBar from "../components/SideBar";
 import TopBar from "../components/TopBar";
 
 export default function ProductPages() {
+	const { isOpen, onOpen, onClose } = useDisclosure();
+
+	const initialRef = React.useRef(null);
+	const finalRef = React.useRef(null);
 	return (
 		<>
 			<Flex className="container">
@@ -65,13 +80,55 @@ export default function ProductPages() {
 										<Button h={"26px"} w={"100px"} border={"1px black solid"}>
 											<AiOutlineDownload /> Download
 										</Button>
-										<Button h={"26px"} w={"80px"} colorScheme={"red"}>
+										<Button
+											onClick={onOpen}
+											h={"26px"}
+											w={"80px"}
+											colorScheme={"facebook"}
+										>
 											<HiPlus />
-											Admin
+											Product
 										</Button>
 									</Box>
 								</HStack>
 							</Stack>
+							<Modal
+								initialFocusRef={initialRef}
+								finalFocusRef={finalRef}
+								isOpen={isOpen}
+								onClose={onClose}
+							>
+								<ModalOverlay />
+								<ModalContent>
+									<ModalHeader>Add Product</ModalHeader>
+									<ModalCloseButton />
+									<ModalBody pb={6}>
+										<FormControl>
+											<FormLabel>Product name</FormLabel>
+											<Input ref={initialRef} placeholder="Product name" />
+										</FormControl>
+										<FormControl>
+											<FormLabel>Product Image</FormLabel>
+											<Input ref={initialRef} placeholder="Product image" />
+										</FormControl>
+										<FormControl mt={4}>
+											<FormLabel>Price</FormLabel>
+											<Input placeholder="Price" />
+										</FormControl>
+										<FormControl mt={4}>
+											<FormLabel>Stock</FormLabel>
+											<Input placeholder="Stock" />
+										</FormControl>
+									</ModalBody>
+
+									<ModalFooter>
+										<Button colorScheme="blue" mr={3}>
+											Save
+										</Button>
+										<Button onClick={onClose}>Cancel</Button>
+									</ModalFooter>
+								</ModalContent>
+							</Modal>
 							<Stack>
 								<TableContainer p={4}>
 									<Table variant="simple">

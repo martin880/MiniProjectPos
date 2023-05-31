@@ -4,6 +4,7 @@ import routes from "./routes/routes";
 import { Routes } from "react-router-dom";
 
 function App() {
+	console.log(routes);
 	return (
 		<>
 			<Routes>{routes.map((val) => val)}</Routes>

@@ -1,78 +1,70 @@
 .App {
-  text-align: center;
+	text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+	height: 40vmin;
+	pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+	.App-logo {
+		animation: App-logo-spin infinite 20s linear;
+	}
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+	background-color: #282c34;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vmin);
+	color: white;
 }
 
 .App-link {
-  color: #61dafb;
+	color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 .container {
-  width: 100vw;
-  background-color: rgb(213, 213, 213);
-  align-items: center;
-  justify-content: center;
+	width: 100vw;
+	background-color: rgb(213, 213, 213);
+	align-items: center;
+	justify-content: center;
 }
 
 .device {
-
 	width: 70%;
 	aspect-ratio: 153/100;
 	background-color: #111314;
-
 }
-
 
 .device div {
-  outline: black 0.9px solid;
+	/* outline: black 0.9px solid; */
 }
-=======
- .device div {
-	outline: black 0.9px solid;
-} 
-
 
 .sidebar {
-  width: 20%;
-  height: 100%;
-  background-color: #ffa69e;
+	width: 20%;
+	height: 100%;
+	background-color: #ffa69e;
 }
 
 .mainbar {
-  width: 80%;
-  height: 100%;
-  background-color: rgb(152, 91, 11);
-  flex-direction: column;
+	width: 80%;
+	height: 100%;
+	background-color: rgb(152, 91, 11);
+	flex-direction: column;
 }
 .mainbar2 {
 	width: 80%;
@@ -86,61 +78,61 @@
 }
 
 .topbar {
-  height: 11%;
-  width: 100%;
-  background-color: #000000;
+	height: 11%;
+	width: 100%;
+	background-color: #000000;
 }
 
 .content {
-  height: 89%;
-  width: 100%;
-  background-color: beige;
+	height: 89%;
+	width: 100%;
+	background-color: beige;
 }
 
 .content-1 {
-  width: 70%;
-  height: 100%;
-  background-color: #7d7d7d;
-  flex-direction: column;
+	width: 70%;
+	height: 100%;
+	background-color: #7d7d7d;
+	flex-direction: column;
 }
 
 .category {
-  height: 44%;
-  width: 100%;
-  background-color: #8c5e58;
+	height: 44%;
+	width: 100%;
+	background-color: #8c5e58;
 }
 .product {
-  height: 44%;
-  width: 100%;
-  background-color: #a9f0d1;
+	height: 44%;
+	width: 100%;
+	background-color: #a9f0d1;
 }
 
 .divider {
-  height: 2%;
-  width: 100%;
+	height: 2%;
+	width: 100%;
 }
 
 .order-history {
-  height: 8%;
-  width: 100%;
-  background-color: #fff7f8;
+	height: 8%;
+	width: 100%;
+	background-color: #fff7f8;
 }
 
 .content-2 {
-  width: 30%;
-  height: 100%;
-  background-color: blueviolet;
-  flex-direction: column;
+	width: 30%;
+	height: 100%;
+	background-color: blueviolet;
+	flex-direction: column;
 }
 
 .order-details {
-  height: 40%;
-  width: 100%;
-  background-color: #bab2b3;
+	height: 40%;
+	width: 100%;
+	background-color: #bab2b3;
 }
 
 .order-payment {
-  height: 60%;
-  width: 100%;
-  background-color: #c092cc;
+	height: 60%;
+	width: 100%;
+	background-color: #c092cc;
 }
