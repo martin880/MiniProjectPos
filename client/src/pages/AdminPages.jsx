@@ -29,14 +29,13 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { SlMagnifier } from "react-icons/sl";
-import { AiOutlineDownload } from "react-icons/ai";
 import { HiPlus } from "react-icons/hi";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import SideBar from "../components/SideBar";
 import TopBar from "../components/TopBar";
 
-export default function AdminPages() {
+const AdminPages = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	const initialRef = React.useRef(null);
@@ -64,11 +63,14 @@ export default function AdminPages() {
 										</InputLeftElement>
 										<Input
 											type="text"
-											placeholder="Search Admin"
+											placeholder="Search Cashier"
 											minW={"30vw"}
 											borderColor={"blackAlpha.300"}
 										/>
 									</InputGroup>
+									<Button h={"26px"} w={"140px"} border={"1px black solid"}>
+										Enter
+									</Button>
 									<Box
 										w="100%"
 										justifyContent={"flex-end"}
@@ -77,9 +79,6 @@ export default function AdminPages() {
 										p={4}
 										m={8}
 									>
-										<Button h={"26px"} w={"100px"} border={"1px black solid"}>
-											<AiOutlineDownload /> Download
-										</Button>
 										<Button
 											onClick={onOpen}
 											h={"26px"}
@@ -204,4 +203,6 @@ export default function AdminPages() {
 			</Flex>
 		</>
 	);
-}
+};
+
+export default AdminPages;

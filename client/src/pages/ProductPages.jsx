@@ -10,14 +10,6 @@ import {
 	HStack,
 	Box,
 	Button,
-	Table,
-	Thead,
-	Tbody,
-	Tfoot,
-	Tr,
-	Th,
-	Td,
-	TableContainer,
 	Modal,
 	ModalOverlay,
 	ModalContent,
@@ -27,20 +19,29 @@ import {
 	ModalCloseButton,
 	useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { SlMagnifier } from "react-icons/sl";
-import { AiOutlineDownload } from "react-icons/ai";
 import { HiPlus } from "react-icons/hi";
-import { FiEdit } from "react-icons/fi";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import SideBar from "../components/SideBar";
 import TopBar from "../components/TopBar";
+import TableProduct from "../components/TableProduct";
+import { Produks } from "../produks";
 
-export default function ProductPages() {
+const ProductPages = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	const initialRef = React.useRef(null);
 	const finalRef = React.useRef(null);
+
+	const [query, setQuery] = useState("");
+	const search = (data) => {
+		return data.filter(
+			(produk) =>
+				produk.productName.toLowerCase().includes(query) ||
+				produk.harga.toString().includes(query)
+		);
+	};
+
 	return (
 		<>
 			<Flex className="container">
@@ -67,8 +68,12 @@ export default function ProductPages() {
 											placeholder="Search Product"
 											minW={"30vw"}
 											borderColor={"blackAlpha.300"}
+											onChange={(e) => setQuery(e.target.value)}
 										/>
 									</InputGroup>
+									<Button h={"26px"} w={"140px"} border={"1px black solid"}>
+										Enter
+									</Button>
 									<Box
 										w="100%"
 										justifyContent={"flex-end"}
@@ -77,9 +82,6 @@ export default function ProductPages() {
 										p={4}
 										m={8}
 									>
-										<Button h={"26px"} w={"100px"} border={"1px black solid"}>
-											<AiOutlineDownload /> Download
-										</Button>
 										<Button
 											onClick={onOpen}
 											h={"26px"}
@@ -91,6 +93,7 @@ export default function ProductPages() {
 										</Button>
 									</Box>
 								</HStack>
+								<TableProduct data={search(Produks)} />
 							</Stack>
 							<Modal
 								initialFocusRef={initialRef}
@@ -133,56 +136,13 @@ export default function ProductPages() {
 									</ModalFooter>
 								</ModalContent>
 							</Modal>
-							<Stack>
-								<TableContainer p={4}>
-									<Table variant="simple">
-										<Thead bgColor={"whatsapp.400"}>
-											<Tr>
-												<Th>No</Th>
-												<Th>Product Name</Th>
-												<Th>Category</Th>
-												<Th>Price</Th>
-												<Th>Stok</Th>
-												<Th display={"flex"} justifyContent={"center"}>
-													Action
-												</Th>
-											</Tr>
-										</Thead>
-										<Tbody>
-											<Tr>
-												<Td>1.</Td>
-												<Td>Coffe</Td>
-												<Td>Drinks</Td>
-												<Td>Rp.15000</Td>
-												<Td>50</Td>
-												<Td>
-													<Stack>
-														<HStack
-															display={"flex"}
-															align={"center"}
-															justifyContent={"center"}
-														>
-															<Button colorScheme={"yellow"} w={"50%"}>
-																<FiEdit cursor={"pointer"} />
-															</Button>
-															<Button colorScheme="red" w={"50%"}>
-																<RiDeleteBin6Line cursor={"pointer"} />
-															</Button>
-														</HStack>
-													</Stack>
-												</Td>
-											</Tr>
-										</Tbody>
-										<Tfoot>
-											<Tr></Tr>
-										</Tfoot>
-									</Table>
-								</TableContainer>
-							</Stack>
+							<Stack></Stack>
 						</Flex>
 					</Flex>
 				</Flex>
 			</Flex>
 		</>
 	);
-}
+};
+
+export default ProductPages;

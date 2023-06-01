@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 // const routes = require('./routes')
 const db = require("./models");
-// db.sequelize.sync({ alter: true });
+// db.sequelize.sync({ force: true });
 
 app.get("/", (req, res) => res.send("sequelize"));
 
