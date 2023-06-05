@@ -14,8 +14,12 @@ import {
 import { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { api } from "../api/api";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export function LoginModal(props) {
+  const dispatch = useDispatch();
+  const nav = useNavigate();
   const arr = [];
   const [login, setLogin] = useState({
     email: "",
@@ -30,7 +34,27 @@ export function LoginModal(props) {
     console.log(tempobject);
   }
   async function Login() {
-    await api.get("/lol").then(() => {});
+    try {
+      let token;
+      await api.post("http://localhost:2000/auth/v2", login).then((res) => {
+        localStorage.setItem("auth", JSON.stringify(res.data.token));
+        token = res.data.token;
+        alert(res.data.message);
+      });
+      api.get("http://localhost:2000/auth/v3?token=" + token).then((res) => {
+        console.log(res.data);
+        dispatch({
+          type: "login",
+          payload: res.data,
+        });
+        alert("sukses");
+        return;
+      });
+
+      props.onClose();
+    } catch (err) {
+      alert("password atau email salah");
+    }
   }
   return (
     <>
@@ -87,6 +111,7 @@ export function LoginModal(props) {
               placeholder="Password"
               onChange={inputHandler}
               id="password"
+              type="password"
             ></Input>
             <Flex justifyContent={"space-between"}>
               <Checkbox>Remember me</Checkbox>
@@ -103,7 +128,7 @@ export function LoginModal(props) {
             h="48px"
             w="400px"
             cursor={"pointer"}
-            onClick={() => {}}
+            onClick={Login}
           >
             LOGIN
           </Center>
