@@ -5,14 +5,29 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter } from "react-router-dom";
+import { configureStore } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
+import orderTypeReducer from "./redux/orderType.js";
+import orderListReducer from "./redux/orderList";
+
+const store = configureStore({
+	reducer: {
+		orderType: orderTypeReducer,
+		orderList: orderListReducer,
+	},
+});
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 	<React.StrictMode>
-		<BrowserRouter>
-			<ChakraProvider>
-				<App />
-			</ChakraProvider>
-		</BrowserRouter>
+
+		<ChakraProvider>
+			<BrowserRouter>
+				<Provider store={store}>
+					<App />
+				</Provider>
+			</BrowserRouter>
+		</ChakraProvider>
+
 	</React.StrictMode>
 );
 
