@@ -32,11 +32,13 @@ const productController = {
   editProduct: async (req, res) => {
     try {
       const { productName, harga, stock } = req.body;
+      // const { filename } = req.file;
       await db.Product.update(
         {
           productName,
           harga,
           stock,
+          // product_url: productImage + filename,
         },
         {
           where: {
@@ -59,11 +61,12 @@ const productController = {
   },
   insertProduct: async (req, res) => {
     try {
-      const { productName, harga, stock } = req.body;
+      const { productName, harga, stock, categoryId } = req.body;
       await db.Product.create({
         productName,
         harga,
         stock,
+        categoryId,
       });
       return await db.Product.findAll().then((result) => {
         res.send(result);

@@ -1,5 +1,11 @@
 const db = require("../models");
 const bcrypt = require("bcrypt");
+const { nanoid } = require("nanoid");
+const moment = require("moment");
+const url = process.env.URL;
+// const mailer = require("../lib/mailer");
+const image_url = process.env.URL_IMAGE;
+const sharp = require("sharp");
 
 const userController = {
   getAll: async (req, res) => {
@@ -62,13 +68,13 @@ const userController = {
   loginV2: async (req, res) => {
     try {
       const { phonenum, pin } = req.body;
-      //   console.log("asd");
+      // console.log(req.query);
       const user = await db.User.findOne({
         where: {
           phonenum,
         },
       });
-
+      console.log(user);
       if (user) {
         const match = await bcrypt.compare(pin, user.dataValues.password);
         if (match) {
@@ -83,24 +89,223 @@ const userController = {
             token: generateToken,
             payload: JSON.stringify(payload),
           });
-
           console.log(token);
-          //  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwibmFtZSI6InVkaW4yIiwiYWRkcmVzcyI6ImJhdGFtIiwicGFzc3dvcmQiOiIkMmIkMTAkWUkvcTl2dVdTOXQ0R1V5a1lxRGtTdWJnTTZwckVnRm9nZzJLSi9FckFHY3NXbXBRUjFOcXEiLCJlbWFpbCI6InVkaW4yQG1haWwuY29tIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0xOVQwNzowOTozNy4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0xOVQwNzowOTozNy4wMDBaIiwiZGVsZXRlZEF0IjpudWxsLCJDb21wYW55SWQiOm51bGwsImlhdCI6MTY4NDQ4MzQ4NSwiZXhwIjoxNjg0NDgzNTQ1fQ.Ye5l7Yml1TBWUgV7eUnhTVQjdT3frR9E0HXNxO7bTXw;
 
-          return res.send({
-            message: "login berhasil",
-            // value: user,
+          return res.status(200).send({
+            message: "you are succefully log in",
+            value: user,
             token: token.dataValues.token,
           });
         } else {
-          throw new Error("wrong password");
+          throw new Error("wrong phoneNumber/password");
         }
       } else {
-        throw new Error("user not found");
+        throw new Error("user is not found");
       }
     } catch (err) {
       console.log(err.message);
+      return res.status(500).send({
+        message: err.message,
+      });
+    }
+  },
+  getByToken: async (req, res, next) => {
+    try {
+      let { token } = req.query;
+      console.log(token);
+      let payload = await db.Token.findOne({
+        where: {
+          token,
+          expired: {
+            [db.Sequelize.Op.gte]: moment().format(),
+          },
+          valid: true,
+        },
+      });
+      if (!payload) {
+        throw new Error("token has expired");
+      }
+      console.log(payload.dataValues);
+      user = await db.User.findOne({
+        where: {
+          id: JSON.parse(payload.dataValues.payload).id,
+        },
+      });
+      delete user.dataValues.password;
+
+      req.user = user;
+      next();
+    } catch (err) {
+      console.log(err);
       return res.status(500).send({ message: err.message });
+    }
+  },
+  getUserByToken: async (req, res) => {
+    res.status(200).send(req.user);
+  },
+  generateTokenByEmail: async (req, res) => {
+    try {
+      const { email } = req.query;
+      const user = await db.User.findOne({
+        where: {
+          email,
+        },
+      });
+
+      if (user.dataValues) {
+        await db.Token.update(
+          {
+            valid: false,
+          },
+          {
+            where: {
+              payload: JSON.stringify({ id: user.dataValues.id }),
+              Status: "FORGOT-PASSWORD",
+            },
+          }
+        );
+        const generateToken = nanoid();
+        const token = await db.Token.create({
+          expired: moment().add(60, "minutes").format(),
+          token: generateToken,
+          payload: JSON.stringify({ id: user.dataValues.id }),
+          status: "FORGOT-PASSWORD",
+        });
+
+        mailer({
+          subject: "hello,",
+          to: user.dataValues.email,
+          text: url + token.dataValues.token,
+        });
+
+        return res.send({ message: "please check your email" });
+      } else {
+        throw new Error("user is not found");
+      }
+    } catch (err) {
+      res.status(500).send({ message: err.message });
+    }
+  },
+
+  changePassword: async (req, res) => {
+    try {
+      console.log(req.body);
+      const { token } = req.query;
+      const { password } = req.body.user;
+      const { id } = req.user;
+      console.log(id);
+
+      const hashPassword = await bcrypt.hash(password, 10);
+
+      await db.User.update(
+        {
+          password: hashPassword,
+        },
+        {
+          where: {
+            id,
+          },
+        }
+      );
+
+      await db.Token.update(
+        {
+          valid: false,
+        },
+        {
+          where: {
+            token,
+          },
+        }
+      );
+
+      res.send({
+        message: "password successfully updated",
+      });
+    } catch (err) {
+      res.status(500).send({ message: err.message });
+    }
+  },
+  updateProfile: async (req, res) => {
+    try {
+      const { firstName, lastName, phoneNumber, email, address, avatar } =
+        req.body;
+      await db.User.update(
+        {
+          // firstName,
+          // lastName,
+          email,
+          phoneNumber,
+          address,
+          avatar,
+        },
+        {
+          where: {
+            id: req.params.id,
+          },
+        }
+      );
+
+      return res.status(200).send({
+        message: "your account has been updated",
+      });
+    } catch (err) {
+      console.log(err.message);
+      return res.status(500).send(err.message);
+    }
+  },
+  deleteUser: async (req, res) => {
+    try {
+      await db.User.destroy({
+        where: {
+          //  id: req.params.id
+
+          //   [Op.eq]: req.params.id
+
+          id: req.params.id,
+        },
+      });
+      return await db.User.findAll().then((result) => res.send(result));
+    } catch (err) {
+      console.log(err.message);
+      return res.status(500).send({
+        error: err.message,
+      });
+    }
+  },
+
+  uploadAvatar: async (req, res) => {
+    const { filename } = req.filename;
+    await db.User.update(
+      {
+        avatar_url: image_url + filename,
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    ),
+      await db.User.findOne({
+        where: {
+          id: req.params.id,
+        },
+      }).then((result) => res.send(result));
+  },
+  renderAvatar: async (req, res) => {
+    try {
+      await db.User.findOne({
+        where: {
+          id: req.params.id,
+        },
+      }).then((result) => {
+        res.set("content-type", "image/png");
+        res.send(result.dataValues.avatar_blob);
+      });
+    } catch (err) {
+      res.status(500).send({
+        message: err.message,
+      });
     }
   },
 };

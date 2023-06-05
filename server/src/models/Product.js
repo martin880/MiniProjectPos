@@ -5,6 +5,8 @@ module.exports = (sequelize, Sequelize) => {
       productName: Sequelize.STRING,
       harga: Sequelize.INTEGER,
       stock: Sequelize.INTEGER,
+      photoProduct_url: Sequelize.STRING,
+      photoProduct_blob: Sequelize.BLOB("long"),
     },
     {
       paranoid: true,
