@@ -86,22 +86,22 @@ export default function AdminPages() {
 		setSelectedFile(event.target.files[0]);
 	};
 
-	async function handleUpload() {
-		try {
-			const formData = new FormData();
-			formData.append("avatar", selectedFile);
+	// async function handleUpload() {
+	// 	try {
+	// 		const formData = new FormData();
+	// 		formData.append("avatar", selectedFile);
 
-			await api.post("/avatar/upload-avatar", formData, {
-				headers: {
-					"Content-Type": "multipart/form-data",
-				},
-			});
+	// 		await api.post("/avatar/upload-avatar", formData, {
+	// 			headers: {
+	// 				"Content-Type": "multipart/form-data",
+	// 			},
+	// 		});
 
-			console.log("Avatar uploaded successfully");
-		} catch (error) {
-			console.error("Error uploading avatar:", error);
-		}
-	}
+	// 		console.log("Avatar uploaded successfully");
+	// 	} catch (error) {
+	// 		console.error("Error uploading avatar:", error);
+	// 	}
+	// }
 
 	const [users, setUsers] = useState([]);
 
@@ -299,7 +299,7 @@ export default function AdminPages() {
 											mr={3}
 											onClick={() => {
 												register();
-												handleUpload();
+												// handleUpload();
 												onClose();
 											}}
 										>

@@ -3,10 +3,12 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../controllers").userController;
 
+router.post("/v2", userController.loginV2);
+router.post("/", userController.register);
+
 router.get("/getall", userController.getAll);
 router.delete("/del/:id", userController.deleteUser); // delete user
 
-router.post("/v2", userController.loginV2);
 router.get("/token", userController.getByToken); // get Token
 router.get("/v3", userController.getByToken, userController.getUserByToken);
 // mendapatkan user dari token di path. apakah token expired? kalau tidek kirim user

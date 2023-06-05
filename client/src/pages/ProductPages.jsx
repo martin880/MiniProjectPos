@@ -40,7 +40,7 @@ import { api } from "../api/api";
 import { DeleteProduct } from "../components/DeleteProduct";
 import { EditProduct } from "../components/EditProduct";
 
-const ProductPages = () => {
+export default function ProductPages() {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { selectedOption, setSelectedOption } = useState("");
 	const initialRef = React.useRef(null);
@@ -101,14 +101,6 @@ const ProductPages = () => {
 	const getCategoryName = (x) => {
 		const category = categories.find((y) => y.id === x);
 		return category ? category.categoryName : "";
-	};
-
-	const search = (products) => {
-		return products.filter(
-			(product) =>
-				product.productName.toLowerCase().includes(products) ||
-				product.harga.toString().includes(products)
-		);
 	};
 
 	//    const [selectedFile, setSelectedFile] = useState(null);
@@ -265,7 +257,7 @@ const ProductPages = () => {
 							</Modal>
 							<Stack>
 								<TableContainer p={4}>
-									<Table variant="simple" products={() => search(product)}>
+									<Table variant="simple">
 										<Thead bgColor={"whatsapp.400"}>
 											<Tr>
 												<Th>No</Th>
@@ -279,7 +271,7 @@ const ProductPages = () => {
 											</Tr>
 										</Thead>
 										<Tbody>
-											{products?.map((product) => (
+											{products.map((product) => (
 												<Tr key={product.id}>
 													<Td>{product.id}</Td>
 													<Td>{product.productName}</Td>
@@ -342,6 +334,4 @@ const ProductPages = () => {
 			</Flex>
 		</>
 	);
-};
-
-export default ProductPages;
+}
