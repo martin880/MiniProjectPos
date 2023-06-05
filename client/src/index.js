@@ -9,17 +9,28 @@ import { BrowserRouter } from "react-router-dom";
 import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import rootReducer from "./redux/store";
-const store = configureStore({ reducer: rootReducer, middleware: [thunk] });
 
+import orderTypeReducer from "./redux/orderType.js";
+import orderListReducer from "./redux/orderList";
+
+const store = configureStore({
+  reducer: {
+    orderType: orderTypeReducer,
+    orderList: orderListReducer,
+    login: rootReducer,
+  },
+});
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <ChakraProvider>
-        <App />
-      </ChakraProvider>
-    </BrowserRouter>
-  </Provider>
+  <React.StrictMode>
+    <ChakraProvider>
+      <BrowserRouter>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </BrowserRouter>
+    </ChakraProvider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
 	Table,
 	Thead,
@@ -16,6 +16,7 @@ import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 const TableProduct = ({ data }) => {
+	const [products, setProducts] = useState([]);
 	return (
 		<>
 			<TableContainer p={4}>

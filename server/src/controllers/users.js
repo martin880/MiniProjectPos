@@ -133,53 +133,29 @@ const userController = {
             id: user.dataValues.id,
           };
 
-          const generateToken = nanoid();
-          console.log(nanoid());
-          const token = await db.Token.create({
-            expired: moment().add(1, "days").format(),
-            token: generateToken,
-            payload: JSON.stringify(payload),
-          });
-
-          console.log(token);
-          //  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwibmFtZSI6InVkaW4yIiwiYWRkcmVzcyI6ImJhdGFtIiwicGFzc3dvcmQiOiIkMmIkMTAkWUkvcTl2dVdTOXQ0R1V5a1lxRGtTdWJnTTZwckVnRm9nZzJLSi9FckFHY3NXbXBRUjFOcXEiLCJlbWFpbCI6InVkaW4yQG1haWwuY29tIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0xOVQwNzowOTozNy4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0xOVQwNzowOTozNy4wMDBaIiwiZGVsZXRlZEF0IjpudWxsLCJDb21wYW55SWQiOm51bGwsImlhdCI6MTY4NDQ4MzQ4NSwiZXhwIjoxNjg0NDgzNTQ1fQ.Ye5l7Yml1TBWUgV7eUnhTVQjdT3frR9E0HXNxO7bTXw;
-
-          return res.send({
-            message: "login berhasil",
-            // value: user,
+          return res.status(200).send({
+            message: "you are succefully log in",
+            value: user,
             token: token.dataValues.token,
           });
         } else {
-          throw new Error("wrong password");
+          throw new Error("wrong phoneNumber/password");
         }
       } else {
-        throw new Error("user not found");
+        throw new Error("user is not found");
       }
     } catch (err) {
       console.log(err.message);
-      return res.status(500).send({ message: err.message });
+      return res.status(500).send({
+        message: err.message,
+      });
     }
   },
-  getByToken: async (req, res) => {
-    const { token } = req.query;
-    let user = jwt.verify(token, private_key);
-
-    user = await db.User.findOne({
-      where: {
-        id: user.id,
-      },
-    });
-
-    delete user.dataValues.password;
-
-    res.send(user);
-  },
-  getByTokenV2: async (req, res, next) => {
+  getByToken: async (req, res, next) => {
     try {
-      const { token } = req.query;
+      let { token } = req.query;
       console.log(token);
-
-      let p = await db.Token.findOne({
+      let payload = await db.Token.findOne({
         where: {
           token,
           expired: {
@@ -188,21 +164,15 @@ const userController = {
           valid: true,
         },
       });
-
-      // select * from tokes where token ="abc" and expired >= "2023-05-23"
-      // and valid = true
-
-      if (!p) {
+      if (!payload) {
         throw new Error("token has expired");
       }
-      console.log(p.dataValues);
+      console.log(payload.dataValues);
       user = await db.User.findOne({
         where: {
-          id: JSON.parse(p.dataValues.payload).id,
+          id: JSON.parse(payload.dataValues.payload).id,
         },
       });
-      //id,email,nama,password,dll
-
       delete user.dataValues.password;
 
       req.user = user;
@@ -212,15 +182,12 @@ const userController = {
       return res.status(500).send({ message: err.message });
     }
   },
-
   getUserByToken: async (req, res) => {
-    res.send(req.user);
+    res.status(200).send(req.user);
   },
-
   generateTokenByEmail: async (req, res) => {
     try {
       const { email } = req.query;
-
       const user = await db.User.findOne({
         where: {
           email,
@@ -228,7 +195,6 @@ const userController = {
       });
 
       if (user.dataValues) {
-        // cek apa ada token yg mengarah ke id user
         await db.Token.update(
           {
             valid: false,
@@ -236,50 +202,40 @@ const userController = {
           {
             where: {
               payload: JSON.stringify({ id: user.dataValues.id }),
-              // { "id" : 1 }
-              status: "FORGOT-PASSWORD",
+              Status: "FORGOT-PASSWORD",
             },
           }
         );
-
         const generateToken = nanoid();
         const token = await db.Token.create({
-          expired: moment().add(1, "days").format(),
+          expired: moment().add(60, "minutes").format(),
           token: generateToken,
           payload: JSON.stringify({ id: user.dataValues.id }),
           status: "FORGOT-PASSWORD",
         });
 
         mailer({
-          subject: "hello",
-          to: "thomasalvinyeo@gmail.com",
+          subject: "hello,",
+          to: user.dataValues.email,
           text: url + token.dataValues.token,
         });
 
-        // return res.send({ url: url + token.dataValues.token });
-        // return res.send({
-        //  nav: '/forgot-password/' + token.dataValues.token
-        //  // nav : "/forgot-password/abc123"
-        // });
-
-        return res.send({ message: "silahkan check email anda" });
+        return res.send({ message: "please check your email" });
       } else {
-        throw new Error("user not found");
+        throw new Error("user is not found");
       }
     } catch (err) {
       res.status(500).send({ message: err.message });
     }
   },
+
   changePassword: async (req, res) => {
-    // console.log(req.body);
     try {
+      console.log(req.body);
       const { token } = req.query;
-
-      const { password } = req.body;
+      const { password } = req.body.user;
       const { id } = req.user;
-
-      console.log(password);
-      console.log(req.user);
+      console.log(id);
 
       const hashPassword = await bcrypt.hash(password, 10);
 
@@ -306,10 +262,92 @@ const userController = {
       );
 
       res.send({
-        message: "password berhasil diupdate",
+        message: "password successfully updated",
       });
     } catch (err) {
       res.status(500).send({ message: err.message });
+    }
+  },
+  updateProfile: async (req, res) => {
+    try {
+      const { firstName, lastName, phoneNumber, email, address, avatar } =
+        req.body;
+      await db.User.update(
+        {
+          // firstName,
+          // lastName,
+          email,
+          phoneNumber,
+          address,
+          avatar,
+        },
+        {
+          where: {
+            id: req.params.id,
+          },
+        }
+      );
+
+      return res.status(200).send({
+        message: "your account has been updated",
+      });
+    } catch (err) {
+      console.log(err.message);
+      return res.status(500).send(err.message);
+    }
+  },
+  deleteUser: async (req, res) => {
+    try {
+      await db.User.destroy({
+        where: {
+          //  id: req.params.id
+
+          //   [Op.eq]: req.params.id
+
+          id: req.params.id,
+        },
+      });
+      return await db.User.findAll().then((result) => res.send(result));
+    } catch (err) {
+      console.log(err.message);
+      return res.status(500).send({
+        error: err.message,
+      });
+    }
+  },
+
+  uploadAvatar: async (req, res) => {
+    const { filename } = req.filename;
+    await db.User.update(
+      {
+        avatar_url: image_url + filename,
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    ),
+      await db.User.findOne({
+        where: {
+          id: req.params.id,
+        },
+      }).then((result) => res.send(result));
+  },
+  renderAvatar: async (req, res) => {
+    try {
+      await db.User.findOne({
+        where: {
+          id: req.params.id,
+        },
+      }).then((result) => {
+        res.set("content-type", "image/png");
+        res.send(result.dataValues.avatar_blob);
+      });
+    } catch (err) {
+      res.status(500).send({
+        message: err.message,
+      });
     }
   },
 };

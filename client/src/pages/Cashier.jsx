@@ -1,10 +1,11 @@
-import { Flex } from "@chakra-ui/react";
+import { Divider, Flex } from "@chakra-ui/react";
 import Category from "../components/Category";
 import OrderDetails from "../components/OrderDetails";
 import OrderHistory from "../components/OrderHistory";
 import Product from "../components/Product";
 import SideBar from "../components/SideBar";
 import TopBar from "../components/TopBar";
+import OrderPayment from "../components/OrderPayment";
 
 export default function Cashier() {
 	return (
@@ -23,7 +24,18 @@ export default function Cashier() {
 								<Flex className="category">
 									<Category />
 								</Flex>
-								<Flex className="divider"></Flex>
+								<Flex className="divider">
+									<Flex
+										padding={"0 10px"}
+										w={"100%"}
+										h={"100%"}
+									>
+										<Divider
+											h={"50%"}
+											borderColor="rgba(179, 179, 179, 0.4)"
+										/>
+									</Flex>
+								</Flex>
 								<Flex className="product">
 									<Product />
 								</Flex>
@@ -37,7 +49,7 @@ export default function Cashier() {
 									<OrderDetails />
 								</Flex>
 								<Flex className="order-payment">
-									OrderPayment
+									<OrderPayment />
 								</Flex>
 							</Flex>
 						</Flex>

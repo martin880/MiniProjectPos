@@ -3,9 +3,10 @@ module.exports = (sequelize, Sequelize) => {
     "Products",
     {
       productName: Sequelize.STRING,
-      category: Sequelize.STRING,
       harga: Sequelize.INTEGER,
       stock: Sequelize.INTEGER,
+      photoProduct_url: Sequelize.STRING,
+      photoProduct_blob: Sequelize.BLOB("long"),
     },
     {
       paranoid: true,
