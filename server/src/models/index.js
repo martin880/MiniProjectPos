@@ -1,3 +1,5 @@
+"use strict";
+
 const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
@@ -45,6 +47,7 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+db.Token = require("./Token")(sequelize, Sequelize);
 db.Order = require("./Order")(sequelize, Sequelize);
 db.CategoryProduct = require("./CategoryProduct")(sequelize, Sequelize);
 db.OrderDetail = require("./OrderDetail")(sequelize, Sequelize);
