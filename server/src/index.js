@@ -7,7 +7,6 @@ const PORT = process.env.PORT;
 const routes = require("./routes");
 app.use(cors());
 app.use(express.json());
-// const routes = require('./routes')
 const db = require("./models");
 // db.sequelize.sync({ force: true });
 

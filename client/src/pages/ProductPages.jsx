@@ -19,7 +19,7 @@ import {
 	ModalCloseButton,
 	useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SlMagnifier } from "react-icons/sl";
 import { HiPlus } from "react-icons/hi";
 import SideBar from "../components/SideBar";
