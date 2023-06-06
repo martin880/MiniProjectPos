@@ -35,7 +35,7 @@ export default function TopBar() {
                 h={"28px"}
                 id="searchbar"
                 backgroundColor={
-                  location[1] == "cashier" || "login" ? "#424242" : "#dedddc"
+                  location[1] == ("cashier" || "login") ? "#424242" : "#dedddc"
                 }
               ></Input>
               <InputLeftElement w={"30px"} h={"100%"}>
@@ -60,7 +60,9 @@ export default function TopBar() {
             <Flex flexDir={"column"} color={"white"}>
               <Flex
                 fontSize={"17px"}
-                color={location[1] == "cashier" || "login" ? "white" : "black"}
+                color={
+                  location[1] == ("cashier" || "login") ? "white" : "black"
+                }
               >
                 Table 5
               </Flex>
