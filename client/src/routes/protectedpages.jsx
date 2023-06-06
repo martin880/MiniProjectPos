@@ -16,13 +16,15 @@ export default function ProtectedPage({
 
   useEffect(() => {
     console.log(guestOnly);
+    console.log(needLogin);
     console.log(userSelector?.email);
     if (guestOnly && userSelector?.email) {
+      console.log(userSelector.email);
       return nav("/cashier");
     } else if (needLogin && !userSelector?.email) {
+      console.log(userSelector.email);
       return nav("/login");
     }
-    console.log("mol");
   }, [userSelector]);
 
   return (

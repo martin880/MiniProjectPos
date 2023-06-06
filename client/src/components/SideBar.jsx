@@ -12,7 +12,7 @@ export default function SideBar() {
         <GridItem gridRow={"1/3"} w="100%" color={"whitesmoke"}>
           <Flex
             className="logo"
-            color={location[1] == "cashier" ? "white" : "black"}
+            color={location[1] == ("cashier" || "login") ? "white" : "black"}
           >
             CosyPOS
           </Flex>
