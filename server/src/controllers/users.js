@@ -8,6 +8,7 @@ const url = process.env.URL;
 const mailer = require("../lib/mailer");
 const image_url = process.env.URL_IMAGE;
 const sharp = require("sharp");
+const { Op } = db.Sequelize;
 const user = require("../models/user");
 const userController = {
 	getAll: async (req, res) => {
@@ -38,6 +39,7 @@ const userController = {
 	},
 	getUserByName: async (req, res) => {
 		try {
+			console.log(req.query);
 			const search = req.query.search_query || "";
 			const user = await db.User.findAll({
 				where: {

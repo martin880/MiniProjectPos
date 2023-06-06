@@ -118,20 +118,20 @@ export default function AdminPages() {
 			});
 	}, []);
 
-	useEffect(() => {
+	// useEffect(() => {}, [keyword]);
+
+	const searchData = (e) => {
+		// alert("asd");
 		api
-			.get(`/auth/v5?search_query=${keyword}`)
+			.get(`/auth/v5?search_query=${query}`)
 			.then((response) => {
 				setUsers(response.data);
 			})
 			.catch((error) => {
 				console.error(error);
 			});
-	}, [keyword]);
-
-	const searchData = (e) => {
 		e.preventDefault();
-		setKeyword(query);
+		// setKeyword(query);
 	};
 
 	//   async function uploadAvatar() {
@@ -174,7 +174,7 @@ export default function AdminPages() {
 								<Text fontSize={"24px"} fontWeight={"bold"} color={"black"}>
 									Cashier
 								</Text>
-								<form onSubmit={searchData}>
+								<form>
 									<HStack>
 										<InputGroup>
 											<InputLeftElement pointerEvents="none">
@@ -202,6 +202,7 @@ export default function AdminPages() {
 												h={"26px"}
 												w={"100px"}
 												colorScheme="teal"
+												onClick={searchData}
 											>
 												<SlMagnifier />
 												Search
