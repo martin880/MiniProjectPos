@@ -1,4 +1,5 @@
 const express = require("express");
+const { fileUploader, upload } = require("../middlewares/multer");
 
 const router = express.Router();
 const userController = require("../controllers").userController;
@@ -6,6 +7,18 @@ const userController = require("../controllers").userController;
 router.post("/v2", userController.loginV2);
 router.post("/", userController.register);
 
+router.post(
+  "/image/v1/:id",
+  fileUploader({
+    destinationFolder: "avatar",
+  }).single("avatar"),
+  userController.uploadAvatar
+); //register
+router.post(
+  "/image/v2/:id",
+  upload.single("avatar"),
+  userController.uploadAvatarv2
+); //register
 router.get("/getall", userController.getAll);
 router.get("/v5", userController.getUserByName);
 router.delete("/del/:id", userController.deleteUser); // delete user

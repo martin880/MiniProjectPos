@@ -1,5 +1,4 @@
 import {
-
   Flex,
   Center,
   Modal,
@@ -14,8 +13,10 @@ import {
 import { LoginModal } from "./loginmodal";
 import { VscAccount } from "react-icons/vsc";
 import { CiSearch } from "react-icons/ci";
+import { useLocation } from "react-router-dom";
 
 export default function TopBar() {
+  const location = useLocation().pathname.split("/");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -33,7 +34,9 @@ export default function TopBar() {
                 placeholder="Search"
                 h={"28px"}
                 id="searchbar"
-                backgroundColor={"#424242"}
+                backgroundColor={
+                  location[1] == "cashier" || "login" ? "#424242" : "#dedddc"
+                }
               ></Input>
               <InputLeftElement w={"30px"} h={"100%"}>
                 <Icon
@@ -55,7 +58,12 @@ export default function TopBar() {
             pr={"30px"}
           >
             <Flex flexDir={"column"} color={"white"}>
-              <Flex fontSize={"17px"}>Table 5</Flex>
+              <Flex
+                fontSize={"17px"}
+                color={location[1] == "cashier" || "login" ? "white" : "black"}
+              >
+                Table 5
+              </Flex>
               <Flex fontSize={"10px"} color={"grey"}>
                 Leslie K
               </Flex>
