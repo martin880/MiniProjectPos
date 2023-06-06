@@ -60,7 +60,9 @@ export default function TopBar() {
 						<Flex flexDir={"column"} color={"white"}>
 							<Flex
 								fontSize={"17px"}
-								color={location[1] == "cashier" || "login" ? "white" : "black"}
+								color={
+									location[1] == ("cashier" || "login") ? "white" : "black"
+								}
 							>
 								Table 5
 							</Flex>

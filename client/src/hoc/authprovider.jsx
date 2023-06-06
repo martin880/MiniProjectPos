@@ -19,6 +19,7 @@ export default function AuthProvider({ children }) {
         type: "login",
         payload: user,
       });
+      console.log("loll");
     }
   }
 

@@ -12,6 +12,7 @@ import rootReducer from "./redux/store";
 
 import orderTypeReducer from "./redux/orderType.js";
 import orderListReducer from "./redux/orderList";
+import AuthProvider from "./hoc/authprovider";
 
 const store = configureStore({
   reducer: {
@@ -26,7 +27,9 @@ root.render(
     <ChakraProvider>
       <BrowserRouter>
         <Provider store={store}>
-          <App />
+          <AuthProvider>
+            <App />
+          </AuthProvider>
         </Provider>
       </BrowserRouter>
     </ChakraProvider>
