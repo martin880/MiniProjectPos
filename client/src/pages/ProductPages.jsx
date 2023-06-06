@@ -39,6 +39,7 @@ import TopBar from "../components/TopBar";
 import { api } from "../api/api";
 import { DeleteProduct } from "../components/DeleteProduct";
 import { EditProduct } from "../components/EditProduct";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function ProductPages() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -77,6 +78,8 @@ export default function ProductPages() {
   const [products, setProducts] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [query, setQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(5);
 
   useEffect(() => {
     api
@@ -104,6 +107,17 @@ export default function ProductPages() {
     e.preventDefault();
     setKeyword(query);
   };
+
+  // Menghitung indeks produk awal dan akhir pada halaman saat ini
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  // Fungsi untuk mengubah halaman
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const [categories, setCategories] = useState([]);
 
@@ -310,7 +324,7 @@ export default function ProductPages() {
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {products.map((product) => (
+                      {currentProducts.map((product) => (
                         <Tr key={product.id}>
                           <Td>{product.id}</Td>
                           <Td>{product.productName}</Td>
@@ -365,6 +379,22 @@ export default function ProductPages() {
                       <Tr></Tr>
                     </Tfoot>
                   </Table>
+                  <Flex mt={4}>
+                    {Array.from({
+                      length: Math.ceil(products.length / productsPerPage),
+                    }).map((_, index) => (
+                      <Button
+                        key={index + 1}
+                        onClick={() => paginate(index + 1)}
+                        colorScheme={
+                          currentPage === index + 1 ? "blue" : "gray"
+                        }
+                        mx={1}
+                      >
+                        {index + 1}
+                      </Button>
+                    ))}
+                  </Flex>
                 </TableContainer>
               </Stack>
             </Flex>
