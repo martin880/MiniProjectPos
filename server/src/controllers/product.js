@@ -29,6 +29,26 @@ const productController = {
 			});
 		}
 	},
+	// Pencarian berdasarkan nama produk dan harga
+	getProduct: async (req, res) => {
+		try {
+			const search = req.query.search_query || "";
+			const product = await db.Product.findAll({
+				where: {
+					[Op.or]: [
+						{ productName: { [Op.like]: "%" + search + "%" } },
+						{ harga: { [Op.like]: "%" + search + "%" } },
+					],
+				},
+			});
+			return res.send(product);
+		} catch (err) {
+			console.log(err.message);
+			res.status(500).send({
+				message: err.message,
+			});
+		}
+	},
 	editProduct: async (req, res) => {
 		try {
 			const { productName, harga, stock, categoryId } = req.body;

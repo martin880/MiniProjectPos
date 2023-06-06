@@ -30,7 +30,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { SlMagnifier } from "react-icons/sl";
-import { AiOutlineDownload } from "react-icons/ai";
+import { AiOutlineFileSearch } from "react-icons/ai";
 import { HiPlus } from "react-icons/hi";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -73,10 +73,12 @@ export default function ProductPages() {
 	};
 
 	const [products, setProducts] = useState([]);
+	const [keyword, setKeyword] = useState("");
+	const [query, setQuery] = useState("");
 
 	useEffect(() => {
 		api
-			.get("/product/")
+			.get("/product")
 			.then((response) => {
 				setProducts(response.data);
 			})
@@ -84,6 +86,22 @@ export default function ProductPages() {
 				console.error(error);
 			});
 	}, []);
+
+	useEffect(() => {
+		api
+			.get(`/product/v4?search_query=${keyword}`)
+			.then((response) => {
+				setProducts(response.data);
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}, [keyword]);
+
+	const searchData = (e) => {
+		e.preventDefault();
+		setKeyword(query);
+	};
 
 	const [categories, setCategories] = useState([]);
 
@@ -142,40 +160,59 @@ export default function ProductPages() {
 								<Text fontSize={"24px"} fontWeight={"bold"} color={"black"}>
 									Product
 								</Text>
-								<HStack>
-									<InputGroup>
-										<InputLeftElement pointerEvents="none">
-											<SlMagnifier />
-										</InputLeftElement>
-										<Input
-											type="text"
-											placeholder="Search Product"
-											minW={"30vw"}
-											borderColor={"blackAlpha.300"}
-										/>
-									</InputGroup>
-									<Box
-										w="100%"
-										justifyContent={"flex-end"}
-										gap="10px"
-										display={"flex"}
-										p={4}
-										m={8}
-									>
-										{/* <Button h={"26px"} w={"100px"} border={"1px black solid"}>
-                      <AiOutlineDownload /> Download
-                    </Button> */}
-										<Button
-											onClick={onOpen}
-											h={"26px"}
-											w={"80px"}
-											colorScheme={"facebook"}
+								<form onSubmit={searchData}>
+									<HStack>
+										<InputGroup>
+											<InputLeftElement pointerEvents="none">
+												<SlMagnifier />
+											</InputLeftElement>
+											<Input
+												type="text"
+												placeholder="Search Product"
+												value={query}
+												onChange={(e) => setQuery(e.target.value)}
+												minW={"30vw"}
+												borderColor={"blackAlpha.300"}
+											/>
+										</InputGroup>
+										<Box
+											w="100%"
+											justifyContent={"start"}
+											gap="10px"
+											display={"flex"}
+											p={4}
+											m={8}
 										>
-											<HiPlus />
-											Product
-										</Button>
-									</Box>
-								</HStack>
+											<Button
+												type="submit"
+												h={"26px"}
+												w={"100px"}
+												colorScheme="teal"
+											>
+												<SlMagnifier />
+												Search
+											</Button>
+										</Box>
+										<Box
+											w="100%"
+											justifyContent={"flex-end"}
+											gap="10px"
+											display={"flex"}
+											p={4}
+											m={8}
+										>
+											<Button
+												onClick={onOpen}
+												h={"26px"}
+												w={"80px"}
+												colorScheme={"facebook"}
+											>
+												<HiPlus />
+												Product
+											</Button>
+										</Box>
+									</HStack>
+								</form>
 							</Stack>
 							<Modal
 								initialFocusRef={initialRef}
