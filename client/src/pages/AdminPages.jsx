@@ -121,11 +121,7 @@ export default function AdminPages() {
       });
   }, [changed]);
 
-
-	// useEffect(() => {}, [keyword]);
-
 	const searchData = (e) => {
-		// alert("asd");
 		api
 			.get(`/auth/v5?search_query=${query}`)
 			.then((response) => {
@@ -138,24 +134,24 @@ export default function AdminPages() {
 		// setKeyword(query);
 	};
 
- 	  async function uploadAvatar() {
- 	    const formData = new FormData();
-	    formData.append("avatar", selectedFile);
- 	    let user;
-	    await api
- 	      .post("/auth/image/v1/" + userSelector.id, formData)
- 	      .then((res) => {
-	        alert(res.data);
-     });
-	    console.log(user);
- 	    if (user) {
-      await dispatch({
-	        type: "login",
-	        payload: user,
-	      });
-      alert(`berhasil upload`);
- }
- }
+//  	  async function uploadAvatar() {
+//  	    const formData = new FormData();
+// 	    formData.append("avatar", selectedFile);
+//  	    let user;
+// 	    await api
+//  	      .post("/auth/image/v1/" + userSelector.id, formData)
+//  	      .then((res) => {
+// 	        alert(res.data);
+//      });
+// 	    console.log(user);
+//  	    if (user) {
+//       await dispatch({
+// 	        type: "login",
+// 	        payload: user,
+// 	      });
+//       alert(`berhasil upload`);
+//  }
+//  }
 
 
   //   const handleFile = (event) => {
