@@ -105,12 +105,9 @@ export default function AdminPages() {
   // 	}
   // }
 
-
-	const [users, setUsers] = useState([]);
-	const [keyword, setKeyword] = useState("");
-	const [query, setQuery] = useState("");
   const [users, setUsers] = useState([]);
   const [keyword, setKeyword] = useState("");
+  const [query, setQuery] = useState("");
   const [changed, setChanged] = useState(true);
 
   useEffect(() => {
