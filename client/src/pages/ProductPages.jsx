@@ -10,7 +10,6 @@ import {
 	HStack,
 	Box,
 	Button,
-
 	IconButton,
 	VStack,
 	Table,
@@ -21,9 +20,7 @@ import {
 	Th,
 	Td,
 	TableContainer,
-
 	Container,
-
 	Modal,
 	ModalOverlay,
 	ModalContent,
@@ -79,12 +76,10 @@ export default function ProductPages() {
 	};
 
 	const input = async () => {
-
 		api.post("/product/v1", product).then((res) => {
 			console.log(res.data);
 			return alert(res.data);
 		});
-
 	};
 
 	const [products, setProducts] = useState([]);
@@ -105,7 +100,6 @@ export default function ProductPages() {
 	}, []);
 
 	useEffect(() => {
-
 		fetchProduct();
 	}, [keyword]);
 
@@ -315,7 +309,6 @@ export default function ProductPages() {
 										</FormControl>
 									</ModalBody>
 
-
 									<ModalFooter>
 										<Button
 											colorScheme="blue"
@@ -329,14 +322,18 @@ export default function ProductPages() {
 											Save
 										</Button>
 
-										<Button onClick={onClose}>Cancel</Button>
+										<Button onClick={onClose} colorScheme="yellow">
+											Cancel
+										</Button>
 									</ModalFooter>
 								</ModalContent>
 							</Modal>
 							<Stack>
-								<TableContainer p={4}>
-
-									<Table variant="simple">
+								<TableContainer p={4} justifyContent={"space-between"}>
+									<Table
+										variant="simple"
+										w={{ base: "100%", md: "50%", sm: "25%" }}
+									>
 										<Thead bgColor={"whatsapp.400"}>
 											<Tr>
 												<Th>No</Th>
@@ -405,7 +402,7 @@ export default function ProductPages() {
 													/>
 												</Th>
 												<Th>Stok</Th>
-												<Th>Action</Th>
+												<Th isNumeric>Action</Th>
 											</Tr>
 										</Thead>
 										<Tbody>
@@ -427,9 +424,7 @@ export default function ProductPages() {
 															>
 																<Button
 																	colorScheme={"yellow"}
-
 																	w={"50%"}
-
 																	onClick={() => {
 																		setEditProductId(product.id);
 																		modalEdit.onOpen();
@@ -439,16 +434,12 @@ export default function ProductPages() {
 																	<EditProduct
 																		id={editProductId}
 																		isOpen={modalEdit.isOpen}
-
 																		onClose={modalEdit.onClose}
-
 																	/>
 																</Button>
 																<Button
 																	colorScheme="red"
-
 																	w={"50%"}
-
 																	onClick={() => {
 																		setDeleteProductId(product.id);
 																		modalDelete.onOpen();
@@ -458,9 +449,7 @@ export default function ProductPages() {
 																	<DeleteProduct
 																		id={deleteProductId}
 																		isOpen={modalDelete.isOpen}
-
 																		onClose={modalDelete.onClose}
-
 																	/>
 																</Button>
 															</HStack>
@@ -490,9 +479,7 @@ export default function ProductPages() {
 										))}
 									</Flex>
 								</TableContainer>
-
 							</Stack>
-
 						</Flex>
 					</Flex>
 				</Flex>
