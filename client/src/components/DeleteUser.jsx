@@ -14,6 +14,7 @@ import {
 import { api } from "../api/api";
 
 export function DeleteUser(props) {
+  console.log(props);
   const deleteUser = async () => {
     await api.delete("/auth/del/" + props.id);
     alert("deleted");

@@ -60,9 +60,10 @@ export default function AdminPages() {
     firstName: "",
     lastName: "",
     KTP: "",
-    role: "",
+    role: "CASHIER",
     email: "",
     phoneNumber: "",
+    status: "ACTIVE",
     sex: "",
     address: "",
     avatar: "",
@@ -110,6 +111,15 @@ export default function AdminPages() {
   const [query, setQuery] = useState("");
   const [changed, setChanged] = useState(true);
 
+  const fetchData = async () => {
+    try {
+      const response = await api.get("/auth/getAll");
+      setUsers(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     api
       .get("/auth/role?role=CASHIER")
@@ -119,39 +129,42 @@ export default function AdminPages() {
       .catch((error) => {
         console.error(error);
       });
-  }, [changed]);
+  }, []);
 
-  const searchData = (e) => {
+  useEffect(() => {
     api
-      .get(`/auth/v5?search_query=${query}`)
+      .get(`/auth/v5?search_query=${keyword}`)
       .then((response) => {
         setUsers(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
+  }, [keyword]);
+
+  const searchData = (e) => {
     e.preventDefault();
-    // setKeyword(query);
+    setKeyword(query);
   };
 
-  //  	  async function uploadAvatar() {
-  //  	    const formData = new FormData();
-  // 	    formData.append("avatar", selectedFile);
-  //  	    let user;
-  // 	    await api
-  //  	      .post("/auth/image/v1/" + userSelector.id, formData)
-  //  	      .then((res) => {
-  // 	        alert(res.data);
-  //      });
-  // 	    console.log(user);
-  //  	    if (user) {
+  //   async function uploadAvatar() {
+  //     const formData = new FormData();
+  //     formData.append("avatar", selectedFile);
+  //     let user;
+  //     await api
+  //       .post("/auth/image/v1/" + userSelector.id, formData)
+  //       .then((res) => {
+  //         alert(res.data);
+  //       });
+  //     console.log(user);
+  //     if (user) {
   //       await dispatch({
-  // 	        type: "login",
-  // 	        payload: user,
-  // 	      });
+  //         type: "login",
+  //         payload: user,
+  //       });
   //       alert(`berhasil upload`);
-  //  }
-  //  }
+  //     }
+  //   }
 
   //   const handleFile = (event) => {
   //     setSelectedFile(event.target.files[0]);
@@ -174,7 +187,7 @@ export default function AdminPages() {
                 <Text fontSize={"24px"} fontWeight={"bold"} color={"black"}>
                   Cashier
                 </Text>
-                <form>
+                <form onSubmit={searchData}>
                   <HStack>
                     <InputGroup>
                       <InputLeftElement pointerEvents="none">
@@ -272,13 +285,14 @@ export default function AdminPages() {
                         value={selectedOption}
                         id="sex"
                         onClick={inputHandler}
+                        placeholder="Gender"
                         defaultValue={"Male"}
                       >
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                       </Select>
                     </FormControl>
-                    <FormControl mt={2}>
+                    {/* <FormControl mt={2}>
                       <FormLabel>Role</FormLabel>
                       <Select
                         value={selectedOption}
@@ -288,7 +302,7 @@ export default function AdminPages() {
                       >
                         <option value="Cashier">Cashier</option>
                       </Select>
-                    </FormControl>
+                    </FormControl> */}
                     <FormControl mt={2}>
                       <FormLabel>E-Mail</FormLabel>
                       <Input
@@ -305,6 +319,17 @@ export default function AdminPages() {
                         onChange={inputHandler}
                       />
                     </FormControl>
+                    {/* <FormControl mt={2}>
+                      <FormLabel>Status</FormLabel>
+                      <Select
+                        value={selectedOption}
+                        id="status"
+                        onClick={inputHandler}
+                        defaultValue={"ACTIVE"}
+                      >
+                        <option value="ACTIVE">Active</option>
+                      </Select>
+                    </FormControl> */}
                     <FormControl mt={2}>
                       <FormLabel>Address</FormLabel>
                       <Input
@@ -352,28 +377,26 @@ export default function AdminPages() {
                   <Table variant="simple">
                     <Thead>
                       <Tr>
-                        <Th>id</Th>
+                        <Th>No</Th>
                         <Th>Photo</Th>
                         <Th>Full Name</Th>
-                        <Th>NIK</Th>
+                        <Th>Status</Th>
                         <Th>Email</Th>
                         <Th>Phone</Th>
                         <Th>Action</Th>
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {users.map((user) => (
+                      {users.map((user, idx) => (
                         <Tr key={user.id}>
-                          <Td>{user.id}</Td>
+                          <Td>{idx + 1}</Td>
                           <Td>
                             <Flex justify="center" align="center">
-                              <Avatar size="md" src={user.avatar} />
+                              <Avatar size="md" />
                             </Flex>
                           </Td>
-                          <Td
-                            w={"150px"}
-                          >{`${user.firstName} ${user.lastName}`}</Td>
-                          <Td>{user.KTP}</Td>
+                          <Td>{`${user.firstName} ${user.lastName}`}</Td>
+                          <Td>{user.status}</Td>
                           <Td>{user.email}</Td>
                           <Td>{user.phoneNumber}</Td>
 
@@ -389,17 +412,18 @@ export default function AdminPages() {
                                 >
                                   {<FiEdit cursor={"pointer"} />}
                                   <EditUser
-                                    setChanged={setChanged}
-                                    changed={changed}
                                     id={editUserId}
                                     isOpen={modalEdit.isOpen}
-                                    onClose={modalEdit.onClose}
+                                    onClose={() => {
+                                      modalEdit.onClose();
+                                      fetchData();
+                                    }}
                                   />
                                 </Button>
                                 <Button
                                   colorScheme="red"
                                   onClick={() => {
-                                    setDeleteUserId(user.id);
+                                    setDeleteUserId(user.id, user.firstName);
                                     modalDelete.onOpen();
                                   }}
                                 >
@@ -407,7 +431,10 @@ export default function AdminPages() {
                                   <DeleteUser
                                     id={deleteUserId}
                                     isOpen={modalDelete.isOpen}
-                                    onClose={modalDelete.onClose}
+                                    onClose={() => {
+                                      modalDelete.onClose();
+                                      fetchData();
+                                    }}
                                   />
                                 </Button>
                               </HStack>
