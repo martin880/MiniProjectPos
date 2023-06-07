@@ -1,47 +1,46 @@
-// const multer = require("multer");
-// const { nanoid } = require("nanoid");
+const multer = require("multer");
+const { nanoid } = require("nanoid");
 
-// const fileUploader = ({
-//   destinationFolder = "",
-//   prefix = "POST",
-//   fileType = "image",
-// }) => {
-//   const storageConfig = multer.diskStorage({
-//     destination: (req, res, cb) => {
-//       cb(null, ${__dirname}/../public/${destinationFolder});
-//     },
-//     filename: (req, file, cb) => {
-//       const fileExtension = file.mimetype.split("/")[1];
-//       const filename = ${prefix}_${nanoid()}.${fileExtension};
+const fileUploader = ({
+  destinationFolder = "",
+  prefix = "POST",
+  fileType = "image",
+}) => {
+  const storageConfig = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, `${__dirname}/../public/${destinationFolder}`);
+    },
+    filename: (req, file, cb) => {
+      const fileExtension = file.mimetype.split("/")[1];
+      const filename = `${prefix}_${nanoid()}.${fileExtension}`;
+      cb(null, filename);
+    },
+  });
 
-//       cb(null, filename);
-//     },
-//   });
-//   const uploader = multer({
-//     storage: storageConfig,
-//     fileFilter: (req, file, cb) => {
-//       console.log(file);
-//       // if (file.mimetype.split("/")[0] != fileType) {
-//       //   return cb(null, false);
-//       // }
-//       cb(null, true);
-//     },
-//   });
+  const uploader = multer({
+    storage: storageConfig,
+    fileFilter: (req, file, cb) => {
+      console.log(file);
 
-//   return uploader;
-// };
+      if (file.mimetype.split("/")[0] != fileType) {
+        return cb(null, false);
+      }
+      cb(null, true);
+    },
+  });
 
-// const upload = multer({
-//   limits: {
-//     fileSize: 10000000,
-//   },
-//   fileFilter: (req, file, cb) => {
-//     console.log(file);
-//     if (file.mimetype.split("/")[0] != "image") {
-//       return cb(null, false);
-//     }
-//     cb(null, true);
-//   },
-// });
-
-// module.exports = { fileUploader, upload };
+  return uploader;
+};
+const upload = multer({
+  limits: {
+    fileSize: 10000000,
+  },
+  fileFilter: (req, file, cb) => {
+    console.log(file);
+    if (file.mimetype.split("/")[0] != "image") {
+      return cb(null, false);
+    }
+    cb(null, true);
+  },
+});
+module.exports = { fileUploader, upload };

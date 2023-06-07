@@ -8,6 +8,7 @@ const url = process.env.URL;
 const mailer = require("../lib/mailer");
 const image_url = process.env.URL_IMAGE;
 const sharp = require("sharp");
+const { Op } = db.Sequelize;
 const user = require("../models/user");
 const userController = {
   getAll: async (req, res) => {
@@ -199,7 +200,7 @@ const userController = {
         throw new Error("token has expired");
       }
       console.log(payload.dataValues);
-      user = await db.User.findOne({
+      let user = await db.User.findOne({
         where: {
           id: JSON.parse(payload.dataValues.payload).id,
         },
@@ -372,6 +373,33 @@ const userController = {
           id: req.params.id,
         },
       }).then((result) => res.send(result));
+  },
+  uploadAvatarv2: async (req, res) => {
+    const buffer = await sharp(req.file.buffer).resize(25, 25).png().toBuffer();
+    var fullUrl =
+      req.protocol +
+      "://" +
+      req.get("host") +
+      "/auth/image/render/" +
+      req.params.id;
+    console.log(fullUrl);
+    await db.User.update(
+      {
+        avatar_url: fullUrl,
+        avatar_blob: buffer,
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    );
+    // await db.User.findOne({
+    //   where: {
+    //     id: req.params.id,
+    //   },
+    // }).then((result) => res.send(result));
+    res.send("berhasil upload");
   },
   renderAvatar: async (req, res) => {
     try {

@@ -6,12 +6,48 @@ import AdminPages from "../pages/AdminPages";
 import ProductPages from "../pages/ProductPages";
 
 import LoginPage from "../pages/loginpage";
+import ProtectedPage from "./protectedpages";
 const routes = [
-	<Route path="/" element={<Cashier />} />,
-	<Route path="/cashier" element={<Cashier />} />,
-	<Route path="/login" element={<LoginPage />} />,
-	<Route path="/admin" element={<AdminPages />} />,
-	<Route path="/admin-product" element={<ProductPages />} />,
+	<Route
+		path="/cashier"
+		element={
+			<ProtectedPage needLogin={true}>
+				<Cashier />
+			</ProtectedPage>
+		}
+	/>,
+	<Route
+		path="/"
+		element={
+			<ProtectedPage>
+				<Cashier />
+			</ProtectedPage>
+		}
+	/>,
+	<Route
+		path="/login"
+		element={
+			<ProtectedPage guestOnly={true}>
+				<LoginPage />
+			</ProtectedPage>
+		}
+	/>,
+	<Route
+		path="/admin"
+		element={
+			<ProtectedPage needLogin={true}>
+				<AdminPages />
+			</ProtectedPage>
+		}
+	/>,
+	<Route
+		path="/admin-product"
+		element={
+			<ProtectedPage needLogin={true}>
+				<ProductPages />
+			</ProtectedPage>
+		}
+	/>,
 ];
 
 export default routes;

@@ -39,6 +39,7 @@ import TopBar from "../components/TopBar";
 import { api } from "../api/api";
 import { DeleteProduct } from "../components/DeleteProduct";
 import { EditProduct } from "../components/EditProduct";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function ProductPages() {
   const { isOpen, onOpen, onClose } = useDisclosure();
