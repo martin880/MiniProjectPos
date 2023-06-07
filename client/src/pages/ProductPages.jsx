@@ -314,12 +314,14 @@ export default function ProductPages() {
 										>
 											Save
 										</Button>
-										<Button onClick={onClose}>Cancel</Button>
+										<Button onClick={onClose} colorScheme="yellow">
+											Cancel
+										</Button>
 									</ModalFooter>
 								</ModalContent>
 							</Modal>
-							<Stack>
-								<TableContainer p={4}>
+							<Flex w={"100%"} flexDir={"column"}>
+								<TableContainer flexDir={"column"}>
 									<Table variant="simple">
 										<Thead bgColor={"whatsapp.400"}>
 											<Tr>
@@ -328,7 +330,11 @@ export default function ProductPages() {
 												<Th>Category</Th>
 												<Th>Price</Th>
 												<Th>Stok</Th>
-												<Th display={"flex"} justifyContent={"center"}>
+												<Th
+													display={"flex"}
+													justifyContent={"center"}
+													flexDir={"flex-end"}
+												>
 													Action
 												</Th>
 											</Tr>
@@ -351,7 +357,7 @@ export default function ProductPages() {
 															>
 																<Button
 																	colorScheme={"yellow"}
-																	w={"50%"}
+																	size={"md"}
 																	onClick={() => {
 																		setEditProductId(product.id);
 																		modalEdit.onOpen();
@@ -369,7 +375,7 @@ export default function ProductPages() {
 																</Button>
 																<Button
 																	colorScheme="red"
-																	w={"50%"}
+																	size={"md"}
 																	onClick={() => {
 																		setDeleteProductId(product.id);
 																		modalDelete.onOpen();
@@ -412,7 +418,7 @@ export default function ProductPages() {
 										))}
 									</Flex>
 								</TableContainer>
-							</Stack>
+							</Flex>
 						</Flex>
 					</Flex>
 				</Flex>
