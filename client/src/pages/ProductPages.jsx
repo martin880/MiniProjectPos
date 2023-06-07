@@ -180,7 +180,9 @@ export default function ProductPages() {
 						<SideBar />
 					</Flex>
 					<Flex w={"80%"} h={"100%"} flexDir={"column"}>
-						<Flex className="topbar">{/* <TopBar /> */}</Flex>
+						<Flex className="topbar">
+							<TopBar />
+						</Flex>
 						<Flex className="adminCategory" w="100%" flexDir={"column"}>
 							<Stack px={"4"}>
 								<Text fontSize={"24px"} fontWeight={"bold"} color={"black"}>
