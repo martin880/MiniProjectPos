@@ -68,8 +68,13 @@ export default function ProductPages() {
   };
 
   const input = async () => {
-    const result = await api.post("/product/v1", product);
-    return alert(result.data.message);
+    try {
+      const result = await api.post("/product/v1", product);
+      alert(result.data.message);
+      fetchData(); // Memanggil fungsi fetchData untuk memperbarui data setelah berhasil melakukan input
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const [products, setProducts] = useState([]);
@@ -144,6 +149,27 @@ export default function ProductPages() {
   //    try {
   //      const formData = new FormData();
   //      formData.append("avatar", selectedFile);
+
+  const fetchData = async () => {
+    try {
+      const response = await api.get("/product");
+      setProducts(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  //   useEffect(() => {
+  //     fetchData(); // Memanggil fungsi fetchData saat komponen pertama kali dirender
+
+  //     const interval = setInterval(() => {
+  //       fetchData(); // Memanggil fungsi fetchData setiap beberapa detik
+  //     }, 5000); // Ubah nilai 5000 dengan interval (dalam milidetik) yang Anda inginkan
+
+  //     return () => {
+  //       clearInterval(interval); // Membersihkan interval saat komponen unmount
+  //     };
+  //   }, []);
 
   return (
     <>
@@ -309,9 +335,9 @@ export default function ProductPages() {
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {currentProducts.map((product) => (
+                      {currentProducts.map((product, idx) => (
                         <Tr key={product.id}>
-                          <Td>{product.id}</Td>
+                          <Td>{indexOfFirstProduct + idx + 1}</Td>
                           <Td>{product.productName}</Td>
                           <Td>{getCategoryName(product.categoryId)}</Td>
                           <Td>{`Rp.${product.harga}`}</Td>
@@ -336,7 +362,10 @@ export default function ProductPages() {
                                   <EditProduct
                                     id={editProductId}
                                     isOpen={modalEdit.isOpen}
-                                    onClose={modalEdit.onClose}
+                                    onClose={() => {
+                                      modalEdit.onClose();
+                                      fetchData();
+                                    }}
                                   />
                                 </Button>
                                 <Button
@@ -351,7 +380,10 @@ export default function ProductPages() {
                                   <DeleteProduct
                                     id={deleteProductId}
                                     isOpen={modalDelete.isOpen}
-                                    onClose={modalDelete.onClose}
+                                    onClose={() => {
+                                      modalDelete.onClose();
+                                      fetchData();
+                                    }}
                                   />
                                 </Button>
                               </HStack>

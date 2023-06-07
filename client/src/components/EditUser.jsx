@@ -1,89 +1,102 @@
 import {
-	Flex,
-	Modal,
-	ModalOverlay,
-	ModalContent,
-	ModalHeader,
-	ModalFooter,
-	ModalBody,
-	ModalCloseButton,
-	Button,
-	useDisclosure,
-	Box,
-	Image,
-	Input,
-	Select,
+  Flex,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  useDisclosure,
+  Box,
+  Image,
+  Input,
+  Select,
 } from "@chakra-ui/react";
 // import iconphoto from "../assets/icon.png";
 import { useEffect, useRef, useState } from "react";
 import { api } from "../api/api";
 
 export function EditUser(props) {
-	const [SelectedFile, setSelectedFile] = useState(null);
-	const inputFileRef = useRef(null);
-	const [user, setUser] = useState({
-		email: "",
-		phoneNumber: "",
-		address: "",
-		avatar: "",
-	});
+  const [SelectedFile, setSelectedFile] = useState(null);
+  const { selectedOption, setSelectedOption } = useState("");
+  const inputFileRef = useRef(null);
+  const [user, setUser] = useState({
+    email: "",
+    phoneNumber: "",
+    status: "",
+    address: "",
+    avatar: "",
+  });
 
-	const inputHandler = (e) => {
-		const { id, value } = e.target;
-		const tempUser = { ...user };
-		tempUser[id] = value;
-		setUser(tempUser);
-		console.log(tempUser);
-	};
+  const inputHandler = (e) => {
+    const { id, value } = e.target;
+    const tempUser = { ...user };
+    tempUser[id] = value;
+    setUser(tempUser);
+    console.log(tempUser);
+  };
 
-	//
-	const editUser = async () => {
-		// try {
-		if (
-			!(
-				//   user.firstName &&
-				//   user.lastName &&
-				(user.email && user.phoneNumber && user.address)
-				// && user.avatar
-				// &&
-				// SelectedFile
-			)
-		) {
-			alert("isi semua");
-		} else {
-			const result = await api.patch("/auth/update/" + props.id, user);
+  useEffect(() => {
+    api
+      .get("/auth/getAll")
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
-			alert("berhasil mengubah user");
-			props.onClose();
-		}
-		// } catch (err) {
-		//   console.log(err.message);
-		// }
-	};
+  //
+  const editUser = async () => {
+    // try {
+    if (
+      !(
+        //   user.firstName &&
+        //   user.lastName &&
+        (user.email || user.phoneNumber || user.status || user.address)
+        // && user.avatar
+        // &&
+        // SelectedFile
+      )
+    ) {
+      alert("isi semua");
+    } else {
+      const result = await api.patch("/auth/update/" + props.id, user);
 
-	const handleFile = (event) => {
-		setSelectedFile(event.target.files[0]);
-		console.log(event.target.files[0]);
-	};
+      alert("berhasil mengubah user");
+      props.onClose();
+    }
+    // } catch (err) {
+    //   console.log(err.message);
+    // }
+  };
 
-	return (
-		<>
-			<Modal isOpen={props.isOpen} onClose={props.onClose}>
-				<ModalOverlay />
-				<ModalContent>
-					<ModalHeader>Edit User</ModalHeader>
-					<ModalCloseButton />
-					<ModalBody>
-						<Flex justifyContent={"space-between"} alignItems={"center"}>
-							<Input
-								accept="image/png, image/jpeg"
-								onChange={handleFile}
-								ref={inputFileRef}
-								type="file"
-								display="none"
-								// id="product_url"
-							/>
-							{/* <Image
+  const handleFile = (event) => {
+    setSelectedFile(event.target.files[0]);
+    console.log(event.target.files[0]);
+  };
+
+  return (
+    <>
+      <Modal isOpen={props.isOpen} onClose={props.onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Edit User</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex justifyContent={"space-between"} alignItems={"center"}>
+              <Input
+                accept="image/png, image/jpeg"
+                onChange={handleFile}
+                ref={inputFileRef}
+                type="file"
+                display="none"
+                // id="product_url"
+              />
+              {/* <Image
                 src={iconphoto}
                 w={"100px"}
                 h={"100px"}
@@ -91,26 +104,36 @@ export function EditUser(props) {
                   inputFileRef.current.click();
                 }}
               /> */}
-							<Flex flexDir={"column"} w={"70%"}>
-								email
-								<Input id="email" onChange={inputHandler} />
-								phoneNumber
-								<Input id="phoneNumber" onChange={inputHandler} />
-							</Flex>
-						</Flex>
-						<Box>
-							Address
-							<Input id="address" onChange={inputHandler} />
-						</Box>
-					</ModalBody>
+              <Flex flexDir={"column"} w={"70%"}>
+                Email
+                <Input id="email" onChange={inputHandler} />
+                Phone Number
+                <Input id="phoneNumber" onChange={inputHandler} />
+                Status
+                <Select
+                  value={selectedOption}
+                  id="status"
+                  onClick={inputHandler}
+                  defaultValue={"ACTIVE"}
+                >
+                  <option value="ACTIVE">ACTIVATE</option>
+                  <option value="INACTIVE">DEACTIVATE</option>
+                </Select>
+              </Flex>
+            </Flex>
+            <Box>
+              Address
+              <Input id="address" onChange={inputHandler} />
+            </Box>
+          </ModalBody>
 
-					<ModalFooter>
-						<Button variant="ghost" onClick={editUser}>
-							Save
-						</Button>
-					</ModalFooter>
-				</ModalContent>
-			</Modal>
-		</>
-	);
+          <ModalFooter>
+            <Button variant="ghost" onClick={editUser}>
+              Save
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
 }

@@ -63,6 +63,7 @@ const userController = {
         role,
         email,
         phoneNumber,
+        status,
         sex,
         address,
         KTP,
@@ -78,6 +79,7 @@ const userController = {
         role,
         email,
         phoneNumber,
+        status,
         sex,
         address,
         KTP,
@@ -299,14 +301,22 @@ const userController = {
   },
   updateProfile: async (req, res) => {
     try {
-      const { firstName, lastName, phoneNumber, email, address, avatar } =
-        req.body;
+      const {
+        firstName,
+        lastName,
+        phoneNumber,
+        email,
+        status,
+        address,
+        avatar,
+      } = req.body;
       await db.User.update(
         {
           // firstName,
           // lastName,
           email,
           phoneNumber,
+          status,
           address,
           avatar,
         },
