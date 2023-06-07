@@ -20,10 +20,12 @@ import { api } from "../api/api";
 
 export function EditUser(props) {
   const [SelectedFile, setSelectedFile] = useState(null);
+  const { selectedOption, setSelectedOption } = useState("");
   const inputFileRef = useRef(null);
   const [user, setUser] = useState({
     email: "",
     phoneNumber: "",
+    status: "",
     address: "",
     avatar: "",
   });
@@ -36,6 +38,17 @@ export function EditUser(props) {
     console.log(tempUser);
   };
 
+  useEffect(() => {
+    api
+      .get("/auth/getAll")
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   //
   const editUser = async () => {
     // try {
@@ -43,7 +56,7 @@ export function EditUser(props) {
       !(
         //   user.firstName &&
         //   user.lastName &&
-        (user.email && user.phoneNumber && user.address)
+        (user.email || user.phoneNumber || user.status || user.address)
         // && user.avatar
         // &&
         // SelectedFile
@@ -54,7 +67,6 @@ export function EditUser(props) {
       const result = await api.patch("/auth/update/" + props.id, user);
 
       alert("berhasil mengubah user");
-      props.setChanged(!props.changed);
       props.onClose();
     }
     // } catch (err) {
@@ -93,10 +105,20 @@ export function EditUser(props) {
                 }}
               /> */}
               <Flex flexDir={"column"} w={"70%"}>
-                email
+                Email
                 <Input id="email" onChange={inputHandler} />
-                phoneNumber
+                Phone Number
                 <Input id="phoneNumber" onChange={inputHandler} />
+                Status
+                <Select
+                  value={selectedOption}
+                  id="status"
+                  onClick={inputHandler}
+                  defaultValue={"ACTIVE"}
+                >
+                  <option value="ACTIVE">ACTIVATE</option>
+                  <option value="INACTIVE">DEACTIVATE</option>
+                </Select>
               </Flex>
             </Flex>
             <Box>
