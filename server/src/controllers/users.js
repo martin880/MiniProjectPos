@@ -1,82 +1,153 @@
 const db = require("../models");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const private_key = process.env.private_key;
 const { nanoid } = require("nanoid");
 const moment = require("moment");
 const url = process.env.URL;
-// const mailer = require("../lib/mailer");
+const mailer = require("../lib/mailer");
 const image_url = process.env.URL_IMAGE;
 const sharp = require("sharp");
-
+const user = require("../models/user");
 const userController = {
   getAll: async (req, res) => {
     try {
       const user = await db.User.findAll();
-
       return res.send(user);
     } catch (err) {
+      console.log(err.message);
       res.status(500).send({
         message: err.message,
       });
     }
   },
   getById: async (req, res) => {
-    const user = await db.User.findOne({
-      where: {
-        id: req.params.id,
-      },
-    });
-    return res.send(user);
+    try {
+      const user = await db.User.findOne({
+        where: {
+          id: req.params.id,
+        },
+      });
+      return res.send(user);
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send({
+        message: err.message,
+      });
+    }
   },
-  register: async (req, res, next) => {
+  getUserByName: async (req, res) => {
+    try {
+      const search = req.query.search_query || "";
+      const user = await db.User.findAll({
+        where: {
+          [Op.or]: [
+            { firstName: { [Op.like]: "%" + search + "%" } },
+            { lastName: { [Op.like]: "%" + search + "%" } },
+          ],
+        },
+      });
+      return res.send(user);
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send({
+        message: err.message,
+      });
+    }
+  },
+  register: async (req, res) => {
     try {
       const {
         firstName,
         lastName,
         role,
         email,
-        avatar,
         phoneNumber,
         sex,
         address,
         KTP,
         password,
+        avatar,
       } = req.body;
       const hashPassword = await bcrypt.hash(password, 10);
       console.log(hashPassword);
-      const result = await db.sequelize.transaction(async () => {
-        const newUser = await db.User.create({
-          firstName,
-          lastName,
-          role,
-          email,
-          avatar,
-          phoneNumber,
-          sex,
-          address,
-          KTP,
-          password: hashPassword,
-        });
-        console.log(newUser.dataValues);
+
+      await db.User.create({
+        firstName,
+        lastName,
+        role,
+        email,
+        phoneNumber,
+        sex,
+        address,
+        KTP,
+        password: hashPassword,
+        avatar,
       });
-      return res.send(hashPassword);
+
+      return res.send({
+        message: "register berhasil",
+        private_key,
+      });
     } catch (err) {
-      res.status(500).send({
-        message: err.message,
+      console.log(err.message);
+      return res.status(500).send(err.message);
+    }
+  },
+
+  login: async (req, res) => {
+    try {
+      const { email, password } = req.body;
+
+      const user = await db.Us.findOne({
+        where: {
+          email,
+        },
       });
+
+      //    console.log(user);
+
+      if (user) {
+        const match = await bcrypt.compare(password, user.dataValues.password);
+        if (match) {
+          const payload = {
+            id: user.dataValues.id,
+          };
+          const token = jwt.sign(payload, private_key, {
+            expiresIn: "1h",
+          });
+
+          console.log(token);
+          //  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwibmFtZSI6InVkaW4yIiwiYWRkcmVzcyI6ImJhdGFtIiwicGFzc3dvcmQiOiIkMmIkMTAkWUkvcTl2dVdTOXQ0R1V5a1lxRGtTdWJnTTZwckVnRm9nZzJLSi9FckFHY3NXbXBRUjFOcXEiLCJlbWFpbCI6InVkaW4yQG1haWwuY29tIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0xOVQwNzowOTozNy4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0xOVQwNzowOTozNy4wMDBaIiwiZGVsZXRlZEF0IjpudWxsLCJDb21wYW55SWQiOm51bGwsImlhdCI6MTY4NDQ4MzQ4NSwiZXhwIjoxNjg0NDgzNTQ1fQ.Ye5l7Yml1TBWUgV7eUnhTVQjdT3frR9E0HXNxO7bTXw;
+
+          return res.send({
+            message: "login berhasil",
+            value: user,
+            token,
+          });
+        } else {
+          throw new Error("wrong password");
+        }
+      } else {
+        throw new Error("user not found");
+      }
+    } catch (err) {
+      console.log(err.message);
+      return res.status(500).send({ message: err.message });
     }
   },
   loginV2: async (req, res) => {
     try {
-      const { phonenum, pin } = req.body;
-      // console.log(req.query);
+      const { email, password } = req.body;
+      //   console.log("asd");
       const user = await db.User.findOne({
         where: {
-          phonenum,
+          email,
         },
       });
-      console.log(user);
+
       if (user) {
-        const match = await bcrypt.compare(pin, user.dataValues.password);
+        const match = await bcrypt.compare(password, user.dataValues.password);
         if (match) {
           const payload = {
             id: user.dataValues.id,
@@ -89,24 +160,24 @@ const userController = {
             token: generateToken,
             payload: JSON.stringify(payload),
           });
-          console.log(token);
 
-          return res.status(200).send({
-            message: "you are succefully log in",
-            value: user,
+          console.log(token);
+          //  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwibmFtZSI6InVkaW4yIiwiYWRkcmVzcyI6ImJhdGFtIiwicGFzc3dvcmQiOiIkMmIkMTAkWUkvcTl2dVdTOXQ0R1V5a1lxRGtTdWJnTTZwckVnRm9nZzJLSi9FckFHY3NXbXBRUjFOcXEiLCJlbWFpbCI6InVkaW4yQG1haWwuY29tIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0xOVQwNzowOTozNy4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMy0wNi0xOVQwNzowOTozNy4wMDBaIiwiZGVsZXRlZEF0IjpudWxsLCJDb21wYW55SWQiOm51bGwsImlhdCI6MTY4NDQ4MzQ4NSwiZXhwIjoxNjg0NDgzNTQ1fQ.Ye5l7Yml1TBWUgV7eUnhTVQjdT3frR9E0HXNxO7bTXw;
+
+          return res.send({
+            message: "login berhasil",
+            // value: user,
             token: token.dataValues.token,
           });
         } else {
-          throw new Error("wrong phoneNumber/password");
+          throw new Error("wrong password");
         }
       } else {
-        throw new Error("user is not found");
+        throw new Error("user not found");
       }
     } catch (err) {
       console.log(err.message);
-      return res.status(500).send({
-        message: err.message,
-      });
+      return res.status(500).send({ message: err.message });
     }
   },
   getByToken: async (req, res, next) => {
@@ -311,3 +382,11 @@ const userController = {
 };
 
 module.exports = userController;
+
+// hello3 salt 1 => abc123456c=> hello3 =>
+// hello3a salt 2 => abc654321 => heallo3 =>
+
+// hoc => token localstorage => req backend get
+// user by id => respond => dispatch
+
+// http://localhost:3000/forgot-password/DIjeA2YhdvH06CbRG1Mmk

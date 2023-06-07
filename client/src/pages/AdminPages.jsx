@@ -86,24 +86,26 @@ export default function AdminPages() {
 		setSelectedFile(event.target.files[0]);
 	};
 
-	async function handleUpload() {
-		try {
-			const formData = new FormData();
-			formData.append("avatar", selectedFile);
+	// async function handleUpload() {
+	// 	try {
+	// 		const formData = new FormData();
+	// 		formData.append("avatar", selectedFile);
 
-			await api.post("/avatar/upload-avatar", formData, {
-				headers: {
-					"Content-Type": "multipart/form-data",
-				},
-			});
+	// 		await api.post("/avatar/upload-avatar", formData, {
+	// 			headers: {
+	// 				"Content-Type": "multipart/form-data",
+	// 			},
+	// 		});
 
-			console.log("Avatar uploaded successfully");
-		} catch (error) {
-			console.error("Error uploading avatar:", error);
-		}
-	}
+	// 		console.log("Avatar uploaded successfully");
+	// 	} catch (error) {
+	// 		console.error("Error uploading avatar:", error);
+	// 	}
+	// }
 
 	const [users, setUsers] = useState([]);
+	const [keyword, setKeyword] = useState("");
+	const [query, setQuery] = useState("");
 
 	useEffect(() => {
 		api
@@ -115,6 +117,22 @@ export default function AdminPages() {
 				console.error(error);
 			});
 	}, []);
+
+	useEffect(() => {
+		api
+			.get(`/auth/v5?search_query=${keyword}`)
+			.then((response) => {
+				setUsers(response.data);
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}, [keyword]);
+
+	const searchData = (e) => {
+		e.preventDefault();
+		setKeyword(query);
+	};
 
 	//   async function uploadAvatar() {
 	//     const formData = new FormData();
@@ -156,40 +174,59 @@ export default function AdminPages() {
 								<Text fontSize={"24px"} fontWeight={"bold"} color={"black"}>
 									Cashier
 								</Text>
-								<HStack>
-									<InputGroup>
-										<InputLeftElement pointerEvents="none">
-											<SlMagnifier />
-										</InputLeftElement>
-										<Input
-											type="text"
-											placeholder="Search Cashier"
-											minW={"30vw"}
-											borderColor={"blackAlpha.300"}
-										/>
-									</InputGroup>
-									<Box
-										w="100%"
-										justifyContent={"flex-end"}
-										gap="10px"
-										display={"flex"}
-										p={4}
-										m={8}
-									>
-										{/* <Button h={"26px"} w={"100px"} border={"1px black solid"}>
-                      <AiOutlineDownload /> Download
-                    </Button> */}
-										<Button
-											onClick={onOpen}
-											h={"26px"}
-											w={"80px"}
-											colorScheme={"red"}
+								<form onSubmit={searchData}>
+									<HStack>
+										<InputGroup>
+											<InputLeftElement pointerEvents="none">
+												<SlMagnifier />
+											</InputLeftElement>
+											<Input
+												type="text"
+												placeholder="Search Cashier"
+												minW={"30vw"}
+												borderColor={"blackAlpha.300"}
+												value={query}
+												onChange={(e) => setQuery(e.target.value)}
+											/>
+										</InputGroup>
+										<Box
+											w="100%"
+											justifyContent={"start"}
+											gap="10px"
+											display={"flex"}
+											p={4}
+											m={8}
 										>
-											<HiPlus />
-											Cashier
-										</Button>
-									</Box>
-								</HStack>
+											<Button
+												type="submit"
+												h={"26px"}
+												w={"100px"}
+												colorScheme="teal"
+											>
+												<SlMagnifier />
+												Search
+											</Button>
+										</Box>
+										<Box
+											w="100%"
+											justifyContent={"flex-end"}
+											gap="10px"
+											display={"flex"}
+											p={4}
+											m={8}
+										>
+											<Button
+												onClick={onOpen}
+												h={"26px"}
+												w={"80px"}
+												colorScheme={"red"}
+											>
+												<HiPlus />
+												Cashier
+											</Button>
+										</Box>
+									</HStack>
+								</form>
 							</Stack>
 							<Modal
 								initialFocusRef={initialRef}
@@ -299,7 +336,7 @@ export default function AdminPages() {
 											mr={3}
 											onClick={() => {
 												register();
-												handleUpload();
+												// handleUpload();
 												onClose();
 											}}
 										>

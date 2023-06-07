@@ -30,7 +30,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { SlMagnifier } from "react-icons/sl";
-import { AiOutlineDownload } from "react-icons/ai";
+import { AiOutlineFileSearch } from "react-icons/ai";
 import { HiPlus } from "react-icons/hi";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -73,12 +73,14 @@ export default function ProductPages() {
   };
 
   const [products, setProducts] = useState([]);
+  const [keyword, setKeyword] = useState("");
+  const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(5);
 
   useEffect(() => {
     api
-      .get("/product/")
+      .get("/product")
       .then((response) => {
         setProducts(response.data);
       })
@@ -86,6 +88,22 @@ export default function ProductPages() {
         console.error(error);
       });
   }, []);
+
+  useEffect(() => {
+    api
+      .get(`/product/v4?search_query=${keyword}`)
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [keyword]);
+
+  const searchData = (e) => {
+    e.preventDefault();
+    setKeyword(query);
+  };
 
   // Menghitung indeks produk awal dan akhir pada halaman saat ini
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -127,18 +145,6 @@ export default function ProductPages() {
   //      const formData = new FormData();
   //      formData.append("avatar", selectedFile);
 
-  //      await api.post("/avatar/upload-avatar", formData, {
-  //        headers: {
-  //          "Content-Type": "multipart/form-data",
-  //        },
-  //      });
-
-  //      console.log("Photo product uploaded successfully");
-  //    } catch (error) {
-  //      console.error("Error uploading photo product:", error);
-  //    }
-  //  }
-
   return (
     <>
       <Flex className="container">
@@ -155,40 +161,59 @@ export default function ProductPages() {
                 <Text fontSize={"24px"} fontWeight={"bold"} color={"black"}>
                   Product
                 </Text>
-                <HStack>
-                  <InputGroup>
-                    <InputLeftElement pointerEvents="none">
-                      <SlMagnifier />
-                    </InputLeftElement>
-                    <Input
-                      type="text"
-                      placeholder="Search Product"
-                      minW={"30vw"}
-                      borderColor={"blackAlpha.300"}
-                    />
-                  </InputGroup>
-                  <Box
-                    w="100%"
-                    justifyContent={"flex-end"}
-                    gap="10px"
-                    display={"flex"}
-                    p={4}
-                    m={8}
-                  >
-                    {/* <Button h={"26px"} w={"100px"} border={"1px black solid"}>
-                      <AiOutlineDownload /> Download
-                    </Button> */}
-                    <Button
-                      onClick={onOpen}
-                      h={"26px"}
-                      w={"80px"}
-                      colorScheme={"facebook"}
+                <form onSubmit={searchData}>
+                  <HStack>
+                    <InputGroup>
+                      <InputLeftElement pointerEvents="none">
+                        <SlMagnifier />
+                      </InputLeftElement>
+                      <Input
+                        type="text"
+                        placeholder="Search Product"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        minW={"30vw"}
+                        borderColor={"blackAlpha.300"}
+                      />
+                    </InputGroup>
+                    <Box
+                      w="100%"
+                      justifyContent={"start"}
+                      gap="10px"
+                      display={"flex"}
+                      p={4}
+                      m={8}
                     >
-                      <HiPlus />
-                      Product
-                    </Button>
-                  </Box>
-                </HStack>
+                      <Button
+                        type="submit"
+                        h={"26px"}
+                        w={"100px"}
+                        colorScheme="teal"
+                      >
+                        <SlMagnifier />
+                        Search
+                      </Button>
+                    </Box>
+                    <Box
+                      w="100%"
+                      justifyContent={"flex-end"}
+                      gap="10px"
+                      display={"flex"}
+                      p={4}
+                      m={8}
+                    >
+                      <Button
+                        onClick={onOpen}
+                        h={"26px"}
+                        w={"80px"}
+                        colorScheme={"facebook"}
+                      >
+                        <HiPlus />
+                        Product
+                      </Button>
+                    </Box>
+                  </HStack>
+                </form>
               </Stack>
               <Modal
                 initialFocusRef={initialRef}
