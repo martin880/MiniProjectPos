@@ -10,6 +10,7 @@ import {
 	HStack,
 	Box,
 	Button,
+
 	IconButton,
 	VStack,
 	Table,
@@ -20,7 +21,9 @@ import {
 	Th,
 	Td,
 	TableContainer,
+
 	Container,
+
 	Modal,
 	ModalOverlay,
 	ModalContent,
@@ -59,9 +62,11 @@ export default function ProductPages() {
 
 	const [product, setProduct] = useState({
 		productName: "",
+
 		harga: 0,
 		stock: 0,
 		categoryId: 1,
+
 		photoProduct_url: "",
 		photoProduct_blob: "",
 	});
@@ -74,10 +79,12 @@ export default function ProductPages() {
 	};
 
 	const input = async () => {
+
 		api.post("/product/v1", product).then((res) => {
 			console.log(res.data);
 			return alert(res.data);
 		});
+
 	};
 
 	const [products, setProducts] = useState([]);
@@ -98,6 +105,7 @@ export default function ProductPages() {
 	}, []);
 
 	useEffect(() => {
+
 		fetchProduct();
 	}, [keyword]);
 
@@ -307,6 +315,7 @@ export default function ProductPages() {
 										</FormControl>
 									</ModalBody>
 
+
 									<ModalFooter>
 										<Button
 											colorScheme="blue"
@@ -319,16 +328,19 @@ export default function ProductPages() {
 										>
 											Save
 										</Button>
+
 										<Button onClick={onClose}>Cancel</Button>
 									</ModalFooter>
 								</ModalContent>
 							</Modal>
 							<Stack>
 								<TableContainer p={4}>
+
 									<Table variant="simple">
 										<Thead bgColor={"whatsapp.400"}>
 											<Tr>
 												<Th>No</Th>
+
 												<Th>
 													Product Name{" "}
 													<IconButton
@@ -400,6 +412,7 @@ export default function ProductPages() {
 											{currentProducts.map((product) => (
 												<Tr key={product.id}>
 													<Td>{product.id}</Td>
+
 													<Td>{product.productName}</Td>
 													<Td>{getCategoryName(product.categoryId)}</Td>
 													<Td>{`Rp.${product.harga}`}</Td>
@@ -414,7 +427,9 @@ export default function ProductPages() {
 															>
 																<Button
 																	colorScheme={"yellow"}
+
 																	w={"50%"}
+
 																	onClick={() => {
 																		setEditProductId(product.id);
 																		modalEdit.onOpen();
@@ -424,12 +439,16 @@ export default function ProductPages() {
 																	<EditProduct
 																		id={editProductId}
 																		isOpen={modalEdit.isOpen}
+
 																		onClose={modalEdit.onClose}
+
 																	/>
 																</Button>
 																<Button
 																	colorScheme="red"
+
 																	w={"50%"}
+
 																	onClick={() => {
 																		setDeleteProductId(product.id);
 																		modalDelete.onOpen();
@@ -439,7 +458,9 @@ export default function ProductPages() {
 																	<DeleteProduct
 																		id={deleteProductId}
 																		isOpen={modalDelete.isOpen}
+
 																		onClose={modalDelete.onClose}
+
 																	/>
 																</Button>
 															</HStack>
@@ -469,7 +490,9 @@ export default function ProductPages() {
 										))}
 									</Flex>
 								</TableContainer>
+
 							</Stack>
+
 						</Flex>
 					</Flex>
 				</Flex>

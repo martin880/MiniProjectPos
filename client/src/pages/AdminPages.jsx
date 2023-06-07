@@ -58,9 +58,10 @@ export default function AdminPages() {
     firstName: "",
     lastName: "",
     KTP: "",
-    role: "",
+    role: "CASHIER",
     email: "",
     phoneNumber: "",
+    status: "ACTIVE",
     sex: "",
     address: "",
     avatar: "",
@@ -103,12 +104,18 @@ export default function AdminPages() {
   // 	}
   // }
 
+  const [users, setUsers] = useState([]);
+  const [keyword, setKeyword] = useState("");
+  const [query, setQuery] = useState("");
 
-	const [users, setUsers] = useState([]);
-	const [keyword, setKeyword] = useState("");
-	const [query, setQuery] = useState("");
-  const [changed, setChanged] = useState(true);
-
+  const fetchData = async () => {
+    try {
+      const response = await api.get("/auth/getAll");
+      setUsers(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     api
@@ -119,220 +126,231 @@ export default function AdminPages() {
       .catch((error) => {
         console.error(error);
       });
-  }, [changed]);
+  }, []);
 
-	const searchData = (e) => {
-		api
-			.get(`/auth/v5?search_query=${query}`)
-			.then((response) => {
-				setUsers(response.data);
-			})
-			.catch((error) => {
-				console.error(error);
-			});
-		e.preventDefault();
-		// setKeyword(query);
-	};
+  useEffect(() => {
+    api
+      .get(`/auth/v5?search_query=${keyword}`)
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [keyword]);
 
-//  	  async function uploadAvatar() {
-//  	    const formData = new FormData();
-// 	    formData.append("avatar", selectedFile);
-//  	    let user;
-// 	    await api
-//  	      .post("/auth/image/v1/" + userSelector.id, formData)
-//  	      .then((res) => {
-// 	        alert(res.data);
-//      });
-// 	    console.log(user);
-//  	    if (user) {
-//       await dispatch({
-// 	        type: "login",
-// 	        payload: user,
-// 	      });
-//       alert(`berhasil upload`);
-//  }
-//  }
+  const searchData = (e) => {
+    e.preventDefault();
+    setKeyword(query);
+  };
 
+  //   async function uploadAvatar() {
+  //     const formData = new FormData();
+  //     formData.append("avatar", selectedFile);
+  //     let user;
+  //     await api
+  //       .post("/auth/image/v1/" + userSelector.id, formData)
+  //       .then((res) => {
+  //         alert(res.data);
+  //       });
+  //     console.log(user);
+  //     if (user) {
+  //       await dispatch({
+  //         type: "login",
+  //         payload: user,
+  //       });
+  //       alert(`berhasil upload`);
+  //     }
+  //   }
 
   //   const handleFile = (event) => {
   //     setSelectedFile(event.target.files[0]);
   //     console.log(event.target.files[0]);
   //   };
 
-
-	return (
-		<>
-			<Flex className="container">
-				<Flex className="device" bg={"whitesmoke"}>
-					<Flex className="sidebar">
-						<SideBar />
-					</Flex>
-					<Flex w={"80%"} h={"100%"} flexDir={"column"}>
-						<Flex className="topbar">
-							<TopBar />
-						</Flex>
-						<Flex className="adminCategory" w="100%" flexDir={"column"}>
-							<Stack px={"4"}>
-								<Text fontSize={"24px"} fontWeight={"bold"} color={"black"}>
-									Cashier
-								</Text>
-								<form>
-									<HStack>
-										<InputGroup>
-											<InputLeftElement pointerEvents="none">
-												<SlMagnifier />
-											</InputLeftElement>
-											<Input
-												type="text"
-												placeholder="Search Cashier"
-												minW={"30vw"}
-												borderColor={"blackAlpha.300"}
-												value={query}
-												onChange={(e) => setQuery(e.target.value)}
-											/>
-										</InputGroup>
-										<Box
-											w="100%"
-											justifyContent={"start"}
-											gap="10px"
-											display={"flex"}
-											p={4}
-											m={8}
-										>
-											<Button
-												type="submit"
-												h={"26px"}
-												w={"100px"}
-												colorScheme="teal"
-												onClick={searchData}
-											>
-												<SlMagnifier />
-												Search
-											</Button>
-										</Box>
-										<Box
-											w="100%"
-											justifyContent={"flex-end"}
-											gap="10px"
-											display={"flex"}
-											p={4}
-											m={8}
-										>
-											<Button
-												onClick={onOpen}
-												h={"26px"}
-												w={"80px"}
-												colorScheme={"red"}
-											>
-												<HiPlus />
-												Cashier
-											</Button>
-										</Box>
-									</HStack>
-								</form>
-							</Stack>
-							<Modal
-								initialFocusRef={initialRef}
-								finalFocusRef={finalRef}
-								isOpen={isOpen}
-								onClose={onClose}
-							>
-								<ModalOverlay />
-								<ModalContent>
-									<ModalHeader>Add Cashier</ModalHeader>
-									<ModalCloseButton />
-									<ModalBody pb={6}>
-										<FormControl>
-											<FormLabel>Fist Name</FormLabel>
-											<Input
-												ref={initialRef}
-												placeholder="First Name"
-												id="firstName"
-												onChange={inputHandler}
-											/>
-										</FormControl>
-										<FormControl>
-											<FormLabel>Last Name</FormLabel>
-											<Input
-												ref={initialRef}
-												placeholder="Last Name"
-												id="lastName"
-												onChange={inputHandler}
-											/>
-										</FormControl>
-										<FormControl mt={2}>
-											<FormLabel>NIK</FormLabel>
-											<Input
-												placeholder="NIK"
-												id="KTP"
-												onChange={inputHandler}
-											/>
-										</FormControl>
-										<FormControl mt={2}>
-											<FormLabel>Gender</FormLabel>
-											<Select
-												value={selectedOption}
-												id="sex"
-												onClick={inputHandler}
-												defaultValue={"Male"}
-											>
-												<option value="Male">Male</option>
-												<option value="Female">Female</option>
-											</Select>
-										</FormControl>
-										<FormControl mt={2}>
-											<FormLabel>Role</FormLabel>
-											<Select
-												value={selectedOption}
-												id="role"
-												onClick={inputHandler}
-												defaultValue={"Cashier"}
-											>
-												<option value="Cashier">Cashier</option>
-											</Select>
-										</FormControl>
-										<FormControl mt={2}>
-											<FormLabel>E-Mail</FormLabel>
-											<Input
-												placeholder="E-Mail"
-												id="email"
-												onChange={inputHandler}
-											/>
-										</FormControl>
-										<FormControl mt={2}>
-											<FormLabel>Phone Number</FormLabel>
-											<Input
-												placeholder="Phone Number"
-												id="phoneNumber"
-												onChange={inputHandler}
-											/>
-										</FormControl>
-										<FormControl mt={2}>
-											<FormLabel>Address</FormLabel>
-											<Input
-												placeholder="Address"
-												id="address"
-												onChange={inputHandler}
-											/>
-										</FormControl>
-										<FormControl mt={2}>
-											<FormLabel htmlFor="avatar">Avatar Photo</FormLabel>
-											<input
-												type="file"
-												onChange={handleFileChange}
-											ref={fileInputRef}
-											/>
-								</FormControl>
-										<FormControl mt={2}>
-											<FormLabel>Password</FormLabel>
-											<Input
-										placeholder="Password"
-											id="password"
-							onChange={inputHandler}
-				/>
-						</FormControl>
-						</ModalBody>
-
+  return (
+    <>
+      <Flex className="container">
+        <Flex className="device" bg={"whitesmoke"}>
+          <Flex className="sidebar">
+            <SideBar />
+          </Flex>
+          <Flex w={"80%"} h={"100%"} flexDir={"column"}>
+            <Flex className="topbar">
+              <TopBar />
+            </Flex>
+            <Flex className="adminCategory" w="100%" flexDir={"column"}>
+              <Stack px={"4"}>
+                <Text fontSize={"24px"} fontWeight={"bold"} color={"black"}>
+                  Cashier
+                </Text>
+                <form onSubmit={searchData}>
+                  <HStack>
+                    <InputGroup>
+                      <InputLeftElement pointerEvents="none">
+                        <SlMagnifier />
+                      </InputLeftElement>
+                      <Input
+                        type="text"
+                        placeholder="Search Cashier"
+                        minW={"30vw"}
+                        borderColor={"blackAlpha.300"}
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                      />
+                    </InputGroup>
+                    <Box
+                      w="100%"
+                      justifyContent={"start"}
+                      gap="10px"
+                      display={"flex"}
+                      p={4}
+                      m={8}
+                    >
+                      <Button
+                        type="submit"
+                        h={"26px"}
+                        w={"100px"}
+                        colorScheme="teal"
+                      >
+                        <SlMagnifier />
+                        Search
+                      </Button>
+                    </Box>
+                    <Box
+                      w="100%"
+                      justifyContent={"flex-end"}
+                      gap="10px"
+                      display={"flex"}
+                      p={4}
+                      m={8}
+                    >
+                      <Button
+                        onClick={onOpen}
+                        h={"26px"}
+                        w={"80px"}
+                        colorScheme={"red"}
+                      >
+                        <HiPlus />
+                        Cashier
+                      </Button>
+                    </Box>
+                  </HStack>
+                </form>
+              </Stack>
+              <Modal
+                initialFocusRef={initialRef}
+                finalFocusRef={finalRef}
+                isOpen={isOpen}
+                onClose={onClose}
+              >
+                <ModalOverlay />
+                <ModalContent>
+                  <ModalHeader>Add Cashier</ModalHeader>
+                  <ModalCloseButton />
+                  <ModalBody pb={6}>
+                    <FormControl>
+                      <FormLabel>Fist Name</FormLabel>
+                      <Input
+                        ref={initialRef}
+                        placeholder="First Name"
+                        id="firstName"
+                        onChange={inputHandler}
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>Last Name</FormLabel>
+                      <Input
+                        ref={initialRef}
+                        placeholder="Last Name"
+                        id="lastName"
+                        onChange={inputHandler}
+                      />
+                    </FormControl>
+                    <FormControl mt={2}>
+                      <FormLabel>NIK</FormLabel>
+                      <Input
+                        placeholder="NIK"
+                        id="KTP"
+                        onChange={inputHandler}
+                      />
+                    </FormControl>
+                    <FormControl mt={2}>
+                      <FormLabel>Gender</FormLabel>
+                      <Select
+                        value={selectedOption}
+                        id="sex"
+                        onClick={inputHandler}
+                        placeholder="Gender"
+                        defaultValue={"Male"}
+                      >
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                      </Select>
+                    </FormControl>
+                    {/* <FormControl mt={2}>
+                      <FormLabel>Role</FormLabel>
+                      <Select
+                        value={selectedOption}
+                        id="role"
+                        onClick={inputHandler}
+                        defaultValue={"Cashier"}
+                      >
+                        <option value="Cashier">Cashier</option>
+                      </Select>
+                    </FormControl> */}
+                    <FormControl mt={2}>
+                      <FormLabel>E-Mail</FormLabel>
+                      <Input
+                        placeholder="E-Mail"
+                        id="email"
+                        onChange={inputHandler}
+                      />
+                    </FormControl>
+                    <FormControl mt={2}>
+                      <FormLabel>Phone Number</FormLabel>
+                      <Input
+                        placeholder="Phone Number"
+                        id="phoneNumber"
+                        onChange={inputHandler}
+                      />
+                    </FormControl>
+                    {/* <FormControl mt={2}>
+                      <FormLabel>Status</FormLabel>
+                      <Select
+                        value={selectedOption}
+                        id="status"
+                        onClick={inputHandler}
+                        defaultValue={"ACTIVE"}
+                      >
+                        <option value="ACTIVE">Active</option>
+                      </Select>
+                    </FormControl> */}
+                    <FormControl mt={2}>
+                      <FormLabel>Address</FormLabel>
+                      <Input
+                        placeholder="Address"
+                        id="address"
+                        onChange={inputHandler}
+                      />
+                    </FormControl>
+                    <FormControl mt={2}>
+                      <FormLabel htmlFor="avatar">Avatar Photo</FormLabel>
+                      <input
+                        type="file"
+                        onChange={handleFileChange}
+                        ref={fileInputRef}
+                      />
+                    </FormControl>
+                    <FormControl mt={2}>
+                      <FormLabel>Password</FormLabel>
+                      <Input
+                        placeholder="Password"
+                        id="password"
+                        onChange={inputHandler}
+                      />
+                    </FormControl>
+                  </ModalBody>
 
                   <ModalFooter>
                     <Button
@@ -355,28 +373,26 @@ export default function AdminPages() {
                   <Table variant="simple">
                     <Thead>
                       <Tr>
-                        <Th>id</Th>
+                        <Th>No</Th>
                         <Th>Photo</Th>
                         <Th>Full Name</Th>
-                        <Th>NIK</Th>
+                        <Th>Status</Th>
                         <Th>Email</Th>
                         <Th>Phone</Th>
                         <Th>Action</Th>
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {users.map((user) => (
+                      {users.map((user, idx) => (
                         <Tr key={user.id}>
-                          <Td>{user.id}</Td>
+                          <Td>{idx + 1}</Td>
                           <Td>
                             <Flex justify="center" align="center">
-                              <Avatar size="md" src={user.avatar} />
+                              <Avatar size="md" />
                             </Flex>
                           </Td>
-                          <Td
-                            w={"150px"}
-                          >{`${user.firstName} ${user.lastName}`}</Td>
-                          <Td>{user.KTP}</Td>
+                          <Td>{`${user.firstName} ${user.lastName}`}</Td>
+                          <Td>{user.status}</Td>
                           <Td>{user.email}</Td>
                           <Td>{user.phoneNumber}</Td>
 
@@ -392,17 +408,18 @@ export default function AdminPages() {
                                 >
                                   {<FiEdit cursor={"pointer"} />}
                                   <EditUser
-                                    setChanged={setChanged}
-                                    changed={changed}
                                     id={editUserId}
                                     isOpen={modalEdit.isOpen}
-                                    onClose={modalEdit.onClose}
+                                    onClose={() => {
+                                      modalEdit.onClose();
+                                      fetchData();
+                                    }}
                                   />
                                 </Button>
                                 <Button
                                   colorScheme="red"
                                   onClick={() => {
-                                    setDeleteUserId(user.id);
+                                    setDeleteUserId(user.id, user.firstName);
                                     modalDelete.onOpen();
                                   }}
                                 >
@@ -410,7 +427,10 @@ export default function AdminPages() {
                                   <DeleteUser
                                     id={deleteUserId}
                                     isOpen={modalDelete.isOpen}
-                                    onClose={modalDelete.onClose}
+                                    onClose={() => {
+                                      modalDelete.onClose();
+                                      fetchData();
+                                    }}
                                   />
                                 </Button>
                               </HStack>

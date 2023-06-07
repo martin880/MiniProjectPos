@@ -24,11 +24,10 @@
 }
 
 .device {
-	width: 70%;
-	aspect-ratio: 153/100;
+	width: 100%;
+	aspect-ratio: 150/100;
 	background-color: var(--bg-color);
 	outline: #282c2c 1px solid;
-
 }
 
 .sidebar {
@@ -59,7 +58,6 @@
 	width: 100%;
 
 	/* background-color: var(--main-color); */
-
 }
 
 .content {
@@ -79,13 +77,22 @@
 	height: 44%;
 	width: 100%;
 	padding: 0 10px;
-	overflow: scroll;
+	overflow: hidden;
+	/* -ms-overflow-style: none; */
 	/* background-color: #8c5e58; */
 }
+
+.category:hover {
+	height: 44%;
+	width: 100%;
+	padding: 0 10px;
+	overflow: auto;
+}
+
 .product {
 	height: 44%;
 	width: 100%;
-	overflow-y: scroll;
+	overflow-y: hidden;
 	padding: 0 10px;
 	/* background-color: #a9f0d1; */
 }
