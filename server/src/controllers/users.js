@@ -37,8 +37,24 @@ const userController = {
       });
     }
   },
+  getUserByRole: async (req, res) => {
+    try {
+      const user = await db.User.findAll({
+        where: {
+          role: req.query.role,
+        },
+      });
+      return res.send(user);
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send({
+        message: err.message,
+      });
+    }
+  },
   getUserByName: async (req, res) => {
     try {
+      console.log(req.query);
       const search = req.query.search_query || "";
       const user = await db.User.findAll({
         where: {

@@ -9,6 +9,7 @@ import LoginPage from "../pages/loginpage";
 import ProtectedPage from "./protectedpages";
 import ReportPages from "../pages/ReportPages";
 const routes = [
+
 	<Route
 		path="/cashier"
 		element={
