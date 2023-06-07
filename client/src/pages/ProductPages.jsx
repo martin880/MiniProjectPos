@@ -10,6 +10,9 @@ import {
 	HStack,
 	Box,
 	Button,
+
+	IconButton,
+	VStack,
 	Table,
 	Thead,
 	Tbody,
@@ -18,6 +21,9 @@ import {
 	Th,
 	Td,
 	TableContainer,
+
+	Container,
+
 	Modal,
 	ModalOverlay,
 	ModalContent,
@@ -34,6 +40,8 @@ import { AiOutlineFileSearch } from "react-icons/ai";
 import { HiPlus } from "react-icons/hi";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { RiArrowDropUpLine } from "react-icons/ri";
+import { RiArrowDropDownLine } from "react-icons/ri";
 import SideBar from "../components/SideBar";
 import TopBar from "../components/TopBar";
 import { api } from "../api/api";
@@ -54,9 +62,11 @@ export default function ProductPages() {
 
 	const [product, setProduct] = useState({
 		productName: "",
-		harga: "",
-		stock: "",
-		categoryId: "",
+
+		harga: 0,
+		stock: 0,
+		categoryId: 1,
+
 		photoProduct_url: "",
 		photoProduct_blob: "",
 	});
@@ -69,13 +79,12 @@ export default function ProductPages() {
 	};
 
 	const input = async () => {
-		try {
-			const result = await api.post("/product/v1", product);
-			alert(result.data.message);
-			fetchData(); // Memanggil fungsi fetchData untuk memperbarui data setelah berhasil melakukan input
-		} catch (error) {
-			console.error(error);
-		}
+
+		api.post("/product/v1", product).then((res) => {
+			console.log(res.data);
+			return alert(res.data);
+		});
+
 	};
 
 	const [products, setProducts] = useState([]);
@@ -96,15 +105,26 @@ export default function ProductPages() {
 	}, []);
 
 	useEffect(() => {
-		api
-			.get(`/product/v4?search_query=${keyword}`)
+
+		fetchProduct();
+	}, [keyword]);
+
+	async function fetchProduct(sortBy, sortDir) {
+		await api
+			.get(`/product/v4?search_query=${keyword}`, {
+				params: {
+					sortBy,
+					sortDir,
+				},
+			})
 			.then((response) => {
+				console.log(response.data);
 				setProducts(response.data);
 			})
 			.catch((error) => {
-				console.error(error);
+				console.log(error);
 			});
-	}, [keyword]);
+	}
 
 	const searchData = (e) => {
 		e.preventDefault();
@@ -151,26 +171,17 @@ export default function ProductPages() {
 	//      const formData = new FormData();
 	//      formData.append("avatar", selectedFile);
 
-	const fetchData = async () => {
-		try {
-			const response = await api.get("/product");
-			setProducts(response.data);
-		} catch (error) {
-			console.error(error);
-		}
-	};
+	//      await api.post("/avatar/upload-avatar", formData, {
+	//        headers: {
+	//          "Content-Type": "multipart/form-data",
+	//        },
+	//      });
 
-	//   useEffect(() => {
-	//     fetchData(); // Memanggil fungsi fetchData saat komponen pertama kali dirender
-
-	//     const interval = setInterval(() => {
-	//       fetchData(); // Memanggil fungsi fetchData setiap beberapa detik
-	//     }, 5000); // Ubah nilai 5000 dengan interval (dalam milidetik) yang Anda inginkan
-
-	//     return () => {
-	//       clearInterval(interval); // Membersihkan interval saat komponen unmount
-	//     };
-	//   }, []);
+	//      console.log("Photo product uploaded successfully");
+	//    } catch (error) {
+	//      console.error("Error uploading photo product:", error);
+	//    }
+	//  }
 
 	return (
 		<>
@@ -304,6 +315,7 @@ export default function ProductPages() {
 										</FormControl>
 									</ModalBody>
 
+
 									<ModalFooter>
 										<Button
 											colorScheme="blue"
@@ -316,35 +328,91 @@ export default function ProductPages() {
 										>
 											Save
 										</Button>
-										<Button onClick={onClose} colorScheme="yellow">
-											Cancel
-										</Button>
+
+										<Button onClick={onClose}>Cancel</Button>
 									</ModalFooter>
 								</ModalContent>
 							</Modal>
-							<Flex w={"100%"} flexDir={"column"}>
-								<TableContainer flexDir={"column"}>
+							<Stack>
+								<TableContainer p={4}>
+
 									<Table variant="simple">
 										<Thead bgColor={"whatsapp.400"}>
 											<Tr>
 												<Th>No</Th>
-												<Th>Product Name</Th>
-												<Th>Category</Th>
-												<Th>Price</Th>
-												<Th>Stok</Th>
-												<Th
-													display={"flex"}
-													justifyContent={"center"}
-													flexDir={"flex-end"}
-												>
-													Action
+
+												<Th>
+													Product Name{" "}
+													<IconButton
+														variant="ghost"
+														colorScheme="teal"
+														aria-label="Call Sage"
+														fontSize="20px"
+														size="sm"
+														icon={
+															<RiArrowDropUpLine
+																onClick={() => {
+																	fetchProduct("productName", "ASC");
+																}}
+															/>
+														}
+													/>
+													<IconButton
+														variant="ghost"
+														colorScheme="teal"
+														aria-label="Call Sage"
+														fontSize="20px"
+														size="sm"
+														icon={
+															<RiArrowDropDownLine
+																onClick={() => {
+																	fetchProduct("productName", "DESC");
+																}}
+															/>
+														}
+													/>
 												</Th>
+												<Th>Category</Th>
+												<Th>
+													Price{" "}
+													<IconButton
+														variant="ghost"
+														colorScheme="teal"
+														aria-label="Call Sage"
+														fontSize="20px"
+														size="sm"
+														icon={
+															<RiArrowDropUpLine
+																onClick={() => {
+																	fetchProduct("harga", "ASC");
+																}}
+															/>
+														}
+													/>
+													<IconButton
+														variant="ghost"
+														colorScheme="teal"
+														aria-label="Call Sage"
+														fontSize="20px"
+														size="sm"
+														icon={
+															<RiArrowDropDownLine
+																onClick={() => {
+																	fetchProduct("harga", "DESC");
+																}}
+															/>
+														}
+													/>
+												</Th>
+												<Th>Stok</Th>
+												<Th>Action</Th>
 											</Tr>
 										</Thead>
 										<Tbody>
-											{currentProducts.map((product, idx) => (
+											{currentProducts.map((product) => (
 												<Tr key={product.id}>
-													<Td>{indexOfFirstProduct + idx + 1}</Td>
+													<Td>{product.id}</Td>
+
 													<Td>{product.productName}</Td>
 													<Td>{getCategoryName(product.categoryId)}</Td>
 													<Td>{`Rp.${product.harga}`}</Td>
@@ -359,7 +427,9 @@ export default function ProductPages() {
 															>
 																<Button
 																	colorScheme={"yellow"}
-																	size={"md"}
+
+																	w={"50%"}
+
 																	onClick={() => {
 																		setEditProductId(product.id);
 																		modalEdit.onOpen();
@@ -369,15 +439,16 @@ export default function ProductPages() {
 																	<EditProduct
 																		id={editProductId}
 																		isOpen={modalEdit.isOpen}
-																		onClose={() => {
-																			modalEdit.onClose();
-																			fetchData();
-																		}}
+
+																		onClose={modalEdit.onClose}
+
 																	/>
 																</Button>
 																<Button
 																	colorScheme="red"
-																	size={"md"}
+
+																	w={"50%"}
+
 																	onClick={() => {
 																		setDeleteProductId(product.id);
 																		modalDelete.onOpen();
@@ -387,10 +458,9 @@ export default function ProductPages() {
 																	<DeleteProduct
 																		id={deleteProductId}
 																		isOpen={modalDelete.isOpen}
-																		onClose={() => {
-																			modalDelete.onClose();
-																			fetchData();
-																		}}
+
+																		onClose={modalDelete.onClose}
+
 																	/>
 																</Button>
 															</HStack>
@@ -420,7 +490,9 @@ export default function ProductPages() {
 										))}
 									</Flex>
 								</TableContainer>
-							</Flex>
+
+							</Stack>
+
 						</Flex>
 					</Flex>
 				</Flex>
