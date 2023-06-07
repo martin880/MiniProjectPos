@@ -112,7 +112,7 @@ export default function AdminPages() {
 
   useEffect(() => {
     api
-      .get("/auth/getAll")
+      .get("/auth/role?role=CASHIER")
       .then((response) => {
         setUsers(response.data);
       })

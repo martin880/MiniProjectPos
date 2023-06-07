@@ -23,7 +23,7 @@ router.get("/getall", userController.getAll);
 router.get("/v5", userController.getUserByName);
 
 router.delete("/del/:id", userController.deleteUser); // delete user
-
+router.get("/role", userController.getUserByRole); // get user by role
 router.get("/token", userController.getByToken); // get Token
 router.get("/v3", userController.getByToken, userController.getUserByToken);
 // mendapatkan user dari token di path. apakah token expired? kalau tidek kirim user

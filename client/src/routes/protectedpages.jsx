@@ -1,35 +1,43 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 
 export default function ProtectedPage({
-	children,
-	guestOnly = false,
-	needLogin = false,
-	noFooter = false,
+  children,
+  guestOnly = false,
+  needLogin = false,
+  needLoginAdmin = false,
+  noFooter = false,
 }) {
-	const userSelector = useSelector((state) => state.login.auth);
-	const nav = useNavigate();
+  const location = useLocation();
+  const userSelector = useSelector((state) => state.login.auth);
+  const nav = useNavigate();
 
-	console.log(userSelector);
-	console.log(children);
+  const [isLoading, setIsLoading] = useState(true);
 
-	useEffect(() => {
-		console.log(guestOnly);
-		console.log(needLogin);
-		console.log(userSelector?.email);
-		if (guestOnly && userSelector?.email) {
-			console.log(userSelector.email);
-			return nav("/cashier");
-		} else if (needLogin && !userSelector?.email) {
-			console.log(userSelector.email);
-			return nav("/login");
-		}
-	}, [userSelector]);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+  }, [isLoading]);
 
-	return (
-		<>
-			<>{children}</>
-		</>
-	);
+  useEffect(() => {
+    console.log(userSelector);
+    // console.log(needLogin);
+    // console.log(userSelector?.email);
+    if (guestOnly && userSelector?.email) {
+      return nav("/cashier");
+    } else if (needLogin && !userSelector?.email) {
+      return nav("/cashier");
+    } else if (needLoginAdmin && userSelector?.role != "ADMIN") {
+      return nav("/cashier");
+    }
+  }, [userSelector]);
+
+  return (
+    <>
+      <>{isLoading ? <Loading /> : children}</>
+    </>
+  );
 }
