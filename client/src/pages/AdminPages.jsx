@@ -120,6 +120,7 @@ export default function AdminPages() {
 		setKeyword(query);
 	};
 
+
 	const [selectedFile, setSelectedFile] = useState(null);
 	const fileInputRef = useRef(null);
 
@@ -129,6 +130,7 @@ export default function AdminPages() {
 			uploadAvatar(event.target.files[0], id);
 		}
 	};
+
 
 	async function uploadAvatar(file, id) {
 		try {
