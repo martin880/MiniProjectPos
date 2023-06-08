@@ -6,6 +6,7 @@ const userController = require("../controllers").userController;
 
 router.post("/v2", userController.loginV2);
 router.post("/", userController.register);
+router.get("/image/render/:id", userController.renderAvatar);
 
 router.post(
   "/image/v1/:id",
@@ -36,7 +37,6 @@ router.get("/generate-token/email", userController.generateTokenByEmail);
 //   fileUploader({ destinationFolder: "avatar" }).single("avatar"),
 //   userController.uploadAvatar
 // );
-router.get("/image/render/:id", userController.renderAvatar);
 
 //mendapatkan user dari token di path. apakah token exp ? kalau tidak kirim user
 

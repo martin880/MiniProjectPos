@@ -29,6 +29,7 @@ import {
   Select,
   Avatar,
 } from "@chakra-ui/react";
+
 import React, { useEffect, useRef, useState } from "react";
 import { SlMagnifier } from "react-icons/sl";
 import { AiOutlineDownload } from "react-icons/ai";
@@ -48,11 +49,6 @@ export default function AdminPages() {
   const { selectedOption, setSelectedOption } = useState("");
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
-  const [deleteUserId, setDeleteUserId] = useState(null);
-  const [editUserId, setEditUserId] = useState(null);
-
-  const modalDelete = useDisclosure();
-  const modalEdit = useDisclosure();
 
   const [user, setUser] = useState({
     firstName: "",
@@ -80,29 +76,6 @@ export default function AdminPages() {
     const result = await api.post("/auth/", user);
     return alert(result.data.message);
   };
-
-  const [selectedFile, setSelectedFile] = useState(null);
-  const fileInputRef = useRef(null);
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
-
-  // async function handleUpload() {
-  // 	try {
-  // 		const formData = new FormData();
-  // 		formData.append("avatar", selectedFile);
-
-  // 		await api.post("/avatar/upload-avatar", formData, {
-  // 			headers: {
-  // 				"Content-Type": "multipart/form-data",
-  // 			},
-  // 		});
-
-  // 		console.log("Avatar uploaded successfully");
-  // 	} catch (error) {
-  // 		console.error("Error uploading avatar:", error);
-  // 	}
-  // }
 
   const [users, setUsers] = useState([]);
   const [keyword, setKeyword] = useState("");
@@ -144,29 +117,45 @@ export default function AdminPages() {
     setKeyword(query);
   };
 
-  //   async function uploadAvatar() {
-  //     const formData = new FormData();
-  //     formData.append("avatar", selectedFile);
-  //     let user;
-  //     await api
-  //       .post("/auth/image/v1/" + userSelector.id, formData)
-  //       .then((res) => {
-  //         alert(res.data);
-  //       });
-  //     console.log(user);
-  //     if (user) {
-  //       await dispatch({
-  //         type: "login",
-  //         payload: user,
-  //       });
-  //       alert(`berhasil upload`);
-  //     }
-  //   }
+  const dispatch = useDispatch();
+  const userSelector = useSelector((state) => state.auth);
 
-  //   const handleFile = (event) => {
-  //     setSelectedFile(event.target.files[0]);
-  //     console.log(event.target.files[0]);
-  //   };
+  const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const handleFileChange = (event, id) => {
+    setSelectedFile(event.target.files[0]);
+    if (id) {
+      uploadAvatar(event.target.files[0], id);
+    }
+  };
+
+  async function uploadAvatar(file, id) {
+    try {
+      console.log(file);
+      console.log(id);
+
+      const formData = new FormData();
+      formData.append("avatar", file);
+      let user;
+      await api.post("/auth/image/v2/" + id, formData).then((res) => {
+        alert(res.data);
+      });
+      console.log(user);
+      if (user) {
+        await dispatch({
+          type: "login",
+          payload: user,
+        });
+        alert(`berhasil upload`);
+      }
+      setSelectedFile(null);
+
+      fetchData();
+    } catch (err) {
+      setSelectedFile(null);
+    }
+  }
 
   return (
     <>
@@ -280,25 +269,14 @@ export default function AdminPages() {
                       <Select
                         value={selectedOption}
                         id="sex"
-                        onClick={inputHandler}
+                        onChange={inputHandler}
                         placeholder="Gender"
-                        defaultValue={"Male"}
+                        // defaultValue={"Gender"}
                       >
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                       </Select>
                     </FormControl>
-                    {/* <FormControl mt={2}>
-                      <FormLabel>Role</FormLabel>
-                      <Select
-                        value={selectedOption}
-                        id="role"
-                        onClick={inputHandler}
-                        defaultValue={"Cashier"}
-                      >
-                        <option value="Cashier">Cashier</option>
-                      </Select>
-                    </FormControl> */}
                     <FormControl mt={2}>
                       <FormLabel>E-Mail</FormLabel>
                       <Input
@@ -315,31 +293,12 @@ export default function AdminPages() {
                         onChange={inputHandler}
                       />
                     </FormControl>
-                    {/* <FormControl mt={2}>
-                      <FormLabel>Status</FormLabel>
-                      <Select
-                        value={selectedOption}
-                        id="status"
-                        onClick={inputHandler}
-                        defaultValue={"ACTIVE"}
-                      >
-                        <option value="ACTIVE">Active</option>
-                      </Select>
-                    </FormControl> */}
                     <FormControl mt={2}>
                       <FormLabel>Address</FormLabel>
                       <Input
                         placeholder="Address"
                         id="address"
                         onChange={inputHandler}
-                      />
-                    </FormControl>
-                    <FormControl mt={2}>
-                      <FormLabel htmlFor="avatar">Avatar Photo</FormLabel>
-                      <input
-                        type="file"
-                        onChange={handleFileChange}
-                        ref={fileInputRef}
                       />
                     </FormControl>
                     <FormControl mt={2}>
@@ -351,14 +310,13 @@ export default function AdminPages() {
                       />
                     </FormControl>
                   </ModalBody>
-
                   <ModalFooter>
                     <Button
                       colorScheme="blue"
                       mr={3}
                       onClick={() => {
                         register();
-                        // handleUpload();
+                        fetchData();
                         onClose();
                       }}
                     >
@@ -384,59 +342,13 @@ export default function AdminPages() {
                     </Thead>
                     <Tbody>
                       {users.map((user, idx) => (
-                        <Tr key={user.id}>
-                          <Td>{idx + 1}</Td>
-                          <Td>
-                            <Flex justify="center" align="center">
-                              <Avatar size="md" />
-                            </Flex>
-                          </Td>
-                          <Td>{`${user.firstName} ${user.lastName}`}</Td>
-                          <Td>{user.status}</Td>
-                          <Td>{user.email}</Td>
-                          <Td>{user.phoneNumber}</Td>
-
-                          <Td>
-                            <Stack>
-                              <HStack>
-                                <Button
-                                  colorScheme={"yellow"}
-                                  onClick={() => {
-                                    setEditUserId(user.id);
-                                    modalEdit.onOpen();
-                                  }}
-                                >
-                                  {<FiEdit cursor={"pointer"} />}
-                                  <EditUser
-                                    id={editUserId}
-                                    isOpen={modalEdit.isOpen}
-                                    onClose={() => {
-                                      modalEdit.onClose();
-                                      fetchData();
-                                    }}
-                                  />
-                                </Button>
-                                <Button
-                                  colorScheme="red"
-                                  onClick={() => {
-                                    setDeleteUserId(user.id, user.firstName);
-                                    modalDelete.onOpen();
-                                  }}
-                                >
-                                  {<RiDeleteBin6Line cursor={"pointer"} />}
-                                  <DeleteUser
-                                    id={deleteUserId}
-                                    isOpen={modalDelete.isOpen}
-                                    onClose={() => {
-                                      modalDelete.onClose();
-                                      fetchData();
-                                    }}
-                                  />
-                                </Button>
-                              </HStack>
-                            </Stack>
-                          </Td>
-                        </Tr>
+                        <RowUser
+                          key={user.id}
+                          user={user}
+                          idx={idx}
+                          handleFileChange={handleFileChange}
+                          fetchData={fetchData}
+                        />
                       ))}
                     </Tbody>
                     <Tfoot>
@@ -450,5 +362,86 @@ export default function AdminPages() {
         </Flex>
       </Flex>
     </>
+  );
+}
+
+function RowUser({ user, idx, handleFileChange, fetchData }) {
+  // const [selectedFile, setSelectedFile] = useState(null);
+  const [deleteUserId, setDeleteUserId] = useState(null);
+  const [editUserId, setEditUserId] = useState(null);
+
+  const modalDelete = useDisclosure();
+  const modalEdit = useDisclosure();
+  const fileInputRef = useRef(null);
+
+  console.log(user);
+  return (
+    <Tr key={user.id}>
+      <Td>{idx + 1}</Td>
+      <Td>
+        <Flex justify="center" align="center">
+          <Avatar
+            size="md"
+            src={user.avatar_url}
+            onClick={() => fileInputRef.current.click()}
+          />
+        </Flex>
+        <Input
+          type="file"
+          ref={fileInputRef}
+          onChange={(e) => {
+            // console.log(e.target.files[0]);
+            // console.log(selectedFile);
+            handleFileChange(e, user.id);
+          }}
+          display={"none"}
+        ></Input>
+      </Td>
+      <Td>{`${user.firstName} ${user.lastName}`}</Td>
+      <Td>{user.status}</Td>
+      <Td>{user.email}</Td>
+      <Td>{user.phoneNumber}</Td>
+
+      <Td>
+        <Stack>
+          <HStack>
+            <Button
+              colorScheme={"yellow"}
+              onClick={() => {
+                setEditUserId(user.id);
+                modalEdit.onOpen();
+              }}
+            >
+              {<FiEdit cursor={"pointer"} />}
+              <EditUser
+                id={editUserId}
+                isOpen={modalEdit.isOpen}
+                onClose={() => {
+                  modalEdit.onClose();
+                  fetchData();
+                }}
+              />
+            </Button>
+            <Button
+              colorScheme="red"
+              onClick={() => {
+                setDeleteUserId(user.id);
+                modalDelete.onOpen();
+              }}
+            >
+              {<RiDeleteBin6Line cursor={"pointer"} />}
+              <DeleteUser
+                id={deleteUserId}
+                isOpen={modalDelete.isOpen}
+                onClose={() => {
+                  modalDelete.onClose();
+                  fetchData();
+                }}
+              />
+            </Button>
+          </HStack>
+        </Stack>
+      </Td>
+    </Tr>
   );
 }

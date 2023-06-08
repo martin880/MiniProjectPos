@@ -10,7 +10,7 @@ const init = {
 function userReducer(state = init, action) {
   //action adalah event yang terjadi
   console.log("wew");
-  if (action.type == "login") {
+  if (action.type === "login") {
     return {
       ...state,
       id: action.payload.id,
@@ -20,7 +20,7 @@ function userReducer(state = init, action) {
       address: action.payload.address,
       avatar_url: action.payload.avatar_url,
     };
-  } else if (action.type == "logout") {
+  } else if (action.type === "logout") {
     return init;
   }
 
