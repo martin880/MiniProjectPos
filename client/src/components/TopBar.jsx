@@ -10,6 +10,7 @@ import {
   InputGroup,
   InputLeftElement,
   Avatar,
+  Button,
 } from "@chakra-ui/react";
 import { LoginModal } from "./loginmodal";
 import { VscAccount } from "react-icons/vsc";
@@ -21,7 +22,6 @@ import { LogoutModal } from "./logoutModal";
 export default function TopBar() {
   const userSelector = useSelector((state) => state.login.auth);
   const location = useLocation().pathname.split("/");
-  const modal1 = useDisclosure();
 
   const modal2 = useDisclosure();
 
@@ -36,91 +36,92 @@ export default function TopBar() {
   return (
     <>
       <Flex w={"100%"}>
-        <Flex justifyContent={"space-between"} w={"100%"}>
+        <Flex w={"100%"} gap={"50px"}>
           <Center
             p={"0px 18px"}
             color={"white"}
             justifyContent={"space-between"}
           >
-            <InputGroup>
-              <Input
-                w={"200px"}
-                fontSize={"12px"}
-                border={"1px gray.600 solid"}
-                type={"text"}
-                color={"gray.400"}
-                placeholder="Search"
-                h={"28px"}
-                id="searchbar"
-                backgroundColor={
-                  location[1] == ("cashier" || "login") ? "#424242" : "#dedddc"
-                }
-              ></Input>
-              <InputLeftElement w={"30px"} h={"100%"}>
-                <Icon
-                  colorScheme="whiteAlpha"
+            <Flex
+              display={location[1] == ("cashier" || "login") ? "block" : "none"}
+            >
+              <InputGroup>
+                <Input
+                  w={"200px"}
+                  fontSize={"12px"}
+                  border={"1px gray.600 solid"}
+                  type={"text"}
                   color={"gray.400"}
-                  as={CiSearch}
-                  w={"28px"}
+                  placeholder="Search"
                   h={"28px"}
-                  cursor={"pointer"}
-                ></Icon>
-              </InputLeftElement>
-            </InputGroup>
+                  id="searchbar"
+                  backgroundColor={
+                    location[1] == ("cashier" || "login")
+                      ? "#424242"
+                      : "#dedddc"
+                  }
+                ></Input>
+                <InputLeftElement w={"30px"} h={"100%"}>
+                  <Icon
+                    colorScheme="whiteAlpha"
+                    color={"gray.400"}
+                    as={CiSearch}
+                    w={"28px"}
+                    h={"28px"}
+                    cursor={"pointer"}
+                  ></Icon>
+                </InputLeftElement>
+              </InputGroup>
+            </Flex>
           </Center>
-          <Center p={"0px 18px"} color={"white"} gap={"10px"}>
-            <Avatar
-              src={userSelector?.avatar_url}
-              onClick={logout}
-              cursor={"pointer"}
-            ></Avatar>
-            {userSelector.firstName
-              ? "Hello," + userSelector.firstName + " " + userSelector.lastName
-              : "Guest"}
-          </Center>
+
           <Center
             p={"10px"}
             gap={"30px"}
-            w={"274px"}
             justifyContent={"space-between"}
             pr={"30px"}
           >
             <Flex flexDir={"column"} color={"white"}>
               <Flex
                 fontSize={"17px"}
-                color={
-                  location[1] == ("cashier" || "login") ? "white" : "black"
+                display={
+                  location[1] == ("cashier" || "login") ? "block" : "none"
                 }
               >
                 Table 5
               </Flex>
-              <Flex fontSize={"10px"} color={"grey"}>
+              <Flex
+                fontSize={"10px"}
+                color={"grey"}
+                display={
+                  location[1] == ("cashier" || "login") ? "block" : "none"
+                }
+              >
                 Leslie k
               </Flex>
-            </Flex>
-            <Flex>
-              <Icon
-                as={VscAccount}
-                h={"28px"}
-                w={"28px"}
-                color={"#b0b0b0"}
-                cursor={"pointer"}
-                onClick={() => {
-                  modal1.onOpen();
-                }}
-              ></Icon>
+              <Flex
+                display={
+                  location[1] == ("admin" || "admin-product")
+                    ? "inline-flex"
+                    : "none"
+                }
+                color={"black"}
+                flexDir={"row"}
+                alignItems={"center"}
+                gap={"20px"}
+              >
+                <Flex w={"280px"}>Sort by date :</Flex>
+                <Input type="date" bgColor={"#dedddc"}></Input>
+                <Flex fontSize={"20px"}>-</Flex>
+                <Input type="date" bgColor={"#dedddc"}></Input>
+                <Button>lol</Button>
+              </Flex>
             </Flex>
           </Center>
           <Modal isOpen={modal2.isOpen} onClose={modal2.onClose} isCentered>
             <ModalOverlay />
             <ModalContent>
               <LogoutModal onClose={modal2.onClose} />
-            </ModalContent>
-          </Modal>
-          <Modal isOpen={modal1.isOpen} onClose={modal1.onClose} isCentered>
-            <ModalOverlay />
-            <ModalContent>
-              <LoginModal onClose={modal1.onClose} />
             </ModalContent>
           </Modal>
         </Flex>

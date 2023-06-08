@@ -93,26 +93,7 @@ export function LogoutModal(props) {
             justifyContent={"space-between"}
             gap={"30px"}
           >
-            <Input
-              bgColor={"#3E3E3E"}
-              border={"none"}
-              w="400px"
-              h="45px"
-              placeholder="Email"
-              onChange={inputHandler}
-              id="email"
-            ></Input>
-            <Input
-              bgColor={"#3E3E3E"}
-              border={"none"}
-              w="400px"
-              h={"45px"}
-              resize={"none"}
-              placeholder="Password"
-              onChange={inputHandler}
-              id="password"
-              type="password"
-            ></Input>
+            
             <Flex justifyContent={"space-between"}>
               <Checkbox>Remember me</Checkbox>
               <Flex cursor={"pointer"}>Forgot Password?</Flex>

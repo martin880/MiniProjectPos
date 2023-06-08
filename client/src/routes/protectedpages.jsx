@@ -23,7 +23,7 @@ export default function ProtectedPage({
   }, [isLoading]);
 
   useEffect(() => {
-    console.log(userSelector);
+    console.log("test ");
     // console.log(needLogin);
     // console.log(userSelector?.email);
     if (guestOnly && userSelector?.email) {
