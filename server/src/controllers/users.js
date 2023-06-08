@@ -158,7 +158,6 @@ const userController = {
 	loginV2: async (req, res) => {
 		try {
 			const { email, password } = req.body;
-			//   console.log("asd");
 			const user = await db.User.findOne({
 				where: {
 					email,
@@ -372,87 +371,86 @@ const userController = {
 		}
 	},
 
-  uploadAvatar: async (req, res) => {
-    try {
-      const { filename } = req.filename;
-      await db.User.update(
-        {
-          avatar_url: image_url + filename,
-        },
-        {
-          where: {
-            id: req.params.id,
-          },
-        }
-      ),
-        await db.User.findOne({
-          where: {
-            id: req.params.id,
-          },
-        }).then((result) => res.send(result));
-    } catch (err) {}
-  },
-  uploadAvatarv2: async (req, res) => {
-    try {
-      const buffer = await sharp(req.file.buffer)
-        .resize(25, 25)
-        .png()
-        .toBuffer();
-      console.log(buffer);
+	uploadAvatar: async (req, res) => {
+		try {
+			const { filename } = req.filename;
+			await db.User.update(
+				{
+					avatar_url: image_url + filename,
+				},
+				{
+					where: {
+						id: req.params.id,
+					},
+				}
+			),
+				await db.User.findOne({
+					where: {
+						id: req.params.id,
+					},
+				}).then((result) => res.send(result));
+		} catch (err) {}
+	},
+	uploadAvatarv2: async (req, res) => {
+		try {
+			const buffer = await sharp(req.file.buffer)
+				.resize(25, 25)
+				.png()
+				.toBuffer();
+			console.log(buffer);
 
-      var fullUrl =
-        req.protocol +
-        "://" +
-        req.get("host") +
-        "/auth/image/render/" +
-        req.params.id +
-        "_" +
-        Date.parse(new Date());
-      console.log(fullUrl);
-      await db.User.update(
-        {
-          avatar_url: fullUrl,
-          avatar: buffer,
-        },
-        {
-          where: {
-            id: req.params.id,
-          },
-        }
-      );
-    } catch (err) {}
+			var fullUrl =
+				req.protocol +
+				"://" +
+				req.get("host") +
+				"/auth/image/render/" +
+				req.params.id +
+				"_" +
+				Date.parse(new Date());
+			console.log(fullUrl);
+			await db.User.update(
+				{
+					avatar_url: fullUrl,
+					avatar: buffer,
+				},
+				{
+					where: {
+						id: req.params.id,
+					},
+				}
+			);
+		} catch (err) {}
 
-    // await db.User.findOne({
-    //   where: {
-    //     id: req.params.id,
-    //   },
-    // }).then((result) => res.send(result));
-    res.send("berhasil upload");
-  },
-  renderAvatar: async (req, res) => {
-    try {
-      let { id } = req.params;
-      // console.log(req.params.id);\
-      id = id.toString().split("_")[0];
-      console.log(id);
-      await db.User.findOne({
-        where: {
-          id,
-        },
-      }).then((result) => {
-        console.log(result.dataValues.avatar);
+		// await db.User.findOne({
+		//   where: {
+		//     id: req.params.id,
+		//   },
+		// }).then((result) => res.send(result));
+		res.send("berhasil upload");
+	},
+	renderAvatar: async (req, res) => {
+		try {
+			let { id } = req.params;
+			// console.log(req.params.id);\
+			id = id.toString().split("_")[0];
+			console.log(id);
+			await db.User.findOne({
+				where: {
+					id,
+				},
+			}).then((result) => {
+				console.log(result.dataValues.avatar);
 
-        res.set("Content-type", "image/png");
-        res.send(result.dataValues.avatar);
-      });
-    } catch (err) {
-      console.log(err);
-      res.status(500).send({
-        message: err.message,
-      });
-    }
-  },
-	
+				res.set("Content-type", "image/png");
+				res.send(result.dataValues.avatar);
+			});
+		} catch (err) {
+			console.log(err);
+			res.status(500).send({
+				message: err.message,
+			});
+		}
+	},
 };
 
 module.exports = userController;
