@@ -9,7 +9,6 @@ import LoginPage from "../pages/loginpage";
 import ProtectedPage from "./protectedpages";
 import ReportPages from "../pages/ReportPages";
 const routes = [
-
 	<Route
 		path="/cashier"
 		element={
@@ -21,7 +20,7 @@ const routes = [
 	<Route
 		path="/"
 		element={
-			<ProtectedPage>
+			<ProtectedPage needLogin={true}>
 				<Cashier />
 			</ProtectedPage>
 		}
