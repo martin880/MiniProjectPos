@@ -384,6 +384,7 @@ function RowUser({ user, idx, handleFileChange, fetchData }) {
 			<Td>
 				<Flex justify="center" align="center">
 					<Avatar
+						cursor={"pointer"}
 						size="md"
 						src={user.avatar_url}
 						onClick={() => fileInputRef.current.click()}
