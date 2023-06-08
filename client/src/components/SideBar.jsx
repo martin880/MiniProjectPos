@@ -47,8 +47,8 @@ export default function SideBar() {
 					<Flex
 						pb={"20px"}
 						pl={"30px"}
-						color={"white"}
 						gap={"10px"}
+						// eslint-disable-next-line react/jsx-no-duplicate-props
 						color={location[1] == ("cashier" || "login") ? "white" : "black"}
 						alignItems={"center"}
 					>
