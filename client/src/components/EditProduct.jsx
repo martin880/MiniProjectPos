@@ -13,12 +13,14 @@ import {
   Image,
   Input,
   Select,
+  useToast,
 } from "@chakra-ui/react";
 // import iconphoto from "../assets/icon.png";
 import { useEffect, useRef, useState } from "react";
 import { api } from "../api/api";
 
 export function EditProduct(props) {
+  const toast = useToast();
   const [category, setCategory] = useState([]);
   const [SelectedFile, setSelectedFile] = useState(null);
   const inputFileRef = useRef(null);
@@ -64,7 +66,13 @@ export function EditProduct(props) {
         // SelectedFile
       )
     ) {
-      alert("isi semua");
+      toast({
+        title: "Column cannot be empty",
+        status: "danger",
+        duration: 3000,
+        position: "top-right",
+        isClosable: false,
+      });
     } else {
       //   const formData = new FormData();
       //   //   formData.append("product", SelectedFile);
@@ -74,7 +82,13 @@ export function EditProduct(props) {
       //   formData.append("categoryId", product.categoryId);
       const result = await api.patch("/product/v2/" + props.id, product);
 
-      alert("berhasil mengubah produk");
+      toast({
+        title: "Success Edit Product.",
+        status: "success",
+        duration: 3000,
+        position: "top-right",
+        isClosable: false,
+      });
       props.onClose();
     }
     // } catch (err) {
@@ -158,7 +172,7 @@ export function EditProduct(props) {
           </ModalBody>
 
           <ModalFooter>
-            <Button variant="ghost" onClick={editProduct}>
+            <Button variant="ghost" colorScheme="green" onClick={editProduct}>
               Save
             </Button>
           </ModalFooter>

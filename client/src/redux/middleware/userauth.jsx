@@ -5,6 +5,7 @@ const init = {
   lastName: "",
   address: "",
   avatar_url: "",
+  role: "",
 };
 
 function userReducer(state = init, action) {
@@ -13,6 +14,7 @@ function userReducer(state = init, action) {
   if (action.type === "login") {
     return {
       ...state,
+      role: action.payload.role,
       id: action.payload.id,
       email: action.payload.email,
       firstName: action.payload.firstName,

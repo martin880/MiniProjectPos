@@ -45,6 +45,8 @@ import { EditUser } from "../components/EditUser";
 import { DeleteUser } from "../components/DeleteUser";
 
 export default function AdminPages() {
+  const userSelector = useSelector((state) => state.login.auth);
+  const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { selectedOption, setSelectedOption } = useState("");
   const initialRef = React.useRef(null);
@@ -80,6 +82,7 @@ export default function AdminPages() {
   const [users, setUsers] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [query, setQuery] = useState("");
+  const [changed, setChanged] = useState(true);
 
   const fetchData = async () => {
     try {
@@ -92,7 +95,7 @@ export default function AdminPages() {
 
   useEffect(() => {
     api
-      .get("/auth/getAll")
+      .get("/auth/role?role=CASHIER")
       .then((response) => {
         setUsers(response.data);
       })
@@ -201,6 +204,7 @@ export default function AdminPages() {
                         h={"26px"}
                         w={"100px"}
                         colorScheme="teal"
+                        onClick={searchData}
                       >
                         <SlMagnifier />
                         Search

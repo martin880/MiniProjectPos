@@ -6,24 +6,43 @@ import {
 	ModalOverlay,
 	useDisclosure,
 	Icon,
+	Text,
 	Input,
 	InputGroup,
 	InputLeftElement,
+	Avatar,
 } from "@chakra-ui/react";
 import { LoginModal } from "./loginmodal";
 import { VscAccount } from "react-icons/vsc";
 import { CiSearch } from "react-icons/ci";
 import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { LogoutModal } from "./logoutModal";
 
 export default function TopBar() {
+	const userSelector = useSelector((state) => state.login.auth);
 	const location = useLocation().pathname.split("/");
-	const { isOpen, onOpen, onClose } = useDisclosure();
+	const modal1 = useDisclosure();
 
+	const modal2 = useDisclosure();
+
+	const dispatch = useDispatch();
+	function logout() {
+		localStorage.removeItem("auth");
+		dispatch({
+			type: "logout",
+		});
+		return;
+	}
 	return (
 		<>
 			<Flex w={"100%"}>
 				<Flex justifyContent={"space-between"} w={"100%"}>
-					<Center p={"0px 18px"}>
+					<Center
+						p={"0px 18px"}
+						color={"white"}
+						justifyContent={"space-between"}
+					>
 						<InputGroup>
 							<Input
 								w={"200px"}
@@ -50,6 +69,21 @@ export default function TopBar() {
 							</InputLeftElement>
 						</InputGroup>
 					</Center>
+					<Center p={"0px 18px"} gap={"10px"}>
+						<Avatar
+							src={userSelector?.avatar_url}
+							onClick={logout}
+							cursor={"pointer"}
+						></Avatar>
+						<Text color={"facebook"} fontFamily={"serif"}>
+							{userSelector.firstName
+								? "Hello, " +
+								  userSelector.firstName +
+								  " " +
+								  userSelector.lastName
+								: "Guest"}
+						</Text>
+					</Center>
 					<Center
 						p={"10px"}
 						gap={"30px"}
@@ -67,7 +101,7 @@ export default function TopBar() {
 								Table 5
 							</Flex>
 							<Flex fontSize={"10px"} color={"grey"}>
-								Leslie K
+								Leslie k
 							</Flex>
 						</Flex>
 						<Flex>
@@ -78,16 +112,21 @@ export default function TopBar() {
 								color={"#b0b0b0"}
 								cursor={"pointer"}
 								onClick={() => {
-									onOpen();
+									modal1.onOpen();
 								}}
 							></Icon>
 						</Flex>
 					</Center>
-
-					<Modal isOpen={isOpen} onClose={onClose} isCentered>
+					<Modal isOpen={modal2.isOpen} onClose={modal2.onClose} isCentered>
 						<ModalOverlay />
 						<ModalContent>
-							<LoginModal onClose={onClose} />
+							<LogoutModal onClose={modal2.onClose} />
+						</ModalContent>
+					</Modal>
+					<Modal isOpen={modal1.isOpen} onClose={modal1.onClose} isCentered>
+						<ModalOverlay />
+						<ModalContent>
+							<LoginModal onClose={modal1.onClose} />
 						</ModalContent>
 					</Modal>
 				</Flex>

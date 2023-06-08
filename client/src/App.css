@@ -24,8 +24,12 @@
 }
 
 .device {
-  width: 70%;
+  width: 74%;
   aspect-ratio: 153/100;
+  background-color: var(--bg-color);
+  outline: #282c2c 1px solid;
+  width: 100%;
+  aspect-ratio: 150/100;
   background-color: var(--bg-color);
   outline: #282c2c 1px solid;
 }
@@ -58,6 +62,7 @@
   width: 100%;
 
   /* background-color: var(--main-color); */
+  /* background-color: var(--main-color); */
 }
 
 .content {
@@ -74,6 +79,11 @@
 }
 
 .category {
+  height: 44%;
+  width: 100%;
+  padding: 0 10px;
+  overflow: scroll;
+  /* background-color: #8c5e58; */
   height: 44%;
   width: 100%;
   padding: 0 10px;

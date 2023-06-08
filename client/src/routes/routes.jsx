@@ -7,7 +7,9 @@ import ProductPages from "../pages/ProductPages";
 
 import LoginPage from "../pages/loginpage";
 import ProtectedPage from "./protectedpages";
+import ReportPages from "../pages/ReportPages";
 const routes = [
+
 	<Route
 		path="/cashier"
 		element={
@@ -45,6 +47,14 @@ const routes = [
 		element={
 			<ProtectedPage needLogin={true}>
 				<ProductPages />
+			</ProtectedPage>
+		}
+	/>,
+	<Route
+		path="/admin-report"
+		element={
+			<ProtectedPage needLogin={true}>
+				<ReportPages />
 			</ProtectedPage>
 		}
 	/>,

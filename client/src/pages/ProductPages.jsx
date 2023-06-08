@@ -10,6 +10,8 @@ import {
   HStack,
   Box,
   Button,
+  IconButton,
+  VStack,
   Table,
   Thead,
   Tbody,
@@ -18,6 +20,7 @@ import {
   Th,
   Td,
   TableContainer,
+  Container,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -34,6 +37,8 @@ import { AiOutlineFileSearch } from "react-icons/ai";
 import { HiPlus } from "react-icons/hi";
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { RiArrowDropUpLine } from "react-icons/ri";
+import { RiArrowDropDownLine } from "react-icons/ri";
 import SideBar from "../components/SideBar";
 import TopBar from "../components/TopBar";
 import { api } from "../api/api";
@@ -54,9 +59,9 @@ export default function ProductPages() {
 
   const [product, setProduct] = useState({
     productName: "",
-    harga: "",
-    stock: "",
-    categoryId: "",
+    harga: 0,
+    stock: 0,
+    categoryId: 1,
     photoProduct_url: "",
     photoProduct_blob: "",
   });
@@ -96,15 +101,25 @@ export default function ProductPages() {
   }, []);
 
   useEffect(() => {
-    api
-      .get(`/product/v4?search_query=${keyword}`)
+    fetchProduct();
+  }, [keyword]);
+
+  async function fetchProduct(sortBy, sortDir) {
+    await api
+      .get(`/product/v4?search_query=${keyword}`, {
+        params: {
+          sortBy,
+          sortDir,
+        },
+      })
       .then((response) => {
+        console.log(response.data);
         setProducts(response.data);
       })
       .catch((error) => {
-        console.error(error);
+        console.log(error);
       });
-  }, [keyword]);
+  }
 
   const searchData = (e) => {
     e.preventDefault();
@@ -140,17 +155,6 @@ export default function ProductPages() {
     return category ? category.categoryName : "";
   };
 
-  //    const [selectedFile, setSelectedFile] = useState(null);
-  //  const fileInputRef = useRef(null);
-  //  const handleFileChange = (event) => {
-  //    setSelectedFile(event.target.files[0]);
-  //  };
-
-  //  async function handleUpload() {
-  //    try {
-  //      const formData = new FormData();
-  //      formData.append("avatar", selectedFile);
-
   const fetchData = async () => {
     try {
       const response = await api.get("/product");
@@ -180,7 +184,9 @@ export default function ProductPages() {
             <SideBar />
           </Flex>
           <Flex w={"80%"} h={"100%"} flexDir={"column"}>
-            <Flex className="topbar">{/* <TopBar /> */}</Flex>
+            <Flex className="topbar">
+              <TopBar />
+            </Flex>
             <Flex className="adminCategory" w="100%" flexDir={"column"}>
               <Stack px={"4"}>
                 <Text fontSize={"24px"} fontWeight={"bold"} color={"black"}>
@@ -308,35 +314,98 @@ export default function ProductPages() {
                       mr={3}
                       onClick={() => {
                         input();
-                        // handleUpload();
                         onClose();
+                        fetchData();
                       }}
                     >
                       Save
                     </Button>
-                    <Button onClick={onClose}>Cancel</Button>
+
+                    <Button onClick={onClose} colorScheme="yellow">
+                      Cancel
+                    </Button>
                   </ModalFooter>
                 </ModalContent>
               </Modal>
               <Stack>
-                <TableContainer p={4}>
+                <TableContainer p={4} justifyContent={"space-between"}>
                   <Table variant="simple">
                     <Thead bgColor={"whatsapp.400"}>
                       <Tr>
                         <Th>No</Th>
-                        <Th>Product Name</Th>
-                        <Th>Category</Th>
-                        <Th>Price</Th>
-                        <Th>Stok</Th>
-                        <Th display={"flex"} justifyContent={"center"}>
-                          Action
+
+                        <Th>
+                          Product Name{" "}
+                          <IconButton
+                            variant="ghost"
+                            colorScheme="teal"
+                            aria-label="Call Sage"
+                            fontSize="20px"
+                            size="sm"
+                            icon={
+                              <RiArrowDropUpLine
+                                onClick={() => {
+                                  fetchProduct("productName", "ASC");
+                                }}
+                              />
+                            }
+                          />
+                          <IconButton
+                            variant="ghost"
+                            colorScheme="teal"
+                            aria-label="Call Sage"
+                            fontSize="20px"
+                            size="sm"
+                            icon={
+                              <RiArrowDropDownLine
+                                onClick={() => {
+                                  fetchProduct("productName", "DESC");
+                                }}
+                              />
+                            }
+                          />
                         </Th>
+                        <Th>Category</Th>
+                        <Th>
+                          Price{" "}
+                          <IconButton
+                            variant="ghost"
+                            colorScheme="teal"
+                            aria-label="Call Sage"
+                            fontSize="20px"
+                            size="sm"
+                            icon={
+                              <RiArrowDropUpLine
+                                onClick={() => {
+                                  fetchProduct("harga", "ASC");
+                                }}
+                              />
+                            }
+                          />
+                          <IconButton
+                            variant="ghost"
+                            colorScheme="teal"
+                            aria-label="Call Sage"
+                            fontSize="20px"
+                            size="sm"
+                            icon={
+                              <RiArrowDropDownLine
+                                onClick={() => {
+                                  fetchProduct("harga", "DESC");
+                                }}
+                              />
+                            }
+                          />
+                        </Th>
+                        <Th>Stok</Th>
+                        <Th isNumeric>Action</Th>
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {currentProducts.map((product, idx) => (
+                      {currentProducts.map((product) => (
                         <Tr key={product.id}>
-                          <Td>{indexOfFirstProduct + idx + 1}</Td>
+                          <Td>{product.id}</Td>
+
                           <Td>{product.productName}</Td>
                           <Td>{getCategoryName(product.categoryId)}</Td>
                           <Td>{`Rp.${product.harga}`}</Td>
