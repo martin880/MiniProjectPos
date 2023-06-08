@@ -28,13 +28,13 @@ export default function Cashier() {
 			<Flex className="container">
 				<Flex className="device" position={"relative"} zIndex={0}>
 					<Flex className="sidebar">
-						{/* <SideBar /> */}
-						<SideBarAdmin />
+						<SideBar />
+						{/* <SideBarAdmin /> */}
 					</Flex>
 					<Flex className="mainbar">
 						<Flex className="topbar">
-							{/* <TopBar /> */}
-							<TopBarAdmin />
+							<TopBar />
+							{/* <TopBarAdmin /> */}
 						</Flex>
 						<Flex className="content">
 							<Flex className="content-1">
@@ -42,15 +42,8 @@ export default function Cashier() {
 									<Category />
 								</Flex>
 								<Flex className="divider">
-									<Flex
-										padding={"0 10px"}
-										w={"100%"}
-										h={"100%"}
-									>
-										<Divider
-											h={"50%"}
-											borderColor="rgba(179, 179, 179, 0.4)"
-										/>
+									<Flex padding={"0 10px"} w={"100%"} h={"100%"}>
+										<Divider h={"50%"} borderColor="rgba(179, 179, 179, 0.4)" />
 									</Flex>
 								</Flex>
 								<Flex className="product">
@@ -376,5 +369,4 @@ export default function Cashier() {
 			</Flex> */}
 		</>
 	);
-
 }

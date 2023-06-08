@@ -1,6 +1,7 @@
 import React from "react";
-import { Flex, Stack, Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import SideBar from "../components/SideBar";
+import TopBar from "../components/TopBar";
 
 const ReportPages = () => {
 	return (
@@ -14,7 +15,9 @@ const ReportPages = () => {
 						<Text fontSize={"24px"} fontWeight={"bold"} color={"black"}>
 							Report Pages
 						</Text>
-						<Flex className="topbar">{/* <TopBar /> */}</Flex>
+						<Flex className="topbar">
+							<TopBar />
+						</Flex>
 					</Flex>
 				</Flex>
 			</Flex>
