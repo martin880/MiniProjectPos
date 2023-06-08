@@ -78,8 +78,8 @@ function Card(props) {
 			}
 			style={{ borderRadius: "15px" }}
 			maxH={"100px"}
-			// minH={"165px"}
-			overflow={"scroll"}
+			overflow={"hidden"}
+			_hover={{ outline: "1px solid #688902" }}
 		>
 			<Flex flexDirection={"row"} h={"100%"}>
 				<Flex w={"10px"}></Flex>

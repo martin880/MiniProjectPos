@@ -1,14 +1,16 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Input } from "@chakra-ui/react";
 import { BiWorld, BiCycling, BiRestaurant } from "react-icons/bi";
 import React from "react";
 import Table from "../components/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { orderInfoModal } from "../redux/modalManager";
-import { cutlery, delivery } from "../redux/customerInfo";
+import { cutlery, delivery, custName } from "../redux/customerInfo";
 
 export default function CustInformation() {
 	const dispatch = useDispatch();
 	const userInfo = useSelector((state) => state.customerInfo);
+	const custNames = document.getElementById("custName").value;
+	console.log("CustName", custNames);
 
 	return (
 		<Flex
@@ -57,25 +59,20 @@ export default function CustInformation() {
 
 							color={"#233300"}
 							flexDirection={"row"}
-							paddingLeft={"30px"}
 						>
-							<Flex
-								alignItems={"flex-end"}
-								fontSize={"70px"}
-								h={"full"}
-								w={"fit-content"}
-								paddingRight={"10px"}
-							>
-								John Doe
-							</Flex>
-							<Flex
-								bg={"#CFFB1F"}
-								h={"10px"}
-								w={"10%"}
-								borderRadius={"10px"}
-								marginBottom={"3%"}
-								border={"1px solid #688902"}
-							></Flex>
+							<Input
+								fontSize="70px"
+								placeholder="Customer Name"
+								maxW={"full"}
+								w="full"
+								h="full"
+								paddingLeft={"30px"}
+								variant={"unstyled"}
+								id="custName"
+								onChange={() => {
+									dispatch(custName());
+								}}
+							/>
 						</Flex>
 					</Flex>
 					<Flex

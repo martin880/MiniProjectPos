@@ -9,6 +9,9 @@ import {
 	Input,
 	InputGroup,
 	InputLeftElement,
+	Stat,
+	StatNumber,
+	StatHelpText,
 } from "@chakra-ui/react";
 import React from "react";
 import { CiSearch, CiEdit } from "react-icons/ci";
@@ -22,7 +25,7 @@ export default function TopBar() {
 
 	return (
 		<>
-			<Flex className="top-container">
+			<Flex className="top-container" bg={"#101314"}>
 				<Flex className="top-spacing" paddingLeft={"10px"}>
 					<InputGroup
 						bg={"var(--greyopa)"}
@@ -101,6 +104,10 @@ export default function TopBar() {
 						size={"30px"}
 						style={{ borderRadius: "10px" }}
 						border={"2px red solid"}
+						onClick={() => {
+							dispatch(orderInfoModal(true));
+						}}
+						cursor={"pointer"}
 					/>
 				</Flex>
 			</Flex>

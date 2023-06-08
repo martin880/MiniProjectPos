@@ -1,4 +1,3 @@
-
 import {
 	Flex,
 	Grid,
@@ -104,9 +103,9 @@ function Card(props) {
 			maxH={"200px"}
 			// minH={"165px"}
 			minH={"45%"}
-			overflow={"scroll"}
+			overflow={"hidden"}
 		>
-			<Flex flexDirection={"row"} h={"100%"}>
+			<Flex flexDirection={"row"} h={"100%"} overflow={"hidden"}>
 				<Flex w={"10px"}></Flex>
 				<Flex
 					w={"calc(100% - 10px)"}
@@ -115,6 +114,7 @@ function Card(props) {
 					paddingTop={"10px"}
 					flexDirection={"column"}
 					justifyContent={"space-between"}
+					overflow={"hidden"}
 				>
 					<Flex>
 						<Stat color={"#ACACAC"}>
@@ -141,7 +141,11 @@ function Card(props) {
 						paddingRight={"10px"}
 						justifyContent={"end"}
 					>
-						<Flex w={"80%"} paddingBottom={"10px"}>
+						<Flex
+							w={"80%"}
+							paddingBottom={"10px"}
+							overflow={"hidden"}
+						>
 							<Grid
 								templateColumns={"repeat(3,1fr)"}
 								gap={1}
@@ -149,8 +153,10 @@ function Card(props) {
 								fontSize={"19px"}
 								textAlign={"center"}
 								color={"white"}
+								overflow={"hidden"}
 							>
 								<GridItem
+									overflow={"hidden"}
 									className="qty-button"
 									color={
 										currQuantity.length ? "white" : "grey"

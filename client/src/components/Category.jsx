@@ -78,6 +78,7 @@ export default function Category() {
 				w={"100%"}
 				h={"100%"}
 				gridAutoFlow={"row"}
+				overflow={"hidden"}
 			>
 				{arr.map((val) => (
 					<Card
@@ -101,7 +102,7 @@ function Card(props) {
 			maxH={"200px"}
 			// minH={"165px"}
 			minH={"45%"}
-			overflow={"scroll"}
+			overflow={"hidden"}
 			className="category-list"
 		>
 			<Flex
@@ -109,6 +110,7 @@ function Card(props) {
 				padding={"10px"}
 				h={"100%"}
 				justifyContent={"space-between"}
+				// overflow={"hidden"}
 			>
 				<Flex w={"32px"}>
 					{/* <BiCoffeeTogo size={"35px"} /> */}

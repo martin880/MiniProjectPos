@@ -1,10 +1,6 @@
 import { Avatar, Flex, Grid, GridItem } from "@chakra-ui/react";
-import { useDispatch, useSelector } from "react-redux";
-import { dineIn, takeAway, delivery, reservation } from "../redux/orderType";
 
 export default function SideBarAdmin() {
-	const orderType = useSelector((state) => state.orderType.value);
-	const dispatch = useDispatch();
 	return (
 		<>
 			<Grid
@@ -29,7 +25,9 @@ export default function SideBarAdmin() {
 						<Flex className="menu-list-admin">Products</Flex>
 						<Flex className="menu-list-admin">Staff</Flex>
 						<Flex className="menu-list-admin">Inventory</Flex>
-						<Flex className="menu-list-admin">Download</Flex>
+						<Flex className="menu-list-admin" visibility={"hidden"}>
+							Download
+						</Flex>
 					</Flex>
 				</GridItem>
 

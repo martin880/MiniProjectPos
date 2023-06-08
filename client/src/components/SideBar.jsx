@@ -75,7 +75,7 @@ export default function SideBar() {
 				</GridItem>
 
 				<GridItem w="100%" gridRow={"11/15"} paddingLeft={"20px"}>
-					<Flex className="users">
+					<Flex className="users" visibility={"hidden"}>
 						<Flex>
 							<Avatar
 								name="Susi Pujiastuti"
@@ -86,7 +86,7 @@ export default function SideBar() {
 
 						<Flex paddingLeft={"15px"}>Susi P.</Flex>
 					</Flex>
-					<Flex className="users">
+					<Flex className="users" visibility={"hidden"}>
 						<Flex>
 							<Avatar
 								name="Mamud M"
