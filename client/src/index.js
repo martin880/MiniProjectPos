@@ -12,14 +12,20 @@ import rootReducer from "./redux/store";
 
 import orderTypeReducer from "./redux/orderType.js";
 import orderListReducer from "./redux/orderList";
+
+import modalManager from "./redux/modalManager";
+import customerInfo from "./redux/customerInfo";
 import AuthProvider from "./hoc/authprovider";
 
 const store = configureStore({
-  reducer: {
-    orderType: orderTypeReducer,
-    orderList: orderListReducer,
-    login: rootReducer,
-  },
+	reducer: {
+		orderType: orderTypeReducer,
+		orderList: orderListReducer,
+		modalManager: modalManager,
+		customerInfo: customerInfo,
+        login: rootReducer,
+	},
+
 });
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
