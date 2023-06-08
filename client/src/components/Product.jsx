@@ -1,76 +1,77 @@
 import {
-	Flex,
-	Grid,
-	GridItem,
-	Stat,
-	StatHelpText,
-	StatLabel,
-	StatNumber,
+  Flex,
+  Grid,
+  GridItem,
+  Stat,
+  StatHelpText,
+  StatLabel,
+  StatNumber,
 } from "@chakra-ui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { addOrder, removeOrder } from "../redux/orderList";
 
 export default function Product() {
-	const arr = [
-		{
-			status: "Available",
-			productName: "Espresso",
-			price: 22000,
-		},
-		{
-			status: "Available",
-			productName: "Cappuccino",
-			price: 28000,
-		},
-		{
-			status: "Available",
-			productName: "Coffee Latte",
-			price: 28000,
-		},
-		{
-			status: "Available",
-			productName: "Americano",
-			price: 24000,
-		},
-		{
-			status: "Available",
-			productName: "Mocha",
-			price: 30000,
-		},
-		{
-			status: "Available",
-			productName: "Macchiato",
-			price: 27000,
-		},
-		{
-			status: "Available",
-			productName: "Flat White",
-			price: 25000,
-		},
-		{
-			status: "Available",
-			productName: "Cold Brew",
-			price: 35000,
-		},
-	];
+  const arr = [
+    {
+      status: "Available",
+      productName: "Espresso",
+      price: 22000,
+    },
+    {
+      status: "Available",
+      productName: "Cappuccino",
+      price: 28000,
+    },
+    {
+      status: "Available",
+      productName: "Coffee Latte",
+      price: 28000,
+    },
+    {
+      status: "Available",
+      productName: "Americano",
+      price: 24000,
+    },
+    {
+      status: "Available",
+      productName: "Mocha",
+      price: 30000,
+    },
+    {
+      status: "Available",
+      productName: "Macchiato",
+      price: 27000,
+    },
+    {
+      status: "Available",
+      productName: "Flat White",
+      price: 25000,
+    },
+    {
+      status: "Available",
+      productName: "Cold Brew",
+      price: 35000,
+    },
+  ];
 
-	return (
-		<>
-			<Grid templateColumns="repeat(4,2fr)" gap={3} w={"100%"}>
-				{arr.map((val) => (
-					<Card
-						key={val.productName}
-						status={val.status}
-						productName={val.productName}
-						price={val.price}
-					/>
-				))}
-			</Grid>
-		</>
-	);
+  return (
+    <>
+      <Grid templateColumns="repeat(4,2fr)" gap={3} w={"100%"}>
+        {arr.map((val) => (
+          <Card
+            key={val.productName}
+            status={val.status}
+            productName={val.productName}
+            price={val.price}
+          />
+        ))}
+      </Grid>
+    </>
+  );
 }
 
 function Card(props) {
+
 	const orderType = useSelector((state) => state.orderType.value);
 	const orderList = useSelector((state) => state.orderList);
 	const currQuantity = orderList.filter(
@@ -89,11 +90,12 @@ function Card(props) {
 
 	// console.log("ORDER LIST STATE", orderList);
 
-	function PrintVal() {
-		// console.log("CART", );
-		console.log("ORDER TYPE STATE", orderType);
-		// console.log("ORDER LIST STATE", orderList);
-	}
+
+  function PrintVal() {
+    // console.log("CART", );
+    console.log("ORDER TYPE STATE", orderType);
+    // console.log("ORDER LIST STATE", orderList);
+  }
 
 	return (
 		<GridItem
@@ -190,4 +192,5 @@ function Card(props) {
 			</Flex>
 		</GridItem>
 	);
+
 }

@@ -376,4 +376,5 @@ export default function Cashier() {
 			</Flex> */}
 		</>
 	);
+
 }

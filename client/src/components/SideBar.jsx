@@ -1,23 +1,66 @@
-import { Avatar, Flex, Grid, GridItem } from "@chakra-ui/react";
+
+import {
+	Avatar,
+	Button,
+	Center,
+	Flex,
+	Grid,
+	GridItem,
+	Icon,
+	Modal,
+	ModalContent,
+	ModalOverlay,
+	useDisclosure,
+} from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { dineIn, takeAway, delivery, reservation } from "../redux/orderType";
+import { useLocation } from "react-router-dom";
+import { VscAccount } from "react-icons/vsc";
+import { LoginModal } from "./loginmodal";
 
 export default function SideBar() {
+
 	const orderType = useSelector((state) => state.orderType.value);
+	const userSelector = useSelector((state) => state.login.auth);
+	const modal1 = useDisclosure();
 	const dispatch = useDispatch();
+	const location = useLocation().pathname.split("/");
+
+	function logout() {
+		window.location.reload();
+		localStorage.removeItem("auth");
+		dispatch({
+			type: "logout",
+		});
+		return;
+	}
 	return (
 		<>
 			<Grid w="100%" templateRows="repeat(15, 1fr)" gap={3}>
 				<GridItem gridRow={"1/3"} w="100%" color={"whitesmoke"}>
-					<Flex className="logo">CosyPOS</Flex>
+					<Flex
+						className="logo"
+						color={location[1] == ("cashier" || "login") ? "white" : "black"}
+						cursor={"pointer"}
+					>
+						CosyPOS
+					</Flex>
 				</GridItem>
-
 				<GridItem w="100%" gridRow={"3/8"}>
 					<Flex
-						className="menu"
-						paddingLeft={"20px"}
-						paddingRight={"20px"}
+						pb={"20px"}
+						pl={"30px"}
+						color={"white"}
+						gap={"10px"}
+						color={location[1] == ("cashier" || "login") ? "white" : "black"}
+						alignItems={"center"}
 					>
+						<Avatar src={userSelector?.avatar_url} cursor={"pointer"}></Avatar>
+						{userSelector.firstName
+							? userSelector.firstName + " " + userSelector.lastName
+							: "Guest"}
+					</Flex>
+					<Flex className="menu" paddingLeft={"20px"} paddingRight={"20px"}>
 						<Flex
 							bgColor={
 								orderType === "Dine In"
@@ -72,16 +115,23 @@ export default function SideBar() {
 						</Flex>
 						<Flex className="menu-list">Order Summary</Flex>
 					</Flex>
+					<Flex p={"30px"}>
+						<Button
+							colorScheme="linkedin"
+							w={"100px"}
+							onClick={() => {
+								!userSelector?.email ? modal1.onOpen() : logout();
+							}}
+						>
+							{userSelector?.email ? "Logout" : "Login"}
+						</Button>
+					</Flex>
 				</GridItem>
 
 				<GridItem w="100%" gridRow={"11/15"} paddingLeft={"20px"}>
 					<Flex className="users" visibility={"hidden"}>
 						<Flex>
-							<Avatar
-								name="Susi Pujiastuti"
-								src="#"
-								size={"sm"}
-							/>
+							<Avatar name="Susi Pujiastuti" src="#" size={"sm"} />
 						</Flex>
 
 						<Flex paddingLeft={"15px"}>Susi P.</Flex>
@@ -109,7 +159,6 @@ export default function SideBar() {
 						<Flex paddingLeft={"15px"}>Jowo K.</Flex>
 					</Flex>
 				</GridItem>
-
 				<GridItem w="100%" gridRow={"15"} paddingLeft={"40px"}>
 					<Flex
 						alignItems={"center"}
@@ -121,6 +170,12 @@ export default function SideBar() {
 					</Flex>
 				</GridItem>
 			</Grid>
+			<Modal isOpen={modal1.isOpen} onClose={modal1.onClose} isCentered>
+				<ModalOverlay />
+				<ModalContent>
+					<LoginModal onClose={modal1.onClose} />
+				</ModalContent>
+			</Modal>
 		</>
 	);
 }

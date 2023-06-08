@@ -6,10 +6,10 @@ const userRoutes = require("./user");
 const historyRoutes = require("./stockHistory");
 
 module.exports = {
-  categoryRoutes,
-  productRoutes,
-  paymentRoutes,
-  userRoutes,
-  orderRoutes,
-  historyRoutes,
+	categoryRoutes,
+	productRoutes,
+	paymentRoutes,
+	userRoutes,
+	orderRoutes,
+	historyRoutes,
 };
