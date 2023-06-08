@@ -1,3 +1,4 @@
+
 import {
 	Flex,
 	Grid,
@@ -9,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { addOrder, removeOrder } from "../redux/orderList";
+
 export default function Product() {
 	const arr = [
 		{

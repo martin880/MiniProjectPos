@@ -17,7 +17,6 @@
 }
 
 .container {
-	height: 100vh;
 	width: 100vw;
 	background-color: rgb(213, 213, 213);
 	align-items: center;
@@ -126,10 +125,21 @@
 	/* background-color: rgb(152, 91, 11); */
 	flex-direction: column;
 }
+.mainbar2 {
+	width: 80%;
+	height: 100%;
+	/* background-color: rgb(152, 91, 11); */
+	flex-direction: column;
+}
+
+.adminCategory {
+	background-color: whitesmoke;
+}
 
 .topbar {
 	height: 11%;
 	width: 100%;
+
 	/* background-color: var(--main-color); */
 }
 
