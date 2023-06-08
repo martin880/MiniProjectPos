@@ -120,7 +120,6 @@ export default function AdminPages() {
 		setKeyword(query);
 	};
 
-
 	const [selectedFile, setSelectedFile] = useState(null);
 	const fileInputRef = useRef(null);
 
@@ -130,7 +129,6 @@ export default function AdminPages() {
 			uploadAvatar(event.target.files[0], id);
 		}
 	};
-
 
 	async function uploadAvatar(file, id) {
 		try {
@@ -325,12 +323,14 @@ export default function AdminPages() {
 										>
 											Save
 										</Button>
-										<Button onClick={onClose}>Cancel</Button>
+										<Button onClick={onClose} colorScheme="yellow">
+											Cancel
+										</Button>
 									</ModalFooter>
 								</ModalContent>
 							</Modal>
 							<Stack>
-								<TableContainer p={4}>
+								<TableContainer p={4} justifyContent={"space-between"}>
 									<Table variant="simple">
 										<Thead>
 											<Tr>
@@ -410,6 +410,7 @@ function RowUser({ user, idx, handleFileChange, fetchData }) {
 				<Stack>
 					<HStack>
 						<Button
+							w={"50%"}
 							colorScheme={"yellow"}
 							onClick={() => {
 								setEditUserId(user.id);
@@ -427,6 +428,7 @@ function RowUser({ user, idx, handleFileChange, fetchData }) {
 							/>
 						</Button>
 						<Button
+							w={"50%"}
 							colorScheme="red"
 							onClick={() => {
 								setDeleteUserId(user.id);

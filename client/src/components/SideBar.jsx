@@ -1,3 +1,4 @@
+
 import {
 	Avatar,
 	Button,
@@ -18,6 +19,8 @@ import { VscAccount } from "react-icons/vsc";
 import { LoginModal } from "./loginmodal";
 
 export default function SideBar() {
+
+	const orderType = useSelector((state) => state.orderType.value);
 	const userSelector = useSelector((state) => state.login.auth);
 	const modal1 = useDisclosure();
 	const dispatch = useDispatch();
@@ -47,8 +50,8 @@ export default function SideBar() {
 					<Flex
 						pb={"20px"}
 						pl={"30px"}
-						color={"white"}
 						gap={"10px"}
+						// eslint-disable-next-line react/jsx-no-duplicate-props
 						color={location[1] == ("cashier" || "login") ? "white" : "black"}
 						alignItems={"center"}
 					>
@@ -59,6 +62,11 @@ export default function SideBar() {
 					</Flex>
 					<Flex className="menu" paddingLeft={"20px"} paddingRight={"20px"}>
 						<Flex
+							bgColor={
+								orderType === "Dine In"
+									? "var(--section-color)"
+									: "none"
+							}
 							className="menu-list"
 							onClick={() => {
 								dispatch(dineIn());
@@ -67,6 +75,11 @@ export default function SideBar() {
 							Dine In
 						</Flex>
 						<Flex
+							bgColor={
+								orderType === "Take Away"
+									? "var(--section-color)"
+									: "none"
+							}
 							className="menu-list"
 							onClick={() => {
 								dispatch(takeAway());
@@ -75,6 +88,11 @@ export default function SideBar() {
 							Take Away
 						</Flex>
 						<Flex
+							bgColor={
+								orderType === "Delivery"
+									? "var(--section-color)"
+									: "none"
+							}
 							className="menu-list"
 							onClick={() => {
 								dispatch(delivery());
@@ -83,6 +101,11 @@ export default function SideBar() {
 							Delivery
 						</Flex>
 						<Flex
+							bgColor={
+								orderType === "Reservation"
+									? "var(--section-color)"
+									: "none"
+							}
 							className="menu-list"
 							onClick={() => {
 								dispatch(reservation());
@@ -106,14 +129,14 @@ export default function SideBar() {
 				</GridItem>
 
 				<GridItem w="100%" gridRow={"11/15"} paddingLeft={"20px"}>
-					<Flex className="users">
+					<Flex className="users" visibility={"hidden"}>
 						<Flex>
 							<Avatar name="Susi Pujiastuti" src="#" size={"sm"} />
 						</Flex>
 
 						<Flex paddingLeft={"15px"}>Susi P.</Flex>
 					</Flex>
-					<Flex className="users">
+					<Flex className="users" visibility={"hidden"}>
 						<Flex>
 							<Avatar
 								name="Mamud M"
