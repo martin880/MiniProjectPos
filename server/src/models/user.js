@@ -6,6 +6,7 @@ module.exports = (sequelize, Sequelize) => {
     role: Sequelize.ENUM("ADMIN", "CASHIER"),
     email: Sequelize.STRING,
     avatar: Sequelize.BLOB("long"),
+    avatar_url: Sequelize.TEXT,
     phoneNumber: Sequelize.STRING,
     sex: Sequelize.ENUM("MALE", "FEMALE"),
     address: Sequelize.STRING,

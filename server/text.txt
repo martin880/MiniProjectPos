@@ -5,3 +5,13 @@ db_database = ""
 db_host = ""
 db_dialect= ""
 private_key = ""
+
+
+database categories:
+1 coffee
+2 nonCoffee
+3 platter
+4 pastry
+5 mainCourse
+6 dessert
+

@@ -2,6 +2,7 @@ const db = require("../models");
 const Sequelize = require("sequelize");
 const { Op } = db.Sequelize;
 const moment = require("moment");
+const { query } = require("express");
 const productController = {
 	getAll: async (req, res) => {
 		try {
@@ -32,6 +33,12 @@ const productController = {
 	// Pencarian berdasarkan nama produk dan harga
 	getProduct: async (req, res) => {
 		try {
+			const sortBy = req.query.sortBy || "productName";
+			const sortDir = req.query.sortDir || "ASC";
+
+			console.log(req.query.sortBy);
+			console.log(req.query.sortDir);
+
 			const search = req.query.search_query || "";
 			const product = await db.Product.findAll({
 				where: {
@@ -40,6 +47,7 @@ const productController = {
 						{ harga: { [Op.like]: "%" + search + "%" } },
 					],
 				},
+				order: [[sortBy, sortDir]],
 			});
 			return res.send(product);
 		} catch (err) {

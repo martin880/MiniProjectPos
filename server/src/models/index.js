@@ -46,7 +46,6 @@ Object.keys(db).forEach((modelName) => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-db.Token = require("./Token")(sequelize, Sequelize);
 db.Order = require("./Order")(sequelize, Sequelize);
 db.CategoryProduct = require("./CategoryProduct")(sequelize, Sequelize);
 db.OrderDetail = require("./OrderDetail")(sequelize, Sequelize);
@@ -54,7 +53,7 @@ db.Payment = require("./Payment")(sequelize, Sequelize);
 db.Product = require("./Product")(sequelize, Sequelize);
 db.StockHistory = require("./StockHistory")(sequelize, Sequelize);
 db.User = require("./user")(sequelize, Sequelize);
-
+db.Token = require("./Token")(sequelize, Sequelize);
 db.Product.belongsTo(db.CategoryProduct, {
   foreignKey: "categoryId",
   as: "Category",
