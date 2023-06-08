@@ -9,8 +9,8 @@ import { cutlery, delivery, custName } from "../redux/customerInfo";
 export default function CustInformation() {
 	const dispatch = useDispatch();
 	const userInfo = useSelector((state) => state.customerInfo);
-	const custNames = document.getElementById("custName").value;
-	console.log("CustName", custNames);
+	// const custNames = document.getElementById("custName").value;
+	// console.log("CustName", custNames);
 
 	return (
 		<Flex
@@ -69,9 +69,9 @@ export default function CustInformation() {
 								paddingLeft={"30px"}
 								variant={"unstyled"}
 								id="custName"
-								onChange={() => {
-									dispatch(custName());
-								}}
+								// onChange={() => {
+								// 	dispatch(custName());
+								// }}
 							/>
 						</Flex>
 					</Flex>
@@ -124,22 +124,14 @@ export default function CustInformation() {
 										? "1px solid #688902"
 										: "1px solid rgba(120, 121, 130,0.2)"
 								}
-								bg={
-									userInfo.delivery === "Gojek"
-										? "#d0fb20"
-										: ""
-								}
-								fontWeight={
-									userInfo.delivery === "Gojek" ? "bold" : ""
-								}
+								bg={userInfo.delivery === "Gojek" ? "#d0fb20" : ""}
+								fontWeight={userInfo.delivery === "Gojek" ? "bold" : ""}
 								onClick={() => {
 									dispatch(delivery("Gojek"));
 								}}
 							>
 								<BiCycling />
-								<span style={{ paddingLeft: "10px" }}>
-									Gojek
-								</span>
+								<span style={{ paddingLeft: "10px" }}>Gojek</span>
 							</Flex>
 							<Flex
 								className="kurir"
@@ -148,22 +140,14 @@ export default function CustInformation() {
 										? "1px solid #688902"
 										: "1px solid rgba(120, 121, 130,0.2)"
 								}
-								bg={
-									userInfo.delivery === "Grab"
-										? "#d0fb20"
-										: ""
-								}
-								fontWeight={
-									userInfo.delivery === "Grab" ? "bold" : ""
-								}
+								bg={userInfo.delivery === "Grab" ? "#d0fb20" : ""}
+								fontWeight={userInfo.delivery === "Grab" ? "bold" : ""}
 								onClick={() => {
 									dispatch(delivery("Grab"));
 								}}
 							>
 								<BiCycling />
-								<span style={{ paddingLeft: "10px" }}>
-									Grab
-								</span>
+								<span style={{ paddingLeft: "10px" }}>Grab</span>
 							</Flex>
 							<Flex
 								className="kurir"
@@ -172,22 +156,14 @@ export default function CustInformation() {
 										? "1px solid #688902"
 										: "1px solid rgba(120, 121, 130,0.2)"
 								}
-								bg={
-									userInfo.delivery === "Maxim"
-										? "#d0fb20"
-										: ""
-								}
-								fontWeight={
-									userInfo.delivery === "Maxim" ? "bold" : ""
-								}
+								bg={userInfo.delivery === "Maxim" ? "#d0fb20" : ""}
+								fontWeight={userInfo.delivery === "Maxim" ? "bold" : ""}
 								onClick={() => {
 									dispatch(delivery("Maxim"));
 								}}
 							>
 								<BiCycling />
-								<span style={{ paddingLeft: "10px" }}>
-									Maxim
-								</span>
+								<span style={{ paddingLeft: "10px" }}>Maxim</span>
 							</Flex>
 							<Flex
 								className="kurir"
@@ -196,22 +172,14 @@ export default function CustInformation() {
 										? "1px solid #688902"
 										: "1px solid rgba(120, 121, 130,0.2)"
 								}
-								bg={
-									userInfo.delivery === "Store"
-										? "#d0fb20"
-										: ""
-								}
-								fontWeight={
-									userInfo.delivery === "Store" ? "bold" : ""
-								}
+								bg={userInfo.delivery === "Store" ? "#d0fb20" : ""}
+								fontWeight={userInfo.delivery === "Store" ? "bold" : ""}
 								onClick={() => {
 									dispatch(delivery("Store"));
 								}}
 							>
 								<BiCycling />
-								<span style={{ paddingLeft: "10px" }}>
-									Store
-								</span>
+								<span style={{ paddingLeft: "10px" }}>Store</span>
 							</Flex>
 						</Flex>
 					</Flex>
@@ -244,19 +212,11 @@ export default function CustInformation() {
 									dispatch(cutlery(!userInfo.cutlery));
 								}}
 							>
+								{!userInfo.cutlery ? <BiWorld /> : <BiRestaurant />}
 								{!userInfo.cutlery ? (
-									<BiWorld />
+									<span style={{ paddingLeft: "6px" }}>No</span>
 								) : (
-									<BiRestaurant />
-								)}
-								{!userInfo.cutlery ? (
-									<span style={{ paddingLeft: "6px" }}>
-										No
-									</span>
-								) : (
-									<span style={{ paddingLeft: "6px" }}>
-										Yes
-									</span>
+									<span style={{ paddingLeft: "6px" }}>Yes</span>
 								)}
 							</Flex>
 						</Flex>

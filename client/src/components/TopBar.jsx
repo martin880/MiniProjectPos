@@ -9,7 +9,7 @@ import {
 	Input,
 	InputGroup,
 	InputLeftElement,
-  Stat,
+	Stat,
 	StatNumber,
 	StatHelpText,
 } from "@chakra-ui/react";
@@ -38,11 +38,7 @@ export default function TopBar() {
 						<InputLeftElement>
 							<CiSearch color="var(--text-l3)" size={"30px"} />
 						</InputLeftElement>
-						<Input
-							type="text"
-							placeholder="Search"
-							color="#595959"
-						/>
+						<Input type="text" placeholder="Search" color="#595959" />
 					</InputGroup>
 				</Flex>
 				<Flex
@@ -58,43 +54,21 @@ export default function TopBar() {
 						}}
 					>
 						<Stat>
-							<StatNumber
-								display={
-									orderType === "Dine In" ? "block" : "none"
-								}
-							>
-								{userInfo.table
-									? userInfo.table
-									: "Select Table"}
+							<StatNumber display={orderType === "Dine In" ? "block" : "none"}>
+								{userInfo.table ? userInfo.table : "Select Table"}
 							</StatNumber>
 							<StatNumber
-								display={
-									orderType === "Take Away" ? "block" : "none"
-								}
+								display={orderType === "Take Away" ? "block" : "none"}
 							>
-								{userInfo.cutlery
-									? "With Cutlery"
-									: "No Cutlery"}
+								{userInfo.cutlery ? "With Cutlery" : "No Cutlery"}
+							</StatNumber>
+							<StatNumber display={orderType === "Delivery" ? "block" : "none"}>
+								{userInfo.delivery ? userInfo.delivery : "Select Delivery"}
 							</StatNumber>
 							<StatNumber
-								display={
-									orderType === "Delivery" ? "block" : "none"
-								}
+								display={orderType === "Reservation" ? "block" : "none"}
 							>
-								{userInfo.delivery
-									? userInfo.delivery
-									: "Select Delivery"}
-							</StatNumber>
-							<StatNumber
-								display={
-									orderType === "Reservation"
-										? "block"
-										: "none"
-								}
-							>
-								{orderType === "Reservation"
-									? "Manual Input"
-									: "Manual Input"}
+								{orderType === "Reservation" ? "Manual Input" : "Manual Input"}
 							</StatNumber>
 							<StatHelpText>Customer Name</StatHelpText>
 						</Stat>
@@ -109,194 +83,8 @@ export default function TopBar() {
 						}}
 						cursor={"pointer"}
 					/>
-
-// 	Avatar,
-// 	Button,
-// } from "@chakra-ui/react";
-// import { LoginModal } from "./loginmodal";
-// import { VscAccount } from "react-icons/vsc";
-// import { CiSearch } from "react-icons/ci";
-// import { useLocation } from "react-router-dom";
-// import { useDispatch, useSelector } from "react-redux";
-
-// export default function TopBar() {
-// 	const userSelector = useSelector((state) => state.login.auth);
-// 	const location = useLocation().pathname.split("/");
-
-// 	const modal2 = useDisclosure();
-
-// 	const dispatch = useDispatch();
-// 	function logout() {
-// 		localStorage.removeItem("auth");
-// 		dispatch({
-// 			type: "logout",
-// 		});
-// 		return;
-// 	}
-// 	return (
-// 		<>
-// 			<Flex w={"100%"}>
-// 				<Flex w={"100%"} gap={"50px"}>
-// 					<Center
-// 						p={"0px 18px"}
-// 						color={"white"}
-// 						justifyContent={"space-between"}
-// 					>
-// 						<Flex
-// 							display={location[1] == ("cashier" || "login") ? "block" : "none"}
-// 						>
-// 							<InputGroup>
-// 								<Input
-// 									w={"200px"}
-// 									fontSize={"12px"}
-// 									border={"1px gray.600 solid"}
-// 									type={"text"}
-// 									color={"gray.400"}
-// 									placeholder="Search"
-// 									h={"28px"}
-// 									id="searchbar"
-// 									backgroundColor={
-// 										location[1] == ("cashier" || "login")
-// 											? "#424242"
-// 											: "#dedddc"
-// 									}
-// 								></Input>
-// 								<InputLeftElement w={"30px"} h={"100%"}>
-// 									<Icon
-// 										colorScheme="whiteAlpha"
-// 										color={"gray.400"}
-// 										as={CiSearch}
-// 										w={"28px"}
-// 										h={"28px"}
-// 										cursor={"pointer"}
-// 									></Icon>
-// 								</InputLeftElement>
-// 							</InputGroup>
-// 						</Flex>
-// 					</Center>
-
-// 					<Center
-// 						p={"10px"}
-// 						gap={"30px"}
-// 						justifyContent={"space-between"}
-// 						pr={"30px"}
-// 					>
-// 						<Flex flexDir={"column"} color={"white"}>
-// 							<Flex
-// 								fontSize={"17px"}
-// 								display={
-// 									location[1] == ("cashier" || "login") ? "block" : "none"
-// 								}
-// 							>
-// 								Table 5
-// 							</Flex>
-// 							<Flex
-// 								fontSize={"10px"}
-// 								color={"grey"}
-// 								display={
-// 									location[1] == ("cashier" || "login") ? "block" : "none"
-// 								}
-// 							>
-// 								Leslie k
-// 							</Flex>
-// 							<Flex
-// 								display={
-// 									location[1] == ("admin" || "admin-product")
-// 										? "inline-flex"
-// 										: "none"
-// 								}
-// 								color={"black"}
-// 								flexDir={"row"}
-// 								alignItems={"center"}
-// 								gap={"20px"}
-// 							>
-// 								<Flex w={"280px"}>Sort by date :</Flex>
-// 								<Input type="date" bgColor={"#dedddc"}></Input>
-// 								<Flex fontSize={"20px"}>-</Flex>
-// 								<Input type="date" bgColor={"#dedddc"}></Input>
-// 								<Button>lol</Button>
-// 							</Flex>
-// 						</Flex>
-// 					</Center>
-
 				</Flex>
 			</Flex>
 		</>
 	);
 }
-// BACKUP TOPBAR PUNYA THOMAS
-// import { LoginModal } from "./loginmodal";
-// import { VscAccount } from "react-icons/vsc";
-// import { CiSearch } from "react-icons/ci";
-
-// export default function TopBar() {
-//   const { isOpen, onOpen, onClose } = useDisclosure();
-
-//   return (
-//     <>
-//       <Flex w={"100%"}>
-//         <Flex justifyContent={"space-between"} w={"100%"}>
-//           <Center p={"0px 18px"}>
-//             <InputGroup>
-//               <Input
-//                 w={"200px"}
-//                 fontSize={"12px"}
-//                 border={"1px gray.600 solid"}
-//                 type={"text"}
-//                 color={"gray.400"}
-//                 placeholder="Search"
-//                 h={"28px"}
-//                 id="searchbar"
-//                 backgroundColor={"#424242"}
-//               ></Input>
-//               <InputLeftElement w={"30px"} h={"100%"}>
-//                 <Icon
-//                   colorScheme="whiteAlpha"
-//                   color={"gray.400"}
-//                   as={CiSearch}
-//                   w={"28px"}
-//                   h={"28px"}
-//                   cursor={"pointer"}
-//                 ></Icon>
-//               </InputLeftElement>
-//             </InputGroup>
-//           </Center>
-//           <Center
-//             p={"10px"}
-//             gap={"30px"}
-//             w={"274px"}
-//             justifyContent={"space-between"}
-//             pr={"30px"}
-//           >
-//             <Flex flexDir={"column"} color={"white"}>
-//               <Flex fontSize={"17px"}>Table 5</Flex>
-//               <Flex fontSize={"10px"} color={"grey"}>
-//                 Leslie K
-//               </Flex>
-//             </Flex>
-//             <Flex>
-//               <Icon
-//                 as={VscAccount}
-//                 h={"28px"}
-//                 w={"28px"}
-//                 color={"#b0b0b0"}
-//                 cursor={"pointer"}
-//                 onClick={() => {
-//                   onOpen();
-//                 }}
-//               ></Icon>
-//             </Flex>
-//           </Center>
-
-//           <Modal isOpen={isOpen} onClose={onClose} isCentered>
-//             <ModalOverlay />
-//             <ModalContent>
-//               <LoginModal onClose={onClose} />
-//             </ModalContent>
-//           </Modal>
-//         </Flex>
-//       </Flex>
-//     </>
-//   );
-// >>>>>>> 547c3e1e946101ec9d235179d7029a181eee36af
-// }
