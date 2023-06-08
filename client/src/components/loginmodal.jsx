@@ -41,7 +41,12 @@ export function LoginModal(props) {
 			await api.post("http://localhost:2000/auth/v2", login).then((res) => {
 				localStorage.setItem("auth", JSON.stringify(res.data.token));
 				token = res.data.token;
-				alert(res.data.message);
+				toast({
+					title: "Login Success.",
+					status: "success",
+					duration: 3000,
+					isClosable: false,
+				});
 			});
 			api.get("http://localhost:2000/auth/v3?token=" + token).then((res) => {
 				console.log(res.data);
