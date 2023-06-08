@@ -86,8 +86,6 @@ export default function ProductPages() {
   const [products, setProducts] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [query, setQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(5);
 
   useEffect(() => {
     api
@@ -126,14 +124,17 @@ export default function ProductPages() {
     setKeyword(query);
   };
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(5);
+
   // Menghitung indeks produk awal dan akhir pada halaman saat ini
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+
   const currentProducts = products.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
-
   // Fungsi untuk mengubah halaman
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -402,9 +403,11 @@ export default function ProductPages() {
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {currentProducts.map((product) => (
+                      {currentProducts.map((product, idx) => (
                         <Tr key={product.id}>
-                          <Td>{product.id}</Td>
+                          <Td>
+                            {indexOfLastProduct - productsPerPage + idx + 1}
+                          </Td>
 
                           <Td>{product.productName}</Td>
                           <Td>{getCategoryName(product.categoryId)}</Td>
