@@ -2,61 +2,68 @@ import {
 	Flex,
 	Grid,
 	GridItem,
-	Icon,
 	Stat,
 	StatHelpText,
 	StatNumber,
 } from "@chakra-ui/react";
 
-import { BiCoffeeTogo, BiDrink, BiCake, BiParty } from "react-icons/bi";
-import { GiSausage, GiNoodles, GiPieSlice, GiPlantSeed } from "react-icons/gi";
+import {
+	BiCoffee,
+	BiWine,
+	BiCake,
+	BiParty,
+	BiLeaf,
+	BiSushi,
+	BiBowlHot,
+	BiCheese,
+} from "react-icons/bi";
 
 export default function Category() {
 	const arr = [
 		{
-			icon: "BiCoffeeTogo",
+			icon: <BiCoffee size={"35px"} />,
 			categoryName: "Coffee",
 			color: "#CFDDDA",
 			menuCount: 12,
 		},
 		{
-			icon: "BiDrink",
+			icon: <BiWine size={"35px"} />,
 			categoryName: "Non-Coffee",
 			color: "#E4CDEF",
 			menuCount: 10,
 		},
 		{
-			icon: "GiSausage",
+			icon: <BiSushi size={"35px"} />,
 			categoryName: "Platter",
 			color: "#C1DBE8",
 			menuCount: 11,
 		},
 		{
-			icon: "BiCake",
+			icon: <BiCake size={"35px"} />,
 			categoryName: "Pastry",
 			color: "#C9CAEE",
 			menuCount: 5,
 		},
 		{
-			icon: "GiNoodles",
+			icon: <BiBowlHot size={"35px"} />,
 			categoryName: "Main Course",
 			color: "#F8C0D7",
 			menuCount: 8,
 		},
 		{
-			icon: "GiPieSlice",
+			icon: <BiCheese size={"35px"} />,
 			categoryName: "Dessert",
 			color: "#E5D8DD",
 			menuCount: 4,
 		},
 		{
-			icon: "BiParty",
+			icon: <BiParty size={"35px"} />,
 			categoryName: "Specials",
 			color: "#EEC7CE",
 			menuCount: 4,
 		},
 		{
-			icon: "GiPlantSeed",
+			icon: <BiLeaf size={"35px"} />,
 			categoryName: "Vegan",
 			color: "#C1E7DC",
 			menuCount: 4,
@@ -92,7 +99,9 @@ function Card(props) {
 			w="100%"
 			bg={props.color}
 			maxH={"200px"}
-			// minH={"200px"}
+			// minH={"165px"}
+			minH={"45%"}
+			overflow={"scroll"}
 			className="category-list"
 		>
 			<Flex
@@ -101,8 +110,10 @@ function Card(props) {
 				h={"100%"}
 				justifyContent={"space-between"}
 			>
-				<Flex>
-					<BiCoffeeTogo size={"35px"} />
+				<Flex w={"32px"}>
+					{/* <BiCoffeeTogo size={"35px"} /> */}
+					{/* <Icon as={`${props.icon}`} /> */}
+					{props.icon}
 				</Flex>
 				<Flex>
 					<Stat>

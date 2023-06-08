@@ -9,11 +9,15 @@ import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import orderTypeReducer from "./redux/orderType.js";
 import orderListReducer from "./redux/orderList";
+import modalManager from "./redux/modalManager";
+import customerInfo from "./redux/customerInfo";
 
 const store = configureStore({
 	reducer: {
 		orderType: orderTypeReducer,
 		orderList: orderListReducer,
+		modalManager: modalManager,
+		customerInfo: customerInfo,
 	},
 });
 const root = ReactDOM.createRoot(document.getElementById("root"));

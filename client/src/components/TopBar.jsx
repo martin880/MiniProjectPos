@@ -7,9 +7,16 @@ import {
 	StatHelpText,
 	StatNumber,
 } from "@chakra-ui/react";
+import React from "react";
 import { CiSearch, CiEdit } from "react-icons/ci";
+import { useDispatch, useSelector } from "react-redux";
+import { orderInfoModal } from "../redux/modalManager";
 
 export default function TopBar() {
+	const dispatch = useDispatch();
+	const userInfo = useSelector((state) => state.customerInfo);
+	const orderType = useSelector((state) => state.orderType.value);
+
 	return (
 		<>
 			<Flex className="top-container">
@@ -37,16 +44,58 @@ export default function TopBar() {
 					justifyContent={"end"}
 					paddingRight={"20px"}
 				>
-					<Flex className="table">
+					<Flex
+						className="table"
+						cursor={"pointer"}
+						onClick={() => {
+							dispatch(orderInfoModal(true));
+						}}
+					>
 						<Stat>
-							<StatNumber>Table 5</StatNumber>
+							<StatNumber
+								display={
+									orderType === "Dine In" ? "block" : "none"
+								}
+							>
+								{userInfo.table
+									? userInfo.table
+									: "Select Table"}
+							</StatNumber>
+							<StatNumber
+								display={
+									orderType === "Take Away" ? "block" : "none"
+								}
+							>
+								{userInfo.cutlery
+									? "With Cutlery"
+									: "No Cutlery"}
+							</StatNumber>
+							<StatNumber
+								display={
+									orderType === "Delivery" ? "block" : "none"
+								}
+							>
+								{userInfo.delivery
+									? userInfo.delivery
+									: "Select Delivery"}
+							</StatNumber>
+							<StatNumber
+								display={
+									orderType === "Reservation"
+										? "block"
+										: "none"
+								}
+							>
+								{orderType === "Reservation"
+									? "Manual Input"
+									: "Manual Input"}
+							</StatNumber>
 							<StatHelpText>Customer Name</StatHelpText>
 						</Stat>
 					</Flex>
 					<CiEdit
 						color="var(--text-l2)"
 						size={"30px"}
-						// borderRadius={"10px"}
 						style={{ borderRadius: "10px" }}
 						border={"2px red solid"}
 					/>

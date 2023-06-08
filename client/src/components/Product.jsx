@@ -73,7 +73,9 @@ function Card(props) {
 	const orderType = useSelector((state) => state.orderType.value);
 	const orderList = useSelector((state) => state.orderList);
 	const currQuantity = orderList.filter(
-		(item) => item.menu === `${props.productName}`
+		(item) =>
+			item.menu === `${props.productName}` &&
+			item.orderType === `${orderType}`
 	);
 	const dispatch = useDispatch();
 	const add = {
@@ -84,7 +86,7 @@ function Card(props) {
 		note: "",
 	};
 
-	console.log("ORDER LIST STATE", orderList);
+	// console.log("ORDER LIST STATE", orderList);
 
 	function PrintVal() {
 		// console.log("CART", );
@@ -98,6 +100,9 @@ function Card(props) {
 			bg={"#CEDCD9"}
 			style={{ borderRadius: "15px" }}
 			maxH={"200px"}
+			// minH={"165px"}
+			minH={"45%"}
+			overflow={"scroll"}
 		>
 			<Flex flexDirection={"row"} h={"100%"}>
 				<Flex w={"10px"}></Flex>
@@ -150,7 +155,10 @@ function Card(props) {
 									}
 									onClick={() => {
 										dispatch(
-											removeOrder(props.productName)
+											removeOrder({
+												productName: props.productName,
+												orderType: orderType,
+											})
 										);
 									}}
 								>

@@ -4,16 +4,6 @@ import { useSelector } from "react-redux";
 export default function OrderDetails() {
 	const orderList = useSelector((state) => state.orderList);
 	const list = [...orderList];
-	// const listOK = Object.values(
-	// 	list.reduce((acc, curr) => {
-	// 		if (!acc[curr.menu]) {
-	// 			acc[curr.menu] = [curr];
-	// 		} else {
-	// 			acc[curr.menu].push(curr);
-	// 		}
-	// 		return acc;
-	// 	}, {})
-	// );
 
 	const groupByOrderType = (list || []).reduce((acc, curr) => {
 		if (!acc[curr.orderType]) {
@@ -78,9 +68,15 @@ export default function OrderDetails() {
 		<Flex
 			w={"100%"}
 			h={"100%"}
-			padding={"0 10px"}
 			flexDirection={"column"}
 			gap={3}
+			bg={orderList.length ? "#101314" : "#282C2C"}
+			margin={"0 10px"}
+			style={{
+				borderRadius: "15px",
+				transition: "background-color 500ms ease-in-out",
+			}}
+			alignItems={"center"}
 		>
 			{(Summarize("Dine In") || []).map((val, index) => (
 				<Card
@@ -91,9 +87,26 @@ export default function OrderDetails() {
 					quantity={val[2]}
 				/>
 			))}
-
 			{(Summarize("Take Away") || []).map((val, index) => (
 				<CardTwo
+					key={val[0]}
+					idx={index + 1}
+					productName={val[0]}
+					unitPrice={val[1]}
+					quantity={val[2]}
+				/>
+			))}
+			{(Summarize("Delivery") || []).map((val, index) => (
+				<CardThree
+					key={val[0]}
+					idx={index + 1}
+					productName={val[0]}
+					unitPrice={val[1]}
+					quantity={val[2]}
+				/>
+			))}
+			{(Summarize("Reservation") || []).map((val, index) => (
+				<CardFour
 					key={val[0]}
 					idx={index + 1}
 					productName={val[0]}
@@ -169,6 +182,76 @@ function CardTwo(propstwo) {
 				</Flex>
 				<Flex w={"25%"} fontWeight={"500"} justifyContent={"end"}>
 					{propstwo.unitPrice * propstwo.quantity}
+				</Flex>
+			</Flex>
+		</Flex>
+	);
+}
+
+function CardThree(propsthree) {
+	return (
+		<Flex
+			w={"100%"}
+			h={"50px"}
+			bg={"#33320b"}
+			style={{ borderRadius: "15px" }}
+			flexDirection={"row"}
+			justifyContent={"center"}
+			alignItems={"center"}
+			color={"white"}
+		>
+			<Flex w={"90%"} h={"80%"} alignItems={"center"}>
+				<Flex
+					w={"9%"}
+					bg={"whiteAlpha.500"}
+					style={{ borderRadius: "20px" }}
+					justifyContent={"center"}
+					color={"black"}
+					margin={"5px"}
+				>
+					{propsthree.idx}
+				</Flex>
+				<Flex w={"65%"}>
+					<Box padding={"0 8px"}>{propsthree.productName}</Box>
+					<Box color={"whiteAlpha.700"}>x{propsthree.quantity}</Box>
+				</Flex>
+				<Flex w={"25%"} fontWeight={"500"} justifyContent={"end"}>
+					{propsthree.unitPrice * propsthree.quantity}
+				</Flex>
+			</Flex>
+		</Flex>
+	);
+}
+
+function CardFour(propsfour) {
+	return (
+		<Flex
+			w={"100%"}
+			h={"50px"}
+			bg={"#2b0b33"}
+			style={{ borderRadius: "15px" }}
+			flexDirection={"row"}
+			justifyContent={"center"}
+			alignItems={"center"}
+			color={"white"}
+		>
+			<Flex w={"90%"} h={"80%"} alignItems={"center"}>
+				<Flex
+					w={"9%"}
+					bg={"whiteAlpha.500"}
+					style={{ borderRadius: "20px" }}
+					justifyContent={"center"}
+					color={"black"}
+					margin={"5px"}
+				>
+					{propsfour.idx}
+				</Flex>
+				<Flex w={"65%"}>
+					<Box padding={"0 8px"}>{propsfour.productName}</Box>
+					<Box color={"whiteAlpha.700"}>x{propsfour.quantity}</Box>
+				</Flex>
+				<Flex w={"25%"} fontWeight={"500"} justifyContent={"end"}>
+					{propsfour.unitPrice * propsfour.quantity}
 				</Flex>
 			</Flex>
 		</Flex>

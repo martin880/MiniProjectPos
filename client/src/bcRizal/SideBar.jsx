@@ -1,9 +1,8 @@
 import { Avatar, Flex, Grid, GridItem } from "@chakra-ui/react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { dineIn, takeAway, delivery, reservation } from "../redux/orderType";
 
 export default function SideBar() {
-	const orderType = useSelector((state) => state.orderType.value);
 	const dispatch = useDispatch();
 	return (
 		<>
@@ -19,11 +18,6 @@ export default function SideBar() {
 						paddingRight={"20px"}
 					>
 						<Flex
-							bgColor={
-								orderType === "Dine In"
-									? "var(--section-color)"
-									: "none"
-							}
 							className="menu-list"
 							onClick={() => {
 								dispatch(dineIn());
@@ -32,11 +26,6 @@ export default function SideBar() {
 							Dine In
 						</Flex>
 						<Flex
-							bgColor={
-								orderType === "Take Away"
-									? "var(--section-color)"
-									: "none"
-							}
 							className="menu-list"
 							onClick={() => {
 								dispatch(takeAway());
@@ -45,11 +34,6 @@ export default function SideBar() {
 							Take Away
 						</Flex>
 						<Flex
-							bgColor={
-								orderType === "Delivery"
-									? "var(--section-color)"
-									: "none"
-							}
 							className="menu-list"
 							onClick={() => {
 								dispatch(delivery());
@@ -58,11 +42,6 @@ export default function SideBar() {
 							Delivery
 						</Flex>
 						<Flex
-							bgColor={
-								orderType === "Reservation"
-									? "var(--section-color)"
-									: "none"
-							}
 							className="menu-list"
 							onClick={() => {
 								dispatch(reservation());
