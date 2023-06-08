@@ -120,9 +120,6 @@ export default function AdminPages() {
     setKeyword(query);
   };
 
-  const dispatch = useDispatch();
-  const userSelector = useSelector((state) => state.auth);
-
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
 
