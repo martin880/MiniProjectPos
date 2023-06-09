@@ -24,13 +24,11 @@ export function EditProduct(props) {
   const [category, setCategory] = useState([]);
   const [SelectedFile, setSelectedFile] = useState(null);
   const inputFileRef = useRef(null);
-  const [product, setProduct] = useState({
-    productName: "",
-    harga: "",
-    stock: "",
-    categoryId: "",
-    photoProduct_url: "",
-  });
+  const [product, setProduct] = useState(props.product);
+
+  useEffect(() => {
+    setProduct(props.product); // Update nilai product jika prop berubah
+  }, [props.product]);
 
   const inputHandler = (e) => {
     const { id, value } = e.target;
@@ -40,16 +38,16 @@ export function EditProduct(props) {
     setProduct(tempProduct);
   };
 
-  useEffect(() => {
-    api
-      .get("/product")
-      .then((response) => {
-        setProduct(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   api
+  //     .get("/product")
+  //     .then((response) => {
+  //       setProduct(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, []);
 
   //
   const editProduct = async () => {
@@ -150,11 +148,23 @@ export function EditProduct(props) {
               /> */}
               <Flex flexDir={"column"} w={"80%"} gap={"10px"}>
                 Product Name
-                <Input id="productName" onChange={inputHandler} />
+                <Input
+                  id="productName"
+                  value={product.productName}
+                  onChange={inputHandler}
+                />
                 Price
-                <Input id="harga" onChange={inputHandler} />
+                <Input
+                  id="harga"
+                  value={product.harga}
+                  onChange={inputHandler}
+                />
                 Stock
-                <Input id="stock" onChange={inputHandler} />
+                <Input
+                  id="stock"
+                  value={product.stock}
+                  onChange={inputHandler}
+                />
                 Category
                 <Select
                   placeholder="Choose Category"
