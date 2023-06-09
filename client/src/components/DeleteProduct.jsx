@@ -37,7 +37,7 @@ export function DeleteProduct(props) {
           <ModalHeader>Konfirmasi Hapus Data </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            Apakah anda yakin akan menghapus data dengan id{" "}
+            Apakah anda yakin akan menghapus produk{" "}
             {`${props.product.productName}`}?
           </ModalBody>
           <ModalFooter gap={5}>
