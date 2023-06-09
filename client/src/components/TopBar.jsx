@@ -70,7 +70,11 @@ export default function TopBar() {
 							>
 								{orderType === "Reservation" ? "Manual Input" : "Manual Input"}
 							</StatNumber>
-							<StatHelpText>Customer Name</StatHelpText>
+							<StatHelpText>
+								{userInfo.custName
+									? userInfo.custName
+									: "Customer Name"}
+							</StatHelpText>
 						</Stat>
 					</Flex>
 					<CiEdit

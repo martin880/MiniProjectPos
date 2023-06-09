@@ -1,6 +1,6 @@
 import { Flex, Input } from "@chakra-ui/react";
 import { BiWorld, BiCycling, BiRestaurant } from "react-icons/bi";
-import React from "react";
+import React, { useState } from "react";
 import Table from "../components/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { orderInfoModal } from "../redux/modalManager";
@@ -11,6 +11,12 @@ export default function CustInformation() {
 	const userInfo = useSelector((state) => state.customerInfo);
 	// const custNames = document.getElementById("custName").value;
 	// console.log("CustName", custNames);
+	const [name, setName] = useState("");
+
+	const handleCustName = (event) => {
+		const value = event.target.value;
+		setName(value);
+	};
 
 	return (
 		<Flex
@@ -69,9 +75,8 @@ export default function CustInformation() {
 								paddingLeft={"30px"}
 								variant={"unstyled"}
 								id="custName"
-								// onChange={() => {
-								// 	dispatch(custName());
-								// }}
+								value={name}
+								onChange={handleCustName}
 							/>
 						</Flex>
 					</Flex>
@@ -124,14 +129,22 @@ export default function CustInformation() {
 										? "1px solid #688902"
 										: "1px solid rgba(120, 121, 130,0.2)"
 								}
-								bg={userInfo.delivery === "Gojek" ? "#d0fb20" : ""}
-								fontWeight={userInfo.delivery === "Gojek" ? "bold" : ""}
+								bg={
+									userInfo.delivery === "Gojek"
+										? "#d0fb20"
+										: ""
+								}
+								fontWeight={
+									userInfo.delivery === "Gojek" ? "bold" : ""
+								}
 								onClick={() => {
 									dispatch(delivery("Gojek"));
 								}}
 							>
 								<BiCycling />
-								<span style={{ paddingLeft: "10px" }}>Gojek</span>
+								<span style={{ paddingLeft: "10px" }}>
+									Gojek
+								</span>
 							</Flex>
 							<Flex
 								className="kurir"
@@ -140,14 +153,22 @@ export default function CustInformation() {
 										? "1px solid #688902"
 										: "1px solid rgba(120, 121, 130,0.2)"
 								}
-								bg={userInfo.delivery === "Grab" ? "#d0fb20" : ""}
-								fontWeight={userInfo.delivery === "Grab" ? "bold" : ""}
+								bg={
+									userInfo.delivery === "Grab"
+										? "#d0fb20"
+										: ""
+								}
+								fontWeight={
+									userInfo.delivery === "Grab" ? "bold" : ""
+								}
 								onClick={() => {
 									dispatch(delivery("Grab"));
 								}}
 							>
 								<BiCycling />
-								<span style={{ paddingLeft: "10px" }}>Grab</span>
+								<span style={{ paddingLeft: "10px" }}>
+									Grab
+								</span>
 							</Flex>
 							<Flex
 								className="kurir"
@@ -156,14 +177,22 @@ export default function CustInformation() {
 										? "1px solid #688902"
 										: "1px solid rgba(120, 121, 130,0.2)"
 								}
-								bg={userInfo.delivery === "Maxim" ? "#d0fb20" : ""}
-								fontWeight={userInfo.delivery === "Maxim" ? "bold" : ""}
+								bg={
+									userInfo.delivery === "Maxim"
+										? "#d0fb20"
+										: ""
+								}
+								fontWeight={
+									userInfo.delivery === "Maxim" ? "bold" : ""
+								}
 								onClick={() => {
 									dispatch(delivery("Maxim"));
 								}}
 							>
 								<BiCycling />
-								<span style={{ paddingLeft: "10px" }}>Maxim</span>
+								<span style={{ paddingLeft: "10px" }}>
+									Maxim
+								</span>
 							</Flex>
 							<Flex
 								className="kurir"
@@ -172,14 +201,22 @@ export default function CustInformation() {
 										? "1px solid #688902"
 										: "1px solid rgba(120, 121, 130,0.2)"
 								}
-								bg={userInfo.delivery === "Store" ? "#d0fb20" : ""}
-								fontWeight={userInfo.delivery === "Store" ? "bold" : ""}
+								bg={
+									userInfo.delivery === "Store"
+										? "#d0fb20"
+										: ""
+								}
+								fontWeight={
+									userInfo.delivery === "Store" ? "bold" : ""
+								}
 								onClick={() => {
 									dispatch(delivery("Store"));
 								}}
 							>
 								<BiCycling />
-								<span style={{ paddingLeft: "10px" }}>Store</span>
+								<span style={{ paddingLeft: "10px" }}>
+									Store
+								</span>
 							</Flex>
 						</Flex>
 					</Flex>
@@ -212,11 +249,19 @@ export default function CustInformation() {
 									dispatch(cutlery(!userInfo.cutlery));
 								}}
 							>
-								{!userInfo.cutlery ? <BiWorld /> : <BiRestaurant />}
 								{!userInfo.cutlery ? (
-									<span style={{ paddingLeft: "6px" }}>No</span>
+									<BiWorld />
 								) : (
-									<span style={{ paddingLeft: "6px" }}>Yes</span>
+									<BiRestaurant />
+								)}
+								{!userInfo.cutlery ? (
+									<span style={{ paddingLeft: "6px" }}>
+										No
+									</span>
+								) : (
+									<span style={{ paddingLeft: "6px" }}>
+										Yes
+									</span>
 								)}
 							</Flex>
 						</Flex>
@@ -293,7 +338,13 @@ export default function CustInformation() {
 					}}
 					cursor={"pointer"}
 				>
-					<Flex className="modal-menu" color={"#ffcbc1"}>
+					<Flex
+						className="modal-menu"
+						color={"#ffcbc1"}
+						onClick={() => {
+							dispatch(custName(name));
+						}}
+					>
 						<Flex>Exit</Flex>
 						<Flex
 							w={"15px"}
