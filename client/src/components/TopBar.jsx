@@ -96,7 +96,11 @@ export default function TopBar() {
 									? "Manual Input"
 									: "Manual Input"}
 							</StatNumber>
-							<StatHelpText>Customer Name</StatHelpText>
+							<StatHelpText>
+								{userInfo.custName
+									? userInfo.custName
+									: "Customer Name"}
+							</StatHelpText>
 						</Stat>
 					</Flex>
 					<CiEdit

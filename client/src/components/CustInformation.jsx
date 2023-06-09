@@ -1,6 +1,6 @@
 import { Flex, Input } from "@chakra-ui/react";
 import { BiWorld, BiCycling, BiRestaurant } from "react-icons/bi";
-import React from "react";
+import React, { useState } from "react";
 import Table from "../components/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { orderInfoModal } from "../redux/modalManager";
@@ -9,8 +9,14 @@ import { cutlery, delivery, custName } from "../redux/customerInfo";
 export default function CustInformation() {
 	const dispatch = useDispatch();
 	const userInfo = useSelector((state) => state.customerInfo);
-	const custNames = document.getElementById("custName").value;
-	console.log("CustName", custNames);
+	// const custNames = document.getElementById("custName").value;
+	// console.log("CustName", custNames);
+	const [name, setName] = useState("");
+
+	const handleCustName = (event) => {
+		const value = event.target.value;
+		setName(value);
+	};
 
 	return (
 		<Flex
@@ -69,9 +75,8 @@ export default function CustInformation() {
 								paddingLeft={"30px"}
 								variant={"unstyled"}
 								id="custName"
-								onChange={() => {
-									dispatch(custName());
-								}}
+								value={name}
+								onChange={handleCustName}
 							/>
 						</Flex>
 					</Flex>
@@ -333,7 +338,13 @@ export default function CustInformation() {
 					}}
 					cursor={"pointer"}
 				>
-					<Flex className="modal-menu" color={"#ffcbc1"}>
+					<Flex
+						className="modal-menu"
+						color={"#ffcbc1"}
+						onClick={() => {
+							dispatch(custName(name));
+						}}
+					>
 						<Flex>Exit</Flex>
 						<Flex
 							w={"15px"}
