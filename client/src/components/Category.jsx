@@ -1,10 +1,13 @@
 import {
-	Flex,
-	Grid,
-	GridItem,
-	Stat,
-	StatHelpText,
-	StatNumber,
+
+  Flex,
+  Grid,
+  GridItem,
+  Icon,
+  Stat,
+  StatHelpText,
+  StatNumber,
+
 } from "@chakra-ui/react";
 
 import {
@@ -126,4 +129,5 @@ function Card(props) {
 			</Flex>
 		</GridItem>
 	);
+
 }

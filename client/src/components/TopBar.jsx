@@ -38,11 +38,7 @@ export default function TopBar() {
 						<InputLeftElement>
 							<CiSearch color="var(--text-l3)" size={"30px"} />
 						</InputLeftElement>
-						<Input
-							type="text"
-							placeholder="Search"
-							color="#595959"
-						/>
+						<Input type="text" placeholder="Search" color="#595959" />
 					</InputGroup>
 				</Flex>
 				<Flex
@@ -58,43 +54,21 @@ export default function TopBar() {
 						}}
 					>
 						<Stat>
-							<StatNumber
-								display={
-									orderType === "Dine In" ? "block" : "none"
-								}
-							>
-								{userInfo.table
-									? userInfo.table
-									: "Select Table"}
+							<StatNumber display={orderType === "Dine In" ? "block" : "none"}>
+								{userInfo.table ? userInfo.table : "Select Table"}
 							</StatNumber>
 							<StatNumber
-								display={
-									orderType === "Take Away" ? "block" : "none"
-								}
+								display={orderType === "Take Away" ? "block" : "none"}
 							>
-								{userInfo.cutlery
-									? "With Cutlery"
-									: "No Cutlery"}
+								{userInfo.cutlery ? "With Cutlery" : "No Cutlery"}
+							</StatNumber>
+							<StatNumber display={orderType === "Delivery" ? "block" : "none"}>
+								{userInfo.delivery ? userInfo.delivery : "Select Delivery"}
 							</StatNumber>
 							<StatNumber
-								display={
-									orderType === "Delivery" ? "block" : "none"
-								}
+								display={orderType === "Reservation" ? "block" : "none"}
 							>
-								{userInfo.delivery
-									? userInfo.delivery
-									: "Select Delivery"}
-							</StatNumber>
-							<StatNumber
-								display={
-									orderType === "Reservation"
-										? "block"
-										: "none"
-								}
-							>
-								{orderType === "Reservation"
-									? "Manual Input"
-									: "Manual Input"}
+								{orderType === "Reservation" ? "Manual Input" : "Manual Input"}
 							</StatNumber>
 							<StatHelpText>
 								{userInfo.custName
@@ -118,79 +92,3 @@ export default function TopBar() {
 		</>
 	);
 }
-// BACKUP TOPBAR PUNYA THOMAS
-// import { LoginModal } from "./loginmodal";
-// import { VscAccount } from "react-icons/vsc";
-// import { CiSearch } from "react-icons/ci";
-
-// export default function TopBar() {
-//   const { isOpen, onOpen, onClose } = useDisclosure();
-
-//   return (
-//     <>
-//       <Flex w={"100%"}>
-//         <Flex justifyContent={"space-between"} w={"100%"}>
-//           <Center p={"0px 18px"}>
-//             <InputGroup>
-//               <Input
-//                 w={"200px"}
-//                 fontSize={"12px"}
-//                 border={"1px gray.600 solid"}
-//                 type={"text"}
-//                 color={"gray.400"}
-//                 placeholder="Search"
-//                 h={"28px"}
-//                 id="searchbar"
-//                 backgroundColor={"#424242"}
-//               ></Input>
-//               <InputLeftElement w={"30px"} h={"100%"}>
-//                 <Icon
-//                   colorScheme="whiteAlpha"
-//                   color={"gray.400"}
-//                   as={CiSearch}
-//                   w={"28px"}
-//                   h={"28px"}
-//                   cursor={"pointer"}
-//                 ></Icon>
-//               </InputLeftElement>
-//             </InputGroup>
-//           </Center>
-//           <Center
-//             p={"10px"}
-//             gap={"30px"}
-//             w={"274px"}
-//             justifyContent={"space-between"}
-//             pr={"30px"}
-//           >
-//             <Flex flexDir={"column"} color={"white"}>
-//               <Flex fontSize={"17px"}>Table 5</Flex>
-//               <Flex fontSize={"10px"} color={"grey"}>
-//                 Leslie K
-//               </Flex>
-//             </Flex>
-//             <Flex>
-//               <Icon
-//                 as={VscAccount}
-//                 h={"28px"}
-//                 w={"28px"}
-//                 color={"#b0b0b0"}
-//                 cursor={"pointer"}
-//                 onClick={() => {
-//                   onOpen();
-//                 }}
-//               ></Icon>
-//             </Flex>
-//           </Center>
-
-//           <Modal isOpen={isOpen} onClose={onClose} isCentered>
-//             <ModalOverlay />
-//             <ModalContent>
-//               <LoginModal onClose={onClose} />
-//             </ModalContent>
-//           </Modal>
-//         </Flex>
-//       </Flex>
-//     </>
-//   );
-// >>>>>>> 547c3e1e946101ec9d235179d7029a181eee36af
-// }

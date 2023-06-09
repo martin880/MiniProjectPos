@@ -42,15 +42,8 @@ export default function Cashier() {
 									<Category />
 								</Flex>
 								<Flex className="divider">
-									<Flex
-										padding={"0 10px"}
-										w={"100%"}
-										h={"100%"}
-									>
-										<Divider
-											h={"50%"}
-											borderColor="rgba(179, 179, 179, 0.4)"
-										/>
+									<Flex padding={"0 10px"} w={"100%"} h={"100%"}>
+										<Divider h={"50%"} borderColor="rgba(179, 179, 179, 0.4)" />
 									</Flex>
 								</Flex>
 								<Flex className="product">

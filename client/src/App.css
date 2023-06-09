@@ -17,15 +17,16 @@
 }
 
 .container {
-	width: 100vw;
-	height: 100vh;
+	/* padding-top: 50px; */
+	width: 100%;
+	height: 100%;
 	background-color: rgb(213, 213, 213);
 	align-items: center;
 	justify-content: center;
 }
 
 .device {
-	width: 80%;
+	width: 100%;
 	/* width: 1280px; */
 	aspect-ratio: 153/100;
 	background-color: var(--bg-color);
@@ -142,6 +143,14 @@
 	overflow: hidden;
 	/* background-color: #8c5e58; */
 }
+
+.category:hover {
+	height: 44%;
+	width: 100%;
+	padding: 0 10px;
+	overflow: auto;
+}
+
 .product {
 	height: 44%;
 	width: 100%;
@@ -186,7 +195,6 @@
 	height: 100%;
 	width: 100%;
 	justify-content: space-between;
-	background: #f2f2f2;
 }
 
 .top-spacing {
@@ -210,7 +218,7 @@
 	height: 100%;
 	gap: 4%;
 	font-family: var(--font);
-	font-size: 19px;
+	font-size: 14px;
 	cursor: pointer;
 }
 
@@ -256,12 +264,12 @@
 .users {
 	padding: 10px;
 	width: fit-content;
-	height: 45px;
+	height: 35px;
 	background-color: var(--section-color);
 	flex-direction: row;
 	align-items: center;
 	justify-content: start;
-	font-size: 18px;
+	font-size: 14px;
 	margin: 10px;
 	border-radius: 25px;
 	color: rgb(179, 179, 179);
@@ -295,7 +303,7 @@
 
 .logo {
 	font-family: var(--font);
-	font-size: 44px;
+	font-size: 38px;
 	font-weight: bold;
 	padding-left: 40px;
 	align-items: center;

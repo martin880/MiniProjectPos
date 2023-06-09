@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, GridItem } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, Button } from "@chakra-ui/react";
 import { BiCreditCard, BiMoney, BiQr } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { payment } from "../redux/customerInfo";
@@ -6,10 +6,7 @@ import { payment } from "../redux/customerInfo";
 export default function OrderPayment() {
 	const orderList = useSelector((state) => state.orderList);
 	const list = [...orderList];
-	const subTotal = list.reduce(
-		(acc, curr) => acc + Number(curr.unitPrice),
-		0
-	);
+	const subTotal = list.reduce((acc, curr) => acc + Number(curr.unitPrice), 0);
 
 	const dispatch = useDispatch();
 	const userInfo = useSelector((state) => state.customerInfo);
@@ -78,11 +75,7 @@ export default function OrderPayment() {
 						fontSize={"14px"}
 					>
 						<GridItem h={"70px"}>
-							<Flex
-								w={"full"}
-								h={"full"}
-								flexDirection={"column"}
-							>
+							<Flex w={"full"} h={"full"} flexDirection={"column"}>
 								<Flex
 									h={"70%"}
 									justifyContent={"center"}
@@ -90,16 +83,8 @@ export default function OrderPayment() {
 									border={"1px #b4b4b4 solid"}
 									margin={"5px"}
 									style={{ borderRadius: "5px" }}
-									color={
-										userInfo.payment === "Cash"
-											? "black"
-											: ""
-									}
-									bg={
-										userInfo.payment === "Cash"
-											? "#f5e98e"
-											: ""
-									}
+									color={userInfo.payment === "Cash" ? "black" : ""}
+									bg={userInfo.payment === "Cash" ? "#f5e98e" : ""}
 									onClick={() => {
 										dispatch(payment("Cash"));
 									}}
@@ -107,21 +92,13 @@ export default function OrderPayment() {
 								>
 									<BiMoney size={"25px"} />
 								</Flex>
-								<Flex
-									h={"30%"}
-									justifyContent={"center"}
-									alignItems={"center"}
-								>
+								<Flex h={"30%"} justifyContent={"center"} alignItems={"center"}>
 									Cash
 								</Flex>
 							</Flex>
 						</GridItem>
 						<GridItem>
-							<Flex
-								w={"full"}
-								h={"full"}
-								flexDirection={"column"}
-							>
+							<Flex w={"full"} h={"full"} flexDirection={"column"}>
 								<Flex
 									h={"70%"}
 									justifyContent={"center"}
@@ -129,16 +106,8 @@ export default function OrderPayment() {
 									border={"1px #b4b4b4 solid"}
 									margin={"5px"}
 									style={{ borderRadius: "5px" }}
-									color={
-										userInfo.payment === "Card"
-											? "black"
-											: ""
-									}
-									bg={
-										userInfo.payment === "Card"
-											? "#f5e98e"
-											: ""
-									}
+									color={userInfo.payment === "Card" ? "black" : ""}
+									bg={userInfo.payment === "Card" ? "#f5e98e" : ""}
 									onClick={() => {
 										dispatch(payment("Card"));
 									}}
@@ -146,22 +115,14 @@ export default function OrderPayment() {
 								>
 									<BiCreditCard size={"25px"} />
 								</Flex>
-								<Flex
-									h={"30%"}
-									justifyContent={"center"}
-									alignItems={"center"}
-								>
+								<Flex h={"30%"} justifyContent={"center"} alignItems={"center"}>
 									Card
 								</Flex>
 							</Flex>
 						</GridItem>
 						<GridItem>
 							{" "}
-							<Flex
-								w={"full"}
-								h={"full"}
-								flexDirection={"column"}
-							>
+							<Flex w={"full"} h={"full"} flexDirection={"column"}>
 								<Flex
 									h={"70%"}
 									justifyContent={"center"}
@@ -169,16 +130,8 @@ export default function OrderPayment() {
 									border={"1px #b4b4b4 solid"}
 									margin={"5px"}
 									style={{ borderRadius: "5px" }}
-									color={
-										userInfo.payment === "eWallet"
-											? "black"
-											: ""
-									}
-									bg={
-										userInfo.payment === "eWallet"
-											? "#f5e98e"
-											: ""
-									}
+									color={userInfo.payment === "eWallet" ? "black" : ""}
+									bg={userInfo.payment === "eWallet" ? "#f5e98e" : ""}
 									onClick={() => {
 										dispatch(payment("eWallet"));
 									}}
@@ -186,11 +139,7 @@ export default function OrderPayment() {
 								>
 									<BiQr size={"25px"} />
 								</Flex>
-								<Flex
-									h={"30%"}
-									justifyContent={"center"}
-									alignItems={"center"}
-								>
+								<Flex h={"30%"} justifyContent={"center"} alignItems={"center"}>
 									eWallet
 								</Flex>
 							</Flex>
@@ -198,19 +147,20 @@ export default function OrderPayment() {
 					</Grid>
 				</Flex>
 				<Flex h={"40%"} justifyContent={"center"} alignItems={"center"}>
-					<Flex
+					<Button
 						w={"75%"}
-						h={"60%"}
+						h={"40%"}
 						bg={"white"}
+						p={4}
 						// borderRadius={"30px"}
 						style={{ borderRadius: "30px" }}
 						justifyContent={"center"}
 						alignItems={"center"}
-						fontSize={"20px"}
+						fontSize={"16px"}
 						color={"black"}
 					>
 						Place Order
-					</Flex>
+					</Button>
 				</Flex>
 			</Flex>
 		</Flex>
