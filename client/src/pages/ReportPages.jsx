@@ -174,8 +174,25 @@ const ReportPages = () => {
 								</Flex>
 							</Box>
 						</SimpleGrid>
-						<SimpleGrid columns={2} spacingX="40px" spacingY="20px" p={4}>
-							<Box bg="tomato" height="80px"></Box>
+						<SimpleGrid columns={2} spacingX="10px" spacingY="20px" p={4}>
+							<Box
+								border={"1px solid black"}
+								borderRadius={"10px"}
+								height="50vh"
+								w={"35vw"}
+							>
+								<Flex>
+									<Text
+										fontSize={"10px"}
+										p={4}
+										color={"gray"}
+										fontFamily={"serif"}
+										fontWeight={"medium"}
+									>
+										Day of the Week Gross Sales Amount
+									</Text>
+								</Flex>
+							</Box>
 							<Box bg="tomato" height="80px"></Box>
 						</SimpleGrid>
 					</Flex>
