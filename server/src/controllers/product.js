@@ -4,128 +4,220 @@ const { Op } = db.Sequelize;
 const moment = require("moment");
 const { query } = require("express");
 const productController = {
-	getAll: async (req, res) => {
-		try {
-			const product = await db.Product.findAll();
-			return res.send(product);
-		} catch (err) {
-			console.log(err.message);
-			res.status(500).send({
-				message: err.message,
-			});
-		}
-	},
-	getById: async (req, res) => {
-		try {
-			const product = await db.Product.findOne({
-				where: {
-					id: req.params.id,
-				},
-			});
-			return res.send(product);
-		} catch (err) {
-			console.log(err.message);
-			res.status(500).send({
-				message: err.message,
-			});
-		}
-	},
-	// Pencarian berdasarkan nama produk dan harga
-	getProduct: async (req, res) => {
-		try {
-			const sortBy = req.query.sortBy || "productName";
-			const sortDir = req.query.sortDir || "ASC";
+  getAll: async (req, res) => {
+    try {
+      const product = await db.Product.findAll();
+      return res.send(product);
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send({
+        message: err.message,
+      });
+    }
+  },
+  getById: async (req, res) => {
+    try {
+      const product = await db.Product.findOne({
+        where: {
+          id: req.params.id,
+        },
+      });
+      return res.send(product);
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send({
+        message: err.message,
+      });
+    }
+  },
+  // Pencarian berdasarkan nama produk dan harga
+  getProduct: async (req, res) => {
+    try {
+      const sortBy = req.query.sortBy || "productName";
+      const sortDir = req.query.sortDir || "ASC";
 
-			console.log(req.query.sortBy);
-			console.log(req.query.sortDir);
+      console.log(req.query.sortBy);
+      console.log(req.query.sortDir);
 
-			const search = req.query.search_query || "";
-			const product = await db.Product.findAll({
-				where: {
-					[Op.or]: [
-						{ productName: { [Op.like]: "%" + search + "%" } },
-						{ harga: { [Op.like]: "%" + search + "%" } },
-					],
-				},
-				order: [[sortBy, sortDir]],
-			});
-			return res.send(product);
-		} catch (err) {
-			console.log(err.message);
-			res.status(500).send({
-				message: err.message,
-			});
-		}
-	},
-	editProduct: async (req, res) => {
-		try {
-			const { productName, harga, stock, categoryId } = req.body;
-			// const { filename } = req.file;
-			await db.Product.update(
-				{
-					productName,
-					harga,
-					stock,
-					categoryId,
-					// product_url: productImage + filename,
-				},
-				{
-					where: {
-						id: req.params.id,
-					},
-				}
-			);
+      const search = req.query.search_query || "";
+      const product = await db.Product.findAll({
+        where: {
+          [Op.or]: [
+            { productName: { [Op.like]: "%" + search + "%" } },
+            { harga: { [Op.like]: "%" + search + "%" } },
+          ],
+        },
+        order: [[sortBy, sortDir]],
+      });
+      return res.send(product);
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send({
+        message: err.message,
+      });
+    }
+  },
+  editProduct: async (req, res) => {
+    try {
+      const { productName, harga, stock, categoryId } = req.body;
+      // const { filename } = req.file;
+      await db.Product.update(
+        {
+          productName,
+          harga,
+          stock,
+          categoryId,
+          // product_url: productImage + filename,
+        },
+        {
+          where: {
+            id: req.params.id,
+          },
+        }
+      );
 
-			return await db.Product.findOne({
-				where: {
-					id: req.params.id,
-				},
-			}).then((result) => res.send(result));
-		} catch (err) {
-			console.log(err.message);
-			res.status(500).send({
-				message: err.message,
-			});
-		}
-	},
-	insertProduct: async (req, res) => {
-		try {
-			const { productName, harga, stock, categoryId } = req.body;
-			await db.Product.create({
-				productName,
-				harga,
-				stock,
-				categoryId,
-			});
-			return await db.Product.findAll().then((result) => {
-				res.send(result);
-			});
-		} catch (err) {
-			console.log(err);
-			return res.status(500).send({
-				message: err.message,
-			});
-		}
-	},
-	deleteProduct: async (req, res) => {
-		try {
-			await db.Product.destroy({
-				where: {
-					//  id: req.params.id
+      return await db.Product.findOne({
+        where: {
+          id: req.params.id,
+        },
+      }).then((result) => res.send(result));
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send({
+        message: err.message,
+      });
+    }
+  },
+  insertProduct: async (req, res) => {
+    try {
+      const { productName, harga, stock, categoryId } = req.body;
+      await db.Product.create({
+        productName,
+        harga,
+        stock,
+        categoryId,
+      });
+      return await db.Product.findAll().then((result) => {
+        res.send(result);
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).send({
+        message: err.message,
+      });
+    }
+  },
+  deleteProduct: async (req, res) => {
+    try {
+      await db.Product.destroy({
+        where: {
+          //  id: req.params.id
 
-					//   [Op.eq]: req.params.id
+          //   [Op.eq]: req.params.id
 
-					id: req.params.id,
-				},
-			});
-			return await db.Product.findAll().then((result) => res.send(result));
-		} catch (err) {
-			console.log(err.message);
-			return res.status(500).send({
-				error: err.message,
-			});
-		}
-	},
+          id: req.params.id,
+        },
+      });
+      return await db.Product.findAll().then((result) => res.send(result));
+    } catch (err) {
+      console.log(err.message);
+      return res.status(500).send({
+        error: err.message,
+      });
+    }
+  },
+  getProductSales: async (req, res) => {
+    try {
+      const { DateFrom, DateTo } = req.body;
+      const product = await db.Product.findAll({
+        attributes: ["productname", "harga"],
+        include: [
+          {
+            model: db.OrderDetail,
+            required: true,
+
+            attributes: ["quantity"],
+            include: {
+              model: db.Order,
+              attributes: ["createdat", ["amount", "total"], "id"],
+              where: {
+                createdAt: { [Op.between]: [DateFrom, DateTo] },
+              },
+
+              include: [
+                {
+                  model: db.User,
+                  attributes: [["firstName", "cashier"]],
+                },
+                {
+                  model: db.Payment,
+                  attributes: ["method"],
+                },
+              ],
+            },
+          },
+          {
+            model: db.CategoryProduct,
+            attributes: ["categoryname"],
+          },
+        ],
+      });
+      return res.send(product);
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send({
+        message: err.message,
+      });
+    }
+  },
+  getProductSalesById: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { DateFrom, DateTo } = req.body;
+      const product = await db.Product.findAll({
+        attributes: ["productname", "harga"],
+        include: [
+          {
+            model: db.OrderDetail,
+            required: true,
+
+            attributes: ["quantity"],
+            include: {
+              model: db.Order,
+              attributes: ["createdat", ["amount", "total"], "id"],
+              where: {
+                [Op.and]: [
+                  { id },
+                  { createdAt: { [Op.between]: [DateFrom, DateTo] } },
+                ],
+              },
+
+              include: [
+                {
+                  model: db.User,
+                  attributes: [["firstName", "cashier"]],
+                },
+                {
+                  model: db.Payment,
+                  attributes: ["method"],
+                },
+              ],
+            },
+          },
+          {
+            model: db.CategoryProduct,
+            attributes: ["categoryname"],
+          },
+        ],
+      });
+      return res.send(product);
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send({
+        message: err.message,
+      });
+    }
+  },
 };
 
 module.exports = productController;

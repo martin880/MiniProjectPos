@@ -45,6 +45,8 @@ import { api } from "../api/api";
 import { DeleteProduct } from "../components/DeleteProduct";
 import { EditProduct } from "../components/EditProduct";
 import { useDispatch, useSelector } from "react-redux";
+import SideBarAdmin from "../components/SideBarAdmin";
+import TopBarAdmin from "../components/TopBarAdmin";
 
 export default function ProductPages() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -181,11 +183,11 @@ export default function ProductPages() {
       <Flex className="container">
         <Flex className="device" bg={"whitesmoke"}>
           <Flex className="sidebar">
-            <SideBar />
+            <SideBarAdmin />
           </Flex>
           <Flex w={"80%"} h={"100%"} flexDir={"column"}>
             <Flex className="topbar">
-              <TopBar />
+              <TopBarAdmin />
             </Flex>
             <Flex className="adminCategory" w="100%" flexDir={"column"}>
               <Stack px={"4"}>

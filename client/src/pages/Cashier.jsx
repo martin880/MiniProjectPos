@@ -14,74 +14,67 @@ import { useSelector } from "react-redux";
 // import { customerInfo } from "../redux/customerInfo";
 
 export default function Cashier() {
-	const modalManager = useSelector((state) => state.modalManager);
-	// const orderType = useSelector((state) => state.orderType.value);
-	const userInfo = useSelector((state) => state.customerInfo);
+  const modalManager = useSelector((state) => state.modalManager);
+  // const orderType = useSelector((state) => state.orderType.value);
+  const userInfo = useSelector((state) => state.customerInfo);
 
-	function PrintVal() {
-		console.log("ModalManager > orderinfo", modalManager.orderInfo);
-		console.log("userInfo", userInfo);
-	}
+  function PrintVal() {
+    console.log("ModalManager > orderinfo", modalManager.orderInfo);
+    console.log("userInfo", userInfo);
+  }
 
-	return (
-		<>
-			<Flex className="container">
-				<Flex className="device" position={"relative"} zIndex={0}>
-					<Flex className="sidebar">
-						{/* <SideBar /> */}
-						<SideBarAdmin />
-					</Flex>
-					<Flex className="mainbar">
-						<Flex className="topbar">
-							{/* <TopBar /> */}
-							<TopBarAdmin />
-						</Flex>
-						<Flex className="content">
-							<Flex className="content-1">
-								<Flex className="category">
-									<Category />
-								</Flex>
-								<Flex className="divider">
-									<Flex
-										padding={"0 10px"}
-										w={"100%"}
-										h={"100%"}
-									>
-										<Divider
-											h={"50%"}
-											borderColor="rgba(179, 179, 179, 0.4)"
-										/>
-									</Flex>
-								</Flex>
-								<Flex className="product">
-									<Product />
-								</Flex>
-								<Flex className="divider"></Flex>
-								<Flex className="order-history">
-									<OrderHistory />
-								</Flex>
-							</Flex>
-							<Flex className="content-2">
-								<Flex className="order-details">
-									<OrderDetails />
-								</Flex>
-								<Flex className="order-payment">
-									<OrderPayment />
-								</Flex>
-							</Flex>
-						</Flex>
-					</Flex>
-				</Flex>
-				<Flex
-					className={`device-modal ${
-						modalManager.orderInfoModal ? "visible" : ""
-					}`}
-					justifyContent={"center"}
-					alignItems={"center"}
-				>
-					<CustInformation />
-				</Flex>
-				{/* <Flex
+  return (
+    <>
+      <Flex className="container">
+        <Flex className="device" position={"relative"} zIndex={0}>
+          <Flex className="sidebar">
+            <SideBar />
+            {/* <SideBarAdmin /> */}
+          </Flex>
+          <Flex className="mainbar">
+            <Flex className="topbar">
+              <TopBar />
+              {/* <TopBarAdmin /> */}
+            </Flex>
+            <Flex className="content">
+              <Flex className="content-1">
+                <Flex className="category">
+                  <Category />
+                </Flex>
+                <Flex className="divider">
+                  <Flex padding={"0 10px"} w={"100%"} h={"100%"}>
+                    <Divider h={"50%"} borderColor="rgba(179, 179, 179, 0.4)" />
+                  </Flex>
+                </Flex>
+                <Flex className="product">
+                  <Product />
+                </Flex>
+                <Flex className="divider"></Flex>
+                <Flex className="order-history">
+                  <OrderHistory />
+                </Flex>
+              </Flex>
+              <Flex className="content-2">
+                <Flex className="order-details">
+                  <OrderDetails />
+                </Flex>
+                <Flex className="order-payment">
+                  <OrderPayment />
+                </Flex>
+              </Flex>
+            </Flex>
+          </Flex>
+        </Flex>
+        <Flex
+          className={`device-modal ${
+            modalManager.orderInfoModal ? "visible" : ""
+          }`}
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
+          <CustInformation />
+        </Flex>
+        {/* <Flex
 					className="device-modal"
 					position={"absolute"}
 					zIndex={3}
@@ -363,8 +356,8 @@ export default function Cashier() {
 						</Flex>
 					</Flex>
 				</Flex> */}
-			</Flex>
-			{/* <Flex
+      </Flex>
+      {/* <Flex
 				zIndex={10}
 				bg={"red"}
 				onClick={() => {
@@ -374,7 +367,6 @@ export default function Cashier() {
 			>
 				PRINT
 			</Flex> */}
-		</>
-	);
-
+    </>
+  );
 }
