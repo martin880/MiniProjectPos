@@ -28,12 +28,12 @@ export default function Cashier() {
       <Flex className="container">
         <Flex className="device" position={"relative"} zIndex={0}>
           <Flex className="sidebar">
-            <SideBar />
+            <SideBarAdmin />
             {/* <SideBarAdmin /> */}
           </Flex>
           <Flex className="mainbar">
             <Flex className="topbar">
-              <TopBar />
+              <TopBarAdmin />
               {/* <TopBarAdmin /> */}
             </Flex>
             <Flex className="content">

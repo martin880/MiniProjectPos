@@ -346,15 +346,20 @@ export default function AdminPages() {
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {users.map((user, idx) => (
-                        <RowUser
-                          key={user.id}
-                          user={user}
-                          idx={idx}
-                          handleFileChange={handleFileChange}
-                          fetchData={fetchData}
-                        />
-                      ))}
+                      {users.map((user, idx) => {
+                        if (user.role === "ADMIN") {
+                          return null; // Skip rendering the row for admin users
+                        }
+                        return (
+                          <RowUser
+                            key={user.id}
+                            user={user}
+                            idx={idx}
+                            handleFileChange={handleFileChange}
+                            fetchData={fetchData}
+                          />
+                        );
+                      })}
                     </Tbody>
                     <Tfoot>
                       <Tr></Tr>
@@ -381,7 +386,7 @@ function RowUser({ user, idx, handleFileChange, fetchData }) {
 
   console.log(user);
   return (
-    <Tr key={user.id}>
+    <Tr key={user.id} if>
       <Td>{idx + 1}</Td>
       <Td>
         <Flex justify="center" align="center">
@@ -407,6 +412,7 @@ function RowUser({ user, idx, handleFileChange, fetchData }) {
       <Td>{user.status}</Td>
       <Td>{user.email}</Td>
       <Td>{user.phoneNumber}</Td>
+      <Td>{user.role}</Td>
 
       <Td>
         <Stack>
@@ -422,6 +428,7 @@ function RowUser({ user, idx, handleFileChange, fetchData }) {
               {<FiEdit cursor={"pointer"} />}
               <EditUser
                 id={editUserId}
+                user={user}
                 isOpen={modalEdit.isOpen}
                 onClose={() => {
                   modalEdit.onClose();
@@ -440,6 +447,7 @@ function RowUser({ user, idx, handleFileChange, fetchData }) {
               {<RiDeleteBin6Line cursor={"pointer"} />}
               <DeleteUser
                 id={deleteUserId}
+                user={user}
                 isOpen={modalDelete.isOpen}
                 onClose={() => {
                   modalDelete.onClose();

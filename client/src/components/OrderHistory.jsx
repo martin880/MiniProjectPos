@@ -50,7 +50,7 @@ function Card(props) {
 				<Flex
 					w={"20%"}
 					bg={"#282C2C"}
-					fontSize={"22px"}
+					fontSize={"12px"}
 					justifyContent={"center"}
 					align={"center"}
 					// borderRadius={"5px"}
@@ -60,7 +60,7 @@ function Card(props) {
 				</Flex>
 				<Flex w={"70%"} paddingLeft={"10px"} color={"var(--text-l2)"}>
 					<Stat>
-						<StatNumber fontSize={"14"}>{props.time}</StatNumber>
+						<StatNumber fontSize={"10"}>{props.time}</StatNumber>
 						<StatHelpText>{props.items} items</StatHelpText>
 					</Stat>
 				</Flex>

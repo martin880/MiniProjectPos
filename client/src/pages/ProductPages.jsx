@@ -53,11 +53,6 @@ export default function ProductPages() {
   const { selectedOption, setSelectedOption } = useState("");
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
-  const [deleteProductId, setDeleteProductId] = useState(null);
-  const [editProductId, setEditProductId] = useState(null);
-
-  const modalDelete = useDisclosure();
-  const modalEdit = useDisclosure();
 
   const [product, setProduct] = useState({
     productName: "",
@@ -88,8 +83,6 @@ export default function ProductPages() {
   const [products, setProducts] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [query, setQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(5);
 
   useEffect(() => {
     api
@@ -128,14 +121,17 @@ export default function ProductPages() {
     setKeyword(query);
   };
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(5);
+
   // Menghitung indeks produk awal dan akhir pada halaman saat ini
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+
   const currentProducts = products.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
-
   // Fungsi untuk mengubah halaman
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -268,7 +264,7 @@ export default function ProductPages() {
                         onChange={inputHandler}
                       />
                     </FormControl>
-                    <FormControl>
+                    {/* <FormControl>
                       <FormLabel>Product Image</FormLabel>
                       <Input
                         ref={initialRef}
@@ -276,7 +272,7 @@ export default function ProductPages() {
                         id="photoProduct_url"
                         onChange={inputHandler}
                       />
-                    </FormControl>
+                    </FormControl> */}
                     <FormControl mt={4}>
                       <FormLabel>Category</FormLabel>
                       <Select
@@ -367,7 +363,37 @@ export default function ProductPages() {
                             }
                           />
                         </Th>
-                        <Th>Category</Th>
+                        <Th>
+                          Category
+                          <IconButton
+                            variant="ghost"
+                            colorScheme="teal"
+                            aria-label="Call Sage"
+                            fontSize="20px"
+                            size="sm"
+                            icon={
+                              <RiArrowDropUpLine
+                                onClick={() => {
+                                  fetchProduct("productName", "ASC");
+                                }}
+                              />
+                            }
+                          />
+                          <IconButton
+                            variant="ghost"
+                            colorScheme="teal"
+                            aria-label="Call Sage"
+                            fontSize="20px"
+                            size="sm"
+                            icon={
+                              <RiArrowDropDownLine
+                                onClick={() => {
+                                  fetchProduct("categoryId", "DESC");
+                                }}
+                              />
+                            }
+                          />
+                        </Th>
                         <Th>
                           Price{" "}
                           <IconButton
@@ -404,62 +430,16 @@ export default function ProductPages() {
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {currentProducts.map((product) => (
-                        <Tr key={product.id}>
-                          <Td>{product.id}</Td>
-
-                          <Td>{product.productName}</Td>
-                          <Td>{getCategoryName(product.categoryId)}</Td>
-                          <Td>{`Rp.${product.harga}`}</Td>
-                          <Td>{product.stock}</Td>
-
-                          <Td>
-                            <Stack>
-                              <HStack
-                                display={"flex"}
-                                align={"center"}
-                                justifyContent={"center"}
-                              >
-                                <Button
-                                  colorScheme={"yellow"}
-                                  w={"50%"}
-                                  onClick={() => {
-                                    setEditProductId(product.id);
-                                    modalEdit.onOpen();
-                                  }}
-                                >
-                                  {<FiEdit cursor={"pointer"} />}
-                                  <EditProduct
-                                    id={editProductId}
-                                    isOpen={modalEdit.isOpen}
-                                    onClose={() => {
-                                      modalEdit.onClose();
-                                      fetchData();
-                                    }}
-                                  />
-                                </Button>
-                                <Button
-                                  colorScheme="red"
-                                  w={"50%"}
-                                  onClick={() => {
-                                    setDeleteProductId(product.id);
-                                    modalDelete.onOpen();
-                                  }}
-                                >
-                                  {<RiDeleteBin6Line cursor={"pointer"} />}
-                                  <DeleteProduct
-                                    id={deleteProductId}
-                                    isOpen={modalDelete.isOpen}
-                                    onClose={() => {
-                                      modalDelete.onClose();
-                                      fetchData();
-                                    }}
-                                  />
-                                </Button>
-                              </HStack>
-                            </Stack>
-                          </Td>
-                        </Tr>
+                      {currentProducts.map((product, idx) => (
+                        <RowProduct
+                          key={product.id}
+                          idx={idx}
+                          product={product}
+                          getCategoryName={getCategoryName}
+                          fetchData={fetchData}
+                          indexOfLastProduct={indexOfLastProduct}
+                          productsPerPage={productsPerPage}
+                        />
                       ))}
                     </Tbody>
                     <Tfoot>
@@ -489,5 +469,75 @@ export default function ProductPages() {
         </Flex>
       </Flex>
     </>
+  );
+}
+
+function RowProduct({
+  product,
+  idx,
+  getCategoryName,
+  fetchData,
+  indexOfLastProduct,
+  productsPerPage,
+}) {
+  const [deleteProductId, setDeleteProductId] = useState(null);
+  const [editProductId, setEditProductId] = useState(null);
+
+  const modalDelete = useDisclosure();
+  const modalEdit = useDisclosure();
+  return (
+    <Tr key={product.id}>
+      <Td>{indexOfLastProduct - productsPerPage + idx + 1}</Td>
+
+      <Td>{product.productName}</Td>
+      <Td>{getCategoryName(product.categoryId)}</Td>
+      <Td>{`Rp.${product.harga}`}</Td>
+      <Td>{product.stock}</Td>
+
+      <Td>
+        <Stack>
+          <HStack display={"flex"} align={"center"} justifyContent={"center"}>
+            <Button
+              colorScheme={"yellow"}
+              w={"50%"}
+              onClick={() => {
+                setEditProductId(product.id);
+                modalEdit.onOpen();
+              }}
+            >
+              {<FiEdit cursor={"pointer"} />}
+              <EditProduct
+                id={editProductId}
+                product={product}
+                isOpen={modalEdit.isOpen}
+                onClose={() => {
+                  modalEdit.onClose();
+                  fetchData();
+                }}
+              />
+            </Button>
+            <Button
+              colorScheme="red"
+              w={"50%"}
+              onClick={() => {
+                setDeleteProductId(product.id);
+                modalDelete.onOpen();
+              }}
+            >
+              {<RiDeleteBin6Line cursor={"pointer"} />}
+              <DeleteProduct
+                id={deleteProductId}
+                product={product}
+                isOpen={modalDelete.isOpen}
+                onClose={() => {
+                  modalDelete.onClose();
+                  fetchData();
+                }}
+              />
+            </Button>
+          </HStack>
+        </Stack>
+      </Td>
+    </Tr>
   );
 }

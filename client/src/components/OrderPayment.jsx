@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, GridItem } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, Button } from "@chakra-ui/react";
 import { BiCreditCard, BiMoney, BiQr } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { payment } from "../redux/customerInfo";
@@ -147,22 +147,20 @@ export default function OrderPayment() {
           </Grid>
         </Flex>
         <Flex h={"40%"} justifyContent={"center"} alignItems={"center"}>
-          <Flex
+          <Button
             w={"75%"}
-            h={"60%"}
+            h={"40%"}
             bg={"white"}
+            p={4}
             // borderRadius={"30px"}
             style={{ borderRadius: "30px" }}
             justifyContent={"center"}
             alignItems={"center"}
-            fontSize={"20px"}
+            fontSize={"16px"}
             color={"black"}
-            onClick={() => {
-              console.log(list);
-            }}
           >
             Place Order
-          </Flex>
+          </Button>
         </Flex>
       </Flex>
     </Flex>

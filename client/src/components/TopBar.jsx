@@ -177,28 +177,25 @@ export default function TopBar() {
 									location[1] == ("cashier" || "login") ? "block" : "none"
 								}
 							>
-								Leslie k
-							</Flex>
-							<Flex
-								display={
-									location[1] == ("admin" || "admin-product")
-										? "inline-flex"
-										: "none"
-								}
-								color={"black"}
-								flexDir={"row"}
-								alignItems={"center"}
-								gap={"20px"}
-							>
-								<Flex w={"280px"}>Sort by date :</Flex>
-								<Input type="date" bgColor={"#dedddc"}></Input>
-								<Flex fontSize={"20px"}>-</Flex>
-								<Input type="date" bgColor={"#dedddc"}></Input>
-								<Button>lol</Button>
-							</Flex>
-						</Flex>
-					</Center>
-
+								{orderType === "Reservation" ? "Manual Input" : "Manual Input"}
+							</StatNumber>
+							<StatHelpText>
+								{userInfo.custName
+									? userInfo.custName
+									: "Customer Name"}
+							</StatHelpText>
+						</Stat>
+					</Flex>
+					<CiEdit
+						color="var(--text-l2)"
+						size={"30px"}
+						style={{ borderRadius: "10px" }}
+						border={"2px red solid"}
+						onClick={() => {
+							dispatch(orderInfoModal(true));
+						}}
+						cursor={"pointer"}
+					/>
 				</Flex>
 			</Flex>
 		</>

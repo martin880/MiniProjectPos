@@ -45,6 +45,7 @@ const productController = {
           [Op.or]: [
             { productName: { [Op.like]: "%" + search + "%" } },
             { harga: { [Op.like]: "%" + search + "%" } },
+            { categoryId: { [Op.like]: search } },
           ],
         },
         order: [[sortBy, sortDir]],
