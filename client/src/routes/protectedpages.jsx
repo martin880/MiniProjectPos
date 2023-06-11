@@ -23,7 +23,7 @@ export default function ProtectedPage({
   }, [isLoading]);
 
   useEffect(() => {
-    console.log("test ");
+    console.log("test");
     // console.log(needLogin);
     // console.log(userSelector?.email);
     if (guestOnly && userSelector?.email) {
@@ -33,6 +33,7 @@ export default function ProtectedPage({
     } else if (needLoginAdmin && userSelector?.role != "ADMIN") {
       return nav("/cashier");
     }
+    console.log(userSelector);
   }, [userSelector]);
 
   return (

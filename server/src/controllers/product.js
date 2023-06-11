@@ -174,7 +174,7 @@ const productController = {
   getProductSalesById: async (req, res) => {
     try {
       const { id } = req.params;
-      const { DateFrom, DateTo } = req.body;
+      // const { DateFrom, DateTo } = req.body;
       const product = await db.Product.findAll({
         attributes: ["productname", "harga"],
         include: [
@@ -189,7 +189,7 @@ const productController = {
               where: {
                 [Op.and]: [
                   { id },
-                  { createdAt: { [Op.between]: [DateFrom, DateTo] } },
+                  // { createdAt: { [Op.between]: [DateFrom, DateTo] } },
                 ],
               },
 

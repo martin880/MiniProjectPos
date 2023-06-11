@@ -70,20 +70,21 @@ const orderDetailController = {
       });
       orderList.map(async (val) => {
         try {
+          console.log(val);
           await db.OrderDetail.create({
             quantity: val.quantity,
             productId: val.productId,
             orderId: val.orderId,
+          }).then(async () => {
+            return await db.OrderDetail.findAll({
+              order: [["id", "desc"]],
+            }).then((result) => {
+              res.send(result);
+            });
           });
         } catch (err) {
           console.log(err);
         }
-      });
-
-      return await db.OrderDetail.findAll({
-        order: [["id", "desc"]],
-      }).then((result) => {
-        res.send(result);
       });
     } catch (err) {
       console.log(err);

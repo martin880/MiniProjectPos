@@ -54,11 +54,11 @@ db.Product = require("./Product")(sequelize, Sequelize);
 db.StockHistory = require("./StockHistory")(sequelize, Sequelize);
 db.User = require("./user")(sequelize, Sequelize);
 db.Token = require("./Token")(sequelize, Sequelize);
+
 db.Product.belongsTo(db.CategoryProduct, {
   foreignKey: "categoryId",
-  as: "Category",
+  // as: "Category",
 });
-
 db.OrderDetail.belongsTo(db.Product, {
   foreignKey: "productId",
   // as: "Product",

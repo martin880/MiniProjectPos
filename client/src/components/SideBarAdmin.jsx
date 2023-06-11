@@ -1,8 +1,27 @@
-import { Avatar, Flex, Grid, GridItem } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
-
+import {
+  Avatar,
+  Flex,
+  Grid,
+  GridItem,
+  Modal,
+  ModalContent,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { LoginModal } from "./loginmodal";
 export default function SideBarAdmin() {
+  const dispatch = useDispatch();
   const userSelector = useSelector((state) => state.login.auth);
+  const modal1 = useDisclosure();
+  function logout() {
+    window.location.reload();
+    localStorage.removeItem("auth");
+    dispatch({
+      type: "logout",
+    });
+    return;
+  }
   return (
     <>
       <Grid w="100%" templateRows="repeat(15, 1fr)" gap={3} bg={"#f2f2f2"}>
@@ -43,7 +62,13 @@ export default function SideBarAdmin() {
 
             <Flex paddingLeft={"15px"}>Mahfud M.</Flex>
           </Flex>
-          <Flex className="users-admin">
+          <Flex
+            className="users-admin"
+            cursor={"pointer"}
+            onClick={() => {
+              !userSelector?.email ? modal1.onOpen() : logout();
+            }}
+          >
             <Flex>
               <Avatar
                 name="Nama Admin"
@@ -53,7 +78,9 @@ export default function SideBarAdmin() {
             </Flex>
 
             <Flex paddingLeft={"15px"} color={"#4e4e4e"}>
-              {userSelector.firstName + " " + userSelector.lastName}
+              {userSelector.firstName
+                ? userSelector.firstName + " " + userSelector.lastName
+                : "Guest"}
             </Flex>
           </Flex>
         </GridItem>
@@ -69,6 +96,12 @@ export default function SideBarAdmin() {
           </Flex>
         </GridItem>
       </Grid>
+      <Modal isOpen={modal1.isOpen} onClose={modal1.onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <LoginModal onClose={modal1.onClose} />
+        </ModalContent>
+      </Modal>
     </>
   );
 }
