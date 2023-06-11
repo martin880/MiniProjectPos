@@ -57,6 +57,14 @@ const routes = [
       </ProtectedPage>
     }
   />,
+  <Route
+    path="/:lol"
+    element={
+      <ProtectedPage redirect={true}>
+        <Cashier />
+      </ProtectedPage>
+    }
+  />,
 ];
 
 export default routes;

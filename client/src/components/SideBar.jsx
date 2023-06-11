@@ -16,11 +16,13 @@ import { dineIn, takeAway, delivery, reservation } from "../redux/orderType";
 import { useLocation } from "react-router-dom";
 import { VscAccount } from "react-icons/vsc";
 import { LoginModal } from "./loginmodal";
+import { LogoutModal } from "./logoutmodal";
 
 export default function SideBar() {
   const orderType = useSelector((state) => state.orderType.value);
   const userSelector = useSelector((state) => state.login.auth);
-  const modal1 = useDisclosure();
+  const modalLogin = useDisclosure();
+  const modalLogout = useDisclosure();
   const dispatch = useDispatch();
   const location = useLocation().pathname.split("/");
 
@@ -120,8 +122,9 @@ export default function SideBar() {
           </Flex>
           <Flex
             className="users"
+            cursor={"pointer"}
             onClick={() => {
-              !userSelector?.email ? modal1.onOpen() : logout();
+              !userSelector?.email ? modalLogin.onOpen() : modalLogout.onOpen();
             }}
           >
             <Flex>
@@ -150,10 +153,20 @@ export default function SideBar() {
           </Flex>
         </GridItem>
       </Grid>
-      <Modal isOpen={modal1.isOpen} onClose={modal1.onClose} isCentered>
+      <Modal
+        isOpen={modalLogout.isOpen}
+        onClose={modalLogout.onClose}
+        isCentered
+      >
         <ModalOverlay />
         <ModalContent>
-          <LoginModal onClose={modal1.onClose} />
+          <LogoutModal onClose={modalLogout.onClose} />
+        </ModalContent>
+      </Modal>
+      <Modal isOpen={modalLogin.isOpen} onClose={modalLogin.onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <LoginModal onClose={modalLogin.onClose} />
         </ModalContent>
       </Modal>
     </>
