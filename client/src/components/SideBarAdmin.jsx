@@ -10,7 +10,9 @@ import {
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginModal } from "./loginmodal";
+import { useNavigate } from "react-router-dom";
 export default function SideBarAdmin() {
+  const nav = useNavigate();
   const dispatch = useDispatch();
   const userSelector = useSelector((state) => state.login.auth);
   const modal1 = useDisclosure();
@@ -33,9 +35,21 @@ export default function SideBarAdmin() {
 
         <GridItem w="100%" gridRow={"3/8"}>
           <Flex className="menu" paddingLeft={"20px"} paddingRight={"20px"}>
-            <Flex className="menu-list-admin">Report</Flex>
-            <Flex className="menu-list-admin">Products</Flex>
-            <Flex className="menu-list-admin">Staff</Flex>
+            <Flex
+              className="menu-list-admin"
+              onClick={() => nav("/admin-report")}
+            >
+              Report
+            </Flex>
+            <Flex
+              className="menu-list-admin"
+              onClick={() => nav("/admin-product")}
+            >
+              Products
+            </Flex>
+            <Flex className="menu-list-admin" onClick={() => nav("/admin")}>
+              Staff
+            </Flex>
             <Flex className="menu-list-admin">Inventory</Flex>
             <Flex className="menu-list-admin" visibility={"hidden"}>
               Download
