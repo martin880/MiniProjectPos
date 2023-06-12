@@ -33,13 +33,13 @@ const ReportPages = () => {
     },
   ]);
   useEffect(() => {
-    const lol = {
+    const date = {
       DateFrom: "2020-12-12 00:00:00",
       DateTo: "2023-06-13 17:17:27",
     };
     const tempOrder = [];
     api
-      .post("/product/sold", lol)
+      .post("/product/sold", date)
       .then((res) => {
         console.log(res.data);
         let qty = 0;
@@ -126,6 +126,33 @@ const ReportPages = () => {
     },
   ];
 
+  const post = [
+    {
+      "id": 1,
+      "title":"Gross Sale",
+      "price":"8.999.999",
+      "gross":"9.10"
+    },
+    {
+      "id": 2,
+      "title":"Gross Sale",
+      "price":"8.999.999",
+      "gross":"9.10"
+    },
+    {
+      "id": 3,
+      "title":"Gross Sale",
+      "price":"8.999.999",
+      "gross":"9.10"
+    },
+    {
+      "id": 4,
+      "title":"Gross Sale",
+      "price":"8.999.999",
+      "gross":"9.10"
+    }
+  ]
+
   return (
     <>
       <Flex className="container">
@@ -138,7 +165,9 @@ const ReportPages = () => {
               <TopBarAdmin />
             </Flex>
             <SimpleGrid minChildWidth="120px" spacing="30px" p={4}>
-              <Box
+              {post.map(post => (
+                <Box
+                key={post.id}
                 border={"1px solid black"}
                 borderRadius={"10px"}
                 height="80px"
@@ -146,154 +175,38 @@ const ReportPages = () => {
                 <Flex>
                   <Text
                     fontSize={"10px"}
-                    p={4}
+                    p={3}
                     color={"gray"}
                     fontFamily={"serif"}
                     fontWeight={"medium"}
                   >
-                    Gross Sales
+                    {post.title}
                   </Text>
                 </Flex>
                 <Flex>
                   <Text
                     fontSize={"14px"}
-                    p={4}
+                    p={3}
                     color={"black"}
                     fontFamily={"sans-serif"}
                     fontWeight={"bold"}
                   >
-                    Rp.8.999.990
+                    {post.price}
                   </Text>
                   <Flex flexDir={"column"}>
                     <Text
                       fontSize={"8px"}
-                      p={6}
+                      p={4}
                       color={"green"}
                       fontFamily={"sans-serif"}
                       fontWeight={"bold"}
                     >
-                      9.10%
+                      {post.gross}
                     </Text>
                   </Flex>
                 </Flex>
               </Box>
-              <Box
-                border={"1px solid black"}
-                borderRadius={"10px"}
-                height="80px"
-              >
-                <Flex>
-                  <Text
-                    fontSize={"10px"}
-                    p={4}
-                    color={"gray"}
-                    fontFamily={"serif"}
-                    fontWeight={"medium"}
-                  >
-                    Gross Sales
-                  </Text>
-                </Flex>
-                <Flex>
-                  <Text
-                    fontSize={"14px"}
-                    p={4}
-                    color={"black"}
-                    fontFamily={"sans-serif"}
-                    fontWeight={"bold"}
-                  >
-                    Rp.8.999.990
-                  </Text>
-                  <Flex flexDir={"column"}>
-                    <Text
-                      fontSize={"8px"}
-                      p={6}
-                      color={"green"}
-                      fontFamily={"sans-serif"}
-                      fontWeight={"bold"}
-                    >
-                      9.10%
-                    </Text>
-                  </Flex>
-                </Flex>
-              </Box>
-              <Box
-                border={"1px solid black"}
-                borderRadius={"10px"}
-                height="80px"
-              >
-                <Flex>
-                  <Text
-                    fontSize={"10px"}
-                    p={4}
-                    color={"gray"}
-                    fontFamily={"serif"}
-                    fontWeight={"medium"}
-                  >
-                    Gross Sales
-                  </Text>
-                </Flex>
-                <Flex>
-                  <Text
-                    fontSize={"14px"}
-                    p={4}
-                    color={"black"}
-                    fontFamily={"sans-serif"}
-                    fontWeight={"bold"}
-                  >
-                    Rp.8.999.990
-                  </Text>
-                  <Flex flexDir={"column"}>
-                    <Text
-                      fontSize={"8px"}
-                      p={6}
-                      color={"green"}
-                      fontFamily={"sans-serif"}
-                      fontWeight={"bold"}
-                    >
-                      9.10%
-                    </Text>
-                  </Flex>
-                </Flex>
-              </Box>
-              <Box
-                border={"1px solid black"}
-                borderRadius={"10px"}
-                height="80px"
-              >
-                <Flex>
-                  <Text
-                    fontSize={"10px"}
-                    p={4}
-                    color={"gray"}
-                    fontFamily={"serif"}
-                    fontWeight={"medium"}
-                  >
-                    Gross Sales
-                  </Text>
-                </Flex>
-                <Flex>
-                  <Text
-                    fontSize={"14px"}
-                    p={4}
-                    color={"black"}
-                    fontFamily={"sans-serif"}
-                    fontWeight={"bold"}
-                  >
-                    Rp.8.999.990
-                  </Text>
-                  <Flex flexDir={"column"}>
-                    <Text
-                      fontSize={"8px"}
-                      p={6}
-                      color={"green"}
-                      fontFamily={"sans-serif"}
-                      fontWeight={"bold"}
-                    >
-                      9.10%
-                    </Text>
-                  </Flex>
-                </Flex>
-              </Box>
+              ))}
             </SimpleGrid>
             <SimpleGrid columns={2} spacingX="20px" spacingY="20px" p={4}>
               <Stack>
