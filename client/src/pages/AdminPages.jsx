@@ -80,14 +80,13 @@ export default function AdminPages() {
 
   const register = async () => {
     const result = await api.post("/auth/", user);
-    return (toast({
+    toast({
       title:"Cashier has been added",
       status:"success",
       duration:3000,
       position:"top",
       isClosable:false
-    })
-    );
+    });
     fetchData();
   };
   
@@ -151,7 +150,14 @@ export default function AdminPages() {
       formData.append("avatar", file);
       let user;
       await api.post("/auth/image/v2/" + id, formData).then((res) => {
-        alert(res.data);
+        // alert(res.data);
+        toast({
+          title:"Image has been added",
+          status:"success",
+          duration:3000,
+          position:"top",
+          isClosable:false
+        });
       });
       console.log(user);
       if (user) {
@@ -159,7 +165,13 @@ export default function AdminPages() {
           type: "login",
           payload: user,
         });
-        alert(`berhasil upload`);
+        toast({
+          title:"Image has been added",
+          status:"success",
+          duration:3000,
+          position:"top",
+          isClosable:false
+        });
       }
       setSelectedFile(null);
 
