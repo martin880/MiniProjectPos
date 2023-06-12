@@ -30,6 +30,7 @@ import {
   ModalCloseButton,
   useDisclosure,
   Select,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { SlMagnifier } from "react-icons/sl";
@@ -53,6 +54,7 @@ export default function ProductPages() {
   const { selectedOption, setSelectedOption } = useState("");
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
+  const toast = useToast();
 
   const [product, setProduct] = useState({
     productName: "",
@@ -73,7 +75,14 @@ export default function ProductPages() {
   const input = async () => {
     try {
       const result = await api.post("/product/v1", product);
-      alert(result.data.message);
+      toast({
+        title:"Product added",
+        status:"success",
+        duration:3000,
+        position:"top",
+        isClosable:false
+      });
+      // alert(result.data.message);
       fetchData(); // Memanggil fungsi fetchData untuk memperbarui data setelah berhasil melakukan input
     } catch (error) {
       console.error(error);

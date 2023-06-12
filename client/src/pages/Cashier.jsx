@@ -10,8 +10,8 @@ import TopBarAdmin from "../components/TopBarAdmin";
 import OrderPayment from "../components/OrderPayment";
 import CustInformation from "../components/CustInformation";
 import { useSelector } from "react-redux";
-// import { orderInfo } from "../redux/modalManager";
-// import { customerInfo } from "../redux/customerInfo";
+import { orderInfo } from "../redux/modalManager";
+import { customerInfo } from "../redux/customerInfo";
 
 export default function Cashier() {
   const modalManager = useSelector((state) => state.modalManager);

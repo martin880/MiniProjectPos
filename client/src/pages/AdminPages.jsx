@@ -28,6 +28,7 @@ import {
   useDisclosure,
   Select,
   Avatar,
+  useToast,
 } from "@chakra-ui/react";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -53,6 +54,7 @@ export default function AdminPages() {
   const { selectedOption, setSelectedOption } = useState("");
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
+  const toast = useToast();
 
   const [user, setUser] = useState({
     firstName: "",
@@ -78,9 +80,17 @@ export default function AdminPages() {
 
   const register = async () => {
     const result = await api.post("/auth/", user);
-    return alert(result.data.message);
+    return (toast({
+      title:"Cashier has been added",
+      status:"success",
+      duration:3000,
+      position:"top",
+      isClosable:false
+    })
+    );
+    fetchData();
   };
-
+  
   const [users, setUsers] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [query, setQuery] = useState("");
