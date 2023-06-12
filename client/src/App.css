@@ -45,7 +45,7 @@
 
 @media screen and (max-height: 800px) {
   .device {
-    width: 75%;
+    width: 87%;
     /* width: 1280px; */
     aspect-ratio: 153/100;
     background-color: var(--bg-color);
