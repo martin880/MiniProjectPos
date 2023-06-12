@@ -355,7 +355,7 @@ export default function AdminPages() {
               </Modal>
               <Stack>
                 <TableContainer p={4} justifyContent={"space-between"}>
-                  <Table variant="simple">
+                  <Table variant="simple" fontSize={'sm'}>
                     <Thead>
                       <Tr>
                         <Th>No</Th>

@@ -336,7 +336,7 @@ export default function ProductPages() {
               </Modal>
               <Stack>
                 <TableContainer p={4} justifyContent={"space-between"}>
-                  <Table variant="simple">
+                  <Table variant="simple" fontSize={'sm'}>
                     <Thead bgColor={"whatsapp.400"}>
                       <Tr>
                         <Th>No</Th>
