@@ -35,8 +35,9 @@ const ReportPages = () => {
   useEffect(() => {
     const lol = {
       DateFrom: "2020-12-12 00:00:00",
-      DateTo: "2023-06-10 17:07:27",
+      DateTo: "2023-06-13 17:17:27",
     };
+    const tempOrder = [];
     api
       .post("/product/sold", lol)
       .then((res) => {
@@ -48,14 +49,13 @@ const ReportPages = () => {
             qty = val.quantity + qty;
             return qty;
           });
-          setChartData([
-            {
-              name: val.productname,
-              uv: val.harga * qty,
-              pv: qty,
-              amt: "",
-            },
-          ]);
+          tempOrder.push({
+            name: val.productname,
+            uv: val.harga * qty,
+            pv: qty,
+            amt: "",
+          });
+          setChartData(tempOrder);
           console.log([
             {
               name: val.productname,
@@ -64,6 +64,7 @@ const ReportPages = () => {
               amt: "",
             },
           ]);
+          qty = 0;
         });
       })
       .catch((error) => {
