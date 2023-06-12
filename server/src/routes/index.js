@@ -4,12 +4,13 @@ const productRoutes = require("./product");
 const paymentRoutes = require("./payment");
 const userRoutes = require("./user");
 const historyRoutes = require("./stockHistory");
-
+const orderDetailRoutes = require("./orderDetail");
 module.exports = {
-	categoryRoutes,
-	productRoutes,
-	paymentRoutes,
-	userRoutes,
-	orderRoutes,
-	historyRoutes,
+  orderDetailRoutes,
+  categoryRoutes,
+  productRoutes,
+  paymentRoutes,
+  userRoutes,
+  orderRoutes,
+  historyRoutes,
 };

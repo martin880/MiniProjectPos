@@ -18,7 +18,8 @@ app.use("/order", routes.orderRoutes);
 app.use("/payment", routes.paymentRoutes);
 app.use("/product", routes.productRoutes);
 app.use("/auth", routes.userRoutes);
+app.use("/orderdetail", routes.orderDetailRoutes);
 
 app.listen(PORT, () => {
-	console.log(`server is running on PORT ${PORT}`);
+  console.log(`server is running on PORT ${PORT}`);
 });

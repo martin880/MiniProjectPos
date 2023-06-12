@@ -127,6 +127,98 @@ const productController = {
       });
     }
   },
+  getProductSales: async (req, res) => {
+    try {
+      const { DateFrom, DateTo } = req.body;
+      const product = await db.Product.findAll({
+        attributes: ["productname", "harga"],
+        include: [
+          {
+            model: db.OrderDetail,
+            required: true,
+
+            attributes: ["quantity"],
+            include: {
+              model: db.Order,
+              attributes: ["createdat", ["amount", "total"], "id"],
+              where: {
+                createdAt: { [Op.between]: [DateFrom, DateTo] },
+              },
+
+              include: [
+                {
+                  model: db.User,
+                  attributes: [["firstName", "cashier"]],
+                },
+                {
+                  model: db.Payment,
+                  attributes: ["method"],
+                },
+              ],
+            },
+          },
+          {
+            model: db.CategoryProduct,
+            attributes: ["categoryname"],
+          },
+        ],
+      });
+      return res.send(product);
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send({
+        message: err.message,
+      });
+    }
+  },
+  getProductSalesById: async (req, res) => {
+    try {
+      const { id } = req.params;
+      // const { DateFrom, DateTo } = req.body;
+      const product = await db.Product.findAll({
+        attributes: ["productname", "harga"],
+        include: [
+          {
+            model: db.OrderDetail,
+            required: true,
+
+            attributes: ["quantity"],
+            include: {
+              model: db.Order,
+              attributes: ["createdat", ["amount", "total"], "id"],
+              where: {
+                [Op.and]: [
+                  { id },
+                  // { createdAt: { [Op.between]: [DateFrom, DateTo] } },
+                ],
+              },
+
+              include: [
+                {
+                  model: db.User,
+                  attributes: [["firstName", "cashier"]],
+                },
+                {
+                  model: db.Payment,
+                  attributes: ["method"],
+                },
+              ],
+            },
+          },
+          {
+            model: db.CategoryProduct,
+            attributes: ["categoryname"],
+          },
+        ],
+      });
+      return res.send(product);
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send({
+        message: err.message,
+      });
+    }
+  },
 };
 
 module.exports = productController;

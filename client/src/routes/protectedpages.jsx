@@ -5,6 +5,7 @@ import Loading from "../components/Loading";
 
 export default function ProtectedPage({
   children,
+  redirect = false,
   guestOnly = false,
   needLogin = false,
   needLoginAdmin = false,
@@ -23,16 +24,19 @@ export default function ProtectedPage({
   }, [isLoading]);
 
   useEffect(() => {
-    console.log("test ");
+    console.log("test");
     // console.log(needLogin);
     // console.log(userSelector?.email);
-    if (guestOnly && userSelector?.email) {
+    if (redirect) {
+      return nav("/cashier");
+    } else if (guestOnly && userSelector?.email) {
       return nav("/cashier");
     } else if (needLogin && !userSelector?.email) {
       return nav("/cashier");
     } else if (needLoginAdmin && userSelector?.role != "ADMIN") {
       return nav("/cashier");
     }
+    console.log(userSelector);
   }, [userSelector]);
 
   return (
