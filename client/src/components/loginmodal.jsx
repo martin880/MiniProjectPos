@@ -65,9 +65,10 @@ export function LoginModal(props) {
 
 			props.onClose();
 		} catch (err) {
+			console.log(err)
 			toast({
 				title: "Wrong Email or Password.",
-				status: "danger",
+				status: "error",
 				duration: 3000,
 				isClosable: false,
 			});
@@ -147,7 +148,7 @@ export function LoginModal(props) {
 						cursor={"pointer"}
 						onClick={Login}
 					>
-						LOGIN
+						LOGIN 
 					</Center>
 				</Flex>
 			</Flex>

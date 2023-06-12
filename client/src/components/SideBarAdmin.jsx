@@ -91,7 +91,7 @@ export default function SideBarAdmin() {
               />
             </Flex>
 
-            <Flex paddingLeft={"15px"} color={"#4e4e4e"}>
+            <Flex paddingLeft={"15px"} color={"#4e4e4e"} fontSize={'sm'}>
               {userSelector.firstName
                 ? userSelector.firstName + " " + userSelector.lastName
                 : "Guest"}
