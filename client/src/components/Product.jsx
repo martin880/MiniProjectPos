@@ -12,58 +12,24 @@ import { addOrder, removeOrder } from "../redux/orderList";
 import { useEffect, useState } from "react";
 import { api } from "../api/api";
 
-export default function Product() {
+export default function Product(props) {
   const [products, setProducts] = useState([]);
   async function fetchProducts() {
     await api.get("/product").then((res) => {
       setProducts(res.data);
+      console.log(res.data);
     });
   }
+  async function fetchProductsCategory() {
+    await api.get("/product?categoryId=" + props.categoryId).then((res) => {
+      setProducts(["lol"]);
+      console.log(res.data);
+    });
+  }
+
   useEffect(() => {
     fetchProducts(); // Update nilai user jika prop berubah
   }, []);
-  //   const arr = [
-  //     {
-  //       status: "Available",
-  //       productName: "Espresso",
-  //       price: 22000,
-  //     },
-  //     {
-  //       status: "Available",
-  //       productName: "Cappuccino",
-  //       price: 28000,
-  //     },
-  //     {
-  //       status: "Available",
-  //       productName: "Coffee Latte",
-  //       price: 28000,
-  //     },
-  //     {
-  //       status: "Available",
-  //       productName: "Americano",
-  //       price: 24000,
-  //     },
-  //     {
-  //       status: "Available",
-  //       productName: "Mocha",
-  //       price: 30000,
-  //     },
-  //     {
-  //       status: "Available",
-  //       productName: "Macchiato",
-  //       price: 27000,
-  //     },
-  //     {
-  //       status: "Available",
-  //       productName: "Flat White",
-  //       price: 25000,
-  //     },
-  //     {
-  //       status: "Available",
-  //       productName: "Cold Brew",
-  //       price: 35000,
-  //     },
-  //   ];
 
   return (
     <>
@@ -73,7 +39,7 @@ export default function Product() {
             key={val.productName}
             status={val.status}
             productName={val.productName}
-            price={val.price}
+            harga={val.harga}
           />
         ))}
       </Grid>
@@ -91,7 +57,7 @@ function Card(props) {
   const dispatch = useDispatch();
   const add = {
     menu: `${props.productName}`,
-    unitPrice: `${props.price}`,
+    unitPrice: `${props.harga}`,
     orderType: `${orderType}`,
     specialRequest: [],
     note: "",
@@ -140,7 +106,7 @@ function Card(props) {
               >
                 {props.productName}
               </StatNumber>
-              <StatHelpText fontWeight={"500"}>{props.price}</StatHelpText>
+              <StatHelpText fontWeight={"500"}>{props.harga}</StatHelpText>
             </Stat>
           </Flex>
           <Flex

@@ -27,6 +27,7 @@
 
 .device {
   width: 100%;
+
   /* width: 1280px; */
   aspect-ratio: 153/100;
   background-color: var(--bg-color);
@@ -45,7 +46,7 @@
 
 @media screen and (max-height: 800px) {
   .device {
-    width: 87%;
+    width: 95%;
     /* width: 1280px; */
     aspect-ratio: 153/100;
     background-color: var(--bg-color);

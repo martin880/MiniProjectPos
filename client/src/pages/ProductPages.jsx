@@ -76,11 +76,11 @@ export default function ProductPages() {
     try {
       const result = await api.post("/product/v1", product);
       toast({
-        title:"Product added",
-        status:"success",
-        duration:3000,
-        position:"top",
-        isClosable:false
+        title: "Product added",
+        status: "success",
+        duration: 3000,
+        position: "top",
+        isClosable: false,
       });
       // alert(result.data.message);
       fetchData(); // Memanggil fungsi fetchData untuk memperbarui data setelah berhasil melakukan input
@@ -337,7 +337,7 @@ export default function ProductPages() {
               <Stack>
                 <TableContainer p={4} justifyContent={"space-between"}>
                   <Table variant="simple">
-                    <Thead bgColor={"whatsapp.400"}>
+                    <Thead bgColor={"#c3c1e8"}>
                       <Tr>
                         <Th>No</Th>
 
@@ -434,8 +434,8 @@ export default function ProductPages() {
                             }
                           />
                         </Th>
-                        <Th>Stok</Th>
-                        <Th isNumeric>Action</Th>
+                        <Th>Stock</Th>
+                        <Th textAlign={"center"}>Action</Th>
                       </Tr>
                     </Thead>
                     <Tbody>
