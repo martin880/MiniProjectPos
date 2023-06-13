@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { dineIn, takeAway, delivery, reservation } from "../redux/orderType";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { VscAccount } from "react-icons/vsc";
 import { LoginModal } from "./loginmodal";
 import { LogoutModal } from "./logoutmodal";
@@ -25,15 +25,8 @@ export default function SideBar() {
   const modalLogout = useDisclosure();
   const dispatch = useDispatch();
   const location = useLocation().pathname.split("/");
+  const nav = useNavigate();
 
-  function logout() {
-    window.location.reload();
-    localStorage.removeItem("auth");
-    dispatch({
-      type: "logout",
-    });
-    return;
-  }
   return (
     <>
       <Grid w="100%" templateRows="repeat(15, 1fr)" gap={3}>
@@ -97,6 +90,17 @@ export default function SideBar() {
               Reservation
             </Flex>
             <Flex className="menu-list">Order Summary</Flex>
+            <Flex
+              className="menu-list"
+              display={
+                userSelector.role == "CASHIER" || !userSelector.role
+                  ? "none"
+                  : "inline-flex"
+              }
+              onClick={() => nav("/admin")}
+            >
+              Admin Page
+            </Flex>
           </Flex>
           <Flex p={"30px"}></Flex>
         </GridItem>

@@ -30,6 +30,21 @@ const productController = {
       });
     }
   },
+  getByCategory: async (req, res) => {
+    try {
+      const product = await db.Product.findOne({
+        where: {
+          categoryId: req.query.categoryId,
+        },
+      });
+      return res.send(product);
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send({
+        message: err.message,
+      });
+    }
+  },
   // Pencarian berdasarkan nama produk dan harga
   getProduct: async (req, res) => {
     try {
