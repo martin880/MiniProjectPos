@@ -336,8 +336,10 @@ export default function ProductPages() {
               </Modal>
               <Stack>
                 <TableContainer p={4} justifyContent={"space-between"}>
+
                   <Table variant="simple">
                     <Thead bgColor={"#c3c1e8"}>
+
                       <Tr>
                         <Th>No</Th>
 

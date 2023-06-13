@@ -355,8 +355,10 @@ export default function AdminPages() {
               </Modal>
               <Stack>
                 <TableContainer p={4} justifyContent={"space-between"}>
+
                   <Table variant="simple">
                     <Thead bgColor={"#c3c1e8"} w={"100%"}>
+
                       <Tr>
                         <Th>No</Th>
                         <Th>Photo</Th>
